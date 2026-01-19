@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/styles/main.scss'],
   app: {
-    baseURL: '/',
+    baseURL: (globalThis.process?.env?.NUXT_PUBLIC_BASE_URL as string) || '/',
   }
-
 })
