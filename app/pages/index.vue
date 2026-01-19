@@ -21,7 +21,7 @@
   justify-content: center;
   text-align: center;
   padding: 40px 20px;
-  background-image: url('/autopodbor62/images/bg.jpg');
+  background-image: url('/images/bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
