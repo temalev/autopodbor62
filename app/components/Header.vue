@@ -19,12 +19,14 @@
 .header {
   position: fixed;
   top: 10px;
-  left: 35%;
+  left: 50%;
+  transform: translate(-50%, 0%);
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 60px;
   height: 62px;
-  margin-top: 20px;
+  width: auto;
+  z-index: 100;
 
   &__container {
     max-width: 1200px;
