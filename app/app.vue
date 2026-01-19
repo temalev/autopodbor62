@@ -16,6 +16,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
+  background-color: #000;
 }
 
 .main-content {
