@@ -162,6 +162,130 @@
         </div>
       </div>
     </div>
+
+    <div class="page__section page__section--alt">
+      <h2 class="page__section-title">FAQ — часто задаваемые вопросы</h2>
+      
+      <div class="page__faq">
+        <el-collapse>
+          <el-collapse-item name="1">
+            <template #title>
+              <span class="page__faq-question">
+                Что такое Автоподбор62 и чем мы отличаемся от обычного осмотра автомобиля в автосервисе?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Автоподбор62 — это полный комплекс работ: от анализа бюджета клиента и ситуации на автомобильном рынке до поиска автомобиля, объемного комплекса проверок, его покупки, регистрации в ГИБДД и дальнейшего обслуживания нашими силами.<br><br>
+              Мы не просто осматриваем авто, а ищем лучший вариант на рынке, проверяем его историю, юридически и технически, сопровождаем сделку и берём ответственность за результат. В рамках подбора под ключ по РФ и другим странам так же регистрируем автомобиль в ГИБДД на имя нового владельца.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="2">
+            <template #title>
+              <span class="page__faq-question">
+                Какие автомобили вы подбираете?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Мы подбираем как новые, так и подержанные автомобили, которые соответствуют своему бюджету и состоянию:<br><br>
+              • без юридических проблем,<br>
+              • без серьёзных ДТП,<br>
+              • с небольшим пробегом и прозрачной историей,<br>
+              • без скрытых вложений.<br><br>
+              Если автомобиль не стоит своих денег — мы прямо об этом говорим.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="3">
+            <template #title>
+              <span class="page__faq-question">
+                Сколько времени занимает подбор автомобиля?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Стандартный срок подбора — от 2 до 60 дней. Если требуется оперативность, доступна услуга Экспресс-подбора — до 10 дней с предложением до 3 лучших вариантов на рынке.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="4">
+            <template #title>
+              <span class="page__faq-question">
+                Что если я уже нашёл автомобиль сам?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              В этом случае мы проведём разовую проверку автомобиля:<br><br>
+              <strong>1️⃣</strong> Общий осмотр автомобиля<br>
+              <strong>2️⃣</strong> Проверка документов, маркировочных обозначений и основных моментов его истории<br>
+              <strong>3️⃣</strong> Проверка силовой конструкции кузова, точек крепления навесных элементов<br>
+              <strong>4️⃣</strong> Проверка состояния, датировок выпуска и работоспособности системы освещения, оригинальность, работоспособность электроприводов и обогревов остекления кузова<br>
+              <strong>5️⃣</strong> Фиксация основных повреждений и недостатков на кузове автомобиля<br>
+              <strong>6️⃣</strong> Замер толщины ЛКП внешних элементов, силовой конструкции и проемов кузова<br>
+              <strong>7️⃣</strong> Проверка системы безопасности и общий осмотр салона автомобиля<br>
+              <strong>8️⃣</strong> Проверка шин, дисков, элементов тормозной системы<br>
+              <strong>9️⃣</strong> Общий проверка технической части: наличие следов проведения ремонтных работ, уровень и состояние технических жидкостей, выявление течей, посторонних звуков, визуальный осмотр элементов ходовой части, проведение пробной поездки и т.д.<br>
+              <strong>🔟</strong> Компьютерная диагностика преимущественно профильным оборудованием: проверка показаний пробега, чтение ошибок, анализ доступных рабочих параметров по отдельным системам<br><br>
+              По результатам проверки формируется полный отчет, включающий в себя не менее 150 фото- и видеофайлов и краткое заключение - комментарий эксперта.<br><br>
+              Такой комплекс позволит максимально снизить риск при покупке автомобиля.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="5">
+            <template #title>
+              <span class="page__faq-question">
+                Даёте ли вы какие-то гарантии?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Да.<br><br>
+              • гарантия юридической чистоты,<br>
+              • гарантия актуальности информации о состоянии авто,<br>
+              • гарантия выкупа подобранного автомобиля в течение 90 дней.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="6">
+            <template #title>
+              <span class="page__faq-question">
+                Почему требуется предоплата?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Предоплата — это оплата нашей работы по поиску, аналитике и организации проверок автомобилей.<br><br>
+              Она гарантирует вовлечённость обеих сторон и компенсирует расходы в случае, если клиент решает прекратить подбор.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="7">
+            <template #title>
+              <span class="page__faq-question">
+                Вы помогаете с регистрацией автомобиля в ГИБДД?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Да. Мы можем полностью взять регистрацию на себя:<br><br>
+              • подача документов,<br>
+              • осмотр,<br>
+              • получение номеров.<br><br>
+              Вы экономите время и получаете готовый результат.<br><br>
+              В рамках подбора под ключ по РФ и импорта автомобилей из других стран регистрация в ГИБДД входит в стоимость услуги.
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item name="8">
+            <template #title>
+              <span class="page__faq-question">
+                Сколько стоят ваши услуги?
+              </span>
+            </template>
+            <div class="page__faq-answer">
+              Стоимость зависит от ценовой категории автомобиля и выбранной услуги.<br><br>
+              Цены прозрачные и фиксируются заранее — без скрытых доплат. Точную стоимость мы всегда озвучиваем до начала работ.
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -402,6 +526,79 @@
     font-size: 18px;
     line-height: 1.5;
     flex: 1;
+  }
+
+  &__faq {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+
+    :deep(.el-collapse) {
+      border: none;
+    }
+
+    :deep(.el-collapse-item) {
+      margin-bottom: 15px;
+      border: 1px solid #e9ecef;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      transition: all 0.3s;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    :deep(.el-collapse-item__header) {
+      padding: 20px 25px;
+      background: #f8f9fa;
+      border: none;
+      font-size: 18px;
+      font-weight: 600;
+      color: #000;
+      transition: all 0.3s;
+
+      &:hover {
+        background: #e9ecef;
+      }
+
+      &.is-active {
+        background: #fff;
+        border-bottom: 1px solid #e9ecef;
+      }
+    }
+
+    :deep(.el-collapse-item__wrap) {
+      border: none;
+    }
+
+    :deep(.el-collapse-item__content) {
+      padding: 25px;
+      color: #333;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    :deep(.el-collapse-item__arrow) {
+      color: #007bff;
+      font-size: 18px;
+    }
+  }
+
+  &__faq-question {
+    color: #000;
+    font-weight: 600;
+  }
+
+  &__faq-answer {
+    color: #333;
+    line-height: 1.8;
+
+    strong {
+      color: #000;
+      font-weight: 600;
+    }
   }
 }
 </style>
