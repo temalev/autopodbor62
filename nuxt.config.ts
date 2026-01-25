@@ -5,5 +5,17 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/main.scss'],
   app: {
     baseURL: (globalThis.process?.env?.NUXT_PUBLIC_BASE_URL as string) || '/',
-  }
+  },
+  // Настройки для SSG
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+    },
+  },
+  // Оптимизация для Element Plus
+  vite: {
+    optimizeDeps: {
+      include: ['element-plus'],
+    },
+  },
 })

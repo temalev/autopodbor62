@@ -21,7 +21,7 @@
   top: 10px;
   left: 50%;
   transform: translate(-50%, 0%);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(56, 56, 56, 0.436);
   backdrop-filter: blur(10px);
   border-radius: 60px;
   height: 62px;
