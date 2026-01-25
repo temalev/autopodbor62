@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { ElCollapse, ElCollapseItem } from 'element-plus'
+</script>
+
 <template>
   <div class="page">
     <div class="page__hero">
@@ -167,7 +171,8 @@
       <h2 class="page__section-title">FAQ — часто задаваемые вопросы</h2>
       
       <div class="page__faq">
-        <el-collapse>
+        <ClientOnly>
+          <el-collapse>
           <el-collapse-item name="1">
             <template #title>
               <span class="page__faq-question">
@@ -284,6 +289,10 @@
             </div>
           </el-collapse-item>
         </el-collapse>
+        <template #fallback>
+          <div class="page__faq-loading">Загрузка...</div>
+        </template>
+        </ClientOnly>
       </div>
     </div>
   </div>
@@ -599,6 +608,13 @@
       color: #000;
       font-weight: 600;
     }
+  }
+
+  &__faq-loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 16px;
   }
 }
 </style>
