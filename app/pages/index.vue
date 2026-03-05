@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { ElCollapse, ElCollapseItem } from 'element-plus'
 
+const { app: { baseURL } } = useRuntimeConfig()
+const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
+
+function assetUrl(path: string) {
+  return `${base}${path}`
+}
+
 interface ReviewImage {
   '1280x960'?: string
   '640x480'?: string
@@ -33,13 +40,13 @@ interface Review {
 }
 
 const services = [
-  { headline: 'Автоподбор —', headlineItalic: 'под ключ', label: 'Наши услуги', title: 'Найдём лучший вариант', description: 'Поиск и проверка автомобиля с полным сопровождением сделки', image: '/images/services/1.jpeg', index: '01' },
-  { headline: 'Разовая —', headlineItalic: 'проверка', label: 'Наши услуги', title: 'Проверим честно', description: 'Детальная диагностика автомобиля перед покупкой', image: '/images/services/2.jpeg', index: '02' },
-  { headline: 'Выкуп и —', headlineItalic: 'продажа', label: 'Наши услуги', title: 'Быстро и выгодно', description: 'Быстрый выкуп или комиссионная продажа вашего авто', image: '/images/services/3.jpeg', index: '03' },
-  { headline: 'ГИБДД —', headlineItalic: 'регистрация', label: 'Наши услуги', title: 'Без очередей', description: 'Полное сопровождение регистрации автомобиля', image: '/images/services/1.jpeg', index: '04' },
-  { headline: 'Импорт —', headlineItalic: 'из-за рубежа', label: 'Наши услуги', title: 'Авто из любой страны', description: 'Пригон и оформление автомобилей из-за рубежа', image: '/images/services/2.jpeg', index: '05' },
-  { headline: 'Приёмка —', headlineItalic: 'авто', label: 'Наши услуги', title: 'Профессиональный взгляд', description: 'Приёмка автомобиля после ремонта или покупки', image: '/images/services/3.jpeg', index: '06' },
-  { headline: 'Кузовной —', headlineItalic: 'ремонт', label: 'Наши услуги', title: 'Оценим качество', description: 'Оценка ремонта по КАСКО и ОСАГО в сторонних техцентрах', image: '/images/services/1.jpeg', index: '07' },
+  { headline: 'Автоподбор —', headlineItalic: 'под ключ', label: 'Наши услуги', title: 'Найдём лучший вариант', description: 'Поиск и проверка автомобиля с полным сопровождением сделки', image: assetUrl('/images/services/1.jpeg'), index: '01' },
+  { headline: 'Разовая —', headlineItalic: 'проверка', label: 'Наши услуги', title: 'Проверим честно', description: 'Детальная диагностика автомобиля перед покупкой', image: assetUrl('/images/services/2.jpeg'), index: '02' },
+  { headline: 'Выкуп и —', headlineItalic: 'продажа', label: 'Наши услуги', title: 'Быстро и выгодно', description: 'Быстрый выкуп или комиссионная продажа вашего авто', image: assetUrl('/images/services/3.jpeg'), index: '03' },
+  { headline: 'ГИБДД —', headlineItalic: 'регистрация', label: 'Наши услуги', title: 'Без очередей', description: 'Полное сопровождение регистрации автомобиля', image: assetUrl('/images/services/1.jpeg'), index: '04' },
+  { headline: 'Импорт —', headlineItalic: 'из-за рубежа', label: 'Наши услуги', title: 'Авто из любой страны', description: 'Пригон и оформление автомобилей из-за рубежа', image: assetUrl('/images/services/2.jpeg'), index: '05' },
+  { headline: 'Приёмка —', headlineItalic: 'авто', label: 'Наши услуги', title: 'Профессиональный взгляд', description: 'Приёмка автомобиля после ремонта или покупки', image: assetUrl('/images/services/3.jpeg'), index: '06' },
+  { headline: 'Кузовной —', headlineItalic: 'ремонт', label: 'Наши услуги', title: 'Оценим качество', description: 'Оценка ремонта по КАСКО и ОСАГО в сторонних техцентрах', image: assetUrl('/images/services/1.jpeg'), index: '07' },
 ]
 
 const reviews: Review[] = [
@@ -151,7 +158,7 @@ const reviews: Review[] = [
 
 <template>
   <div class="page">
-    <div class="page__hero">
+    <div class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.jpg)` }">
       <div class="page__content">
         <h1 class="page__title">
           Автоподбор 62 — покупка
@@ -557,7 +564,7 @@ const reviews: Review[] = [
     justify-content: center;
     text-align: center;
     padding: 80px 24px;
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.45) 100%), url('/images/bg.jpg');
+    background-image: none;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

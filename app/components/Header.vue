@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import { ElDrawer } from 'element-plus'
 
+const { app: { baseURL } } = useRuntimeConfig()
+const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
+
 const drawerVisible = ref(false)
 
 const toggleDrawer = () => {
@@ -18,7 +21,7 @@ const closeDrawer = () => {
     <div class="header__container">
       <div class="header__logo">
         <NuxtLink to="/" @click="closeDrawer">
-          <img src="/images/logo.png" alt="Автоподбор 62" class="header__logo-img" />
+          <img :src="`${base}/images/logo.png`" alt="Автоподбор 62" class="header__logo-img" />
         </NuxtLink>
       </div>
       
