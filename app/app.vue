@@ -16,7 +16,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  background-color: #000;
+  background-color: #f5f5f5;
 }
 
 .main-content {
