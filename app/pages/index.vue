@@ -336,6 +336,24 @@ const reviews: Review[] = [
       </div>
     </div>
 
+    <div class="page__section page__section--korea">
+      <div class="page__korea-image">
+        <img :src="assetUrl('/images/korea.webp')" alt="Авто из Кореи" />
+        <div class="page__korea-image-overlay" />
+      </div>
+      <div class="page__korea-content">
+        <p class="page__korea-label">Импорт из Кореи</p>
+        <h2 class="page__korea-title">Корейский рынок: свежие авто дешевле российских до&nbsp;40%</h2>
+        <p class="page__korea-text">Берём на себя всё — от подбора на аукционе и проверки аукционного листа до доставки и оформления в России. Никаких скрытых платежей, никаких сюрпризов на таможне.</p>
+        <ul class="page__korea-list">
+          <li>Проверка истории и аукционного листа</li>
+          <li>Сопровождение сделки на корейском рынке</li>
+          <li>Доставка и таможенное оформление</li>
+          <li>Регистрация в ГИБДД под ключ</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="page__section page__section--why">
       <h2 class="page__why-headline">Почему выбирают Autopodbor_62</h2>
       <div class="page__why-tags">
@@ -344,6 +362,49 @@ const reviews: Review[] = [
         <span class="page__why-tag">Экономим деньги и время</span>
         <span class="page__why-tag">Ответственность за результат</span>
         <span class="page__why-tag">Скажем, если не стоит покупать</span>
+      </div>
+    </div>
+
+    <div class="page__section page__section--team">
+      <p class="page__team-label">Наша команда</p>
+      <h2 class="page__team-title">Люди, которым вы доверяете свой выбор</h2>
+
+      <div class="page__team">
+        <div class="page__team-member">
+          <div class="page__team-avatar">
+            <img :src="assetUrl('/images/team/vladimir.webp')" alt="Владимир" />
+          </div>
+          <div class="page__team-info">
+            <h3 class="page__team-name">Владимир</h3>
+            <p class="page__team-role">Технический эксперт</p>
+            <p class="page__team-bio">РГАТУ им. Костычева, «Эксплуатация транспортно-технологических машин и комплексов», выпуск&nbsp;2016. С&nbsp;автомобилями с&nbsp;2014&nbsp;года.</p>
+            <p class="page__team-since">В автоподборе с 2020 года</p>
+          </div>
+        </div>
+
+        <div class="page__team-member">
+          <div class="page__team-avatar">
+            <img :src="assetUrl('/images/team/dmitry.webp')" alt="Дмитрий" />
+          </div>
+          <div class="page__team-info">
+            <h3 class="page__team-name">Дмитрий</h3>
+            <p class="page__team-role">Эксперт по осмотру и диагностике</p>
+            <p class="page__team-bio">РГАТУ им. Костычева, «Сервис транспортных и технологических машин и оборудования», выпуск&nbsp;2011. С&nbsp;автомобилями с&nbsp;2007&nbsp;года.</p>
+            <p class="page__team-since">В автоподборе с 2014 года</p>
+          </div>
+        </div>
+
+        <div class="page__team-member">
+          <div class="page__team-avatar">
+            <img :src="assetUrl('/images/team/ivan.webp')" alt="Иван Ермаков" />
+          </div>
+          <div class="page__team-info">
+            <h3 class="page__team-name">Иван Ермаков</h3>
+            <p class="page__team-role">Юридическое сопровождение</p>
+            <p class="page__team-bio">РГУ им. С.А. Есенина, юридический факультет, уголовно-правовой профиль, выпуск&nbsp;2020. С&nbsp;техникой с&nbsp;2020&nbsp;года.</p>
+            <p class="page__team-since">В автоподборе с 2022 года</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1312,6 +1373,117 @@ const reviews: Review[] = [
     flex: 1;
   }
 
+  &__section--korea {
+    padding: 0;
+    background: var(--color-dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 560px;
+    overflow: hidden;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__korea-image {
+    position: relative;
+    min-height: 360px;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.04);
+    }
+  }
+
+  &__korea-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(0, 0, 0, 0.5) 100%);
+    pointer-events: none;
+
+    @media (max-width: 860px) {
+      background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+    }
+  }
+
+  &__korea-content {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+
+    @media (max-width: 860px) {
+      padding: 40px 24px 56px;
+    }
+  }
+
+  &__korea-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin: 0 0 14px;
+  }
+
+  &__korea-title {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 18px;
+  }
+
+  &__korea-text {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.65;
+    margin: 0 0 28px;
+  }
+
+  &__korea-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+
+    li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--color-accent);
+      }
+    }
+  }
+
   &__section--why {
     padding: 72px 24px;
     background: var(--color-dark);
@@ -1394,6 +1566,134 @@ const reviews: Review[] = [
     font-size: 17px;
     line-height: 1.5;
     flex: 1;
+  }
+
+  &__section--team {
+    background: var(--color-dark);
+    padding: 88px 24px;
+    text-align: left;
+  }
+
+  &__team-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin: 0 0 12px;
+    text-align: center;
+  }
+
+  &__team-title {
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 56px;
+    text-align: center;
+  }
+
+  &__team {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    overflow: hidden;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+
+  &__team-member {
+    background: #1a1a1a;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: background 0.25s ease;
+
+    &:hover {
+      background: #222;
+    }
+
+    &:first-child {
+      border-radius: 20px 0 0 20px;
+
+      @media (max-width: 860px) {
+        border-radius: 20px 20px 0 0;
+      }
+    }
+
+    &:last-child {
+      border-radius: 0 20px 20px 0;
+
+      @media (max-width: 860px) {
+        border-radius: 0 0 20px 20px;
+      }
+    }
+  }
+
+  &__team-avatar {
+    width: 100%;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+    background: #2a2a2a;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  &__team-member:hover &__team-avatar img {
+    transform: scale(1.03);
+  }
+
+  &__team-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+
+  &__team-role {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 20px;
+  }
+
+  &__team-bio {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+
+  &__team-since {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 16px;
+    margin: 0;
   }
 
   &__reviews {
