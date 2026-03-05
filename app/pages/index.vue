@@ -192,8 +192,7 @@ const reviews: Review[] = [
                 {{ srv.headline }} <em>{{ srv.headlineItalic }}</em>
               </h3>
               <div class="page__service-label">
-                <span>Наши</span>
-                <span>услуги</span>
+                Наши услуги
               </div>
             </div>
 
@@ -770,7 +769,7 @@ const reviews: Review[] = [
 
   &__service-top {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
@@ -790,9 +789,6 @@ const reviews: Review[] = [
   }
 
   &__service-label {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     font-size: 13px;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.65);
