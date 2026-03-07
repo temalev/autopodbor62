@@ -9,6 +9,23 @@ function assetUrl(path: string) {
 }
 
 const phoneRaw = ref('')
+const showScrollTop = ref(false)
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function onScroll() {
+  showScrollTop.value = window.scrollY > 400
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+})
 
 function phoneDisplay(raw: string): string {
   if (!raw) return ''
@@ -733,6 +750,18 @@ const reviews: Review[] = [
       <span class="page__fixed-call-number">+7 915 609 5787</span>
     </span>
   </a>
+
+  <button
+    type="button"
+    class="page__scroll-top"
+    :class="{ 'page__scroll-top--visible': showScrollTop }"
+    aria-label="Наверх"
+    @click="scrollToTop"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
 </template>
 
 <style scoped lang="scss">
@@ -2617,5 +2646,48 @@ const reviews: Review[] = [
   color: #fff;
   letter-spacing: 0.02em;
   font-family: inherit;
+}
+
+.page__scroll-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--color-surface, #fff);
+  color: var(--color-dark, #1a1a1a);
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    background: var(--color-accent, #f97316);
+    color: #fff;
+    border-color: var(--color-accent, #f97316);
+    box-shadow: 0 6px 24px rgba(249, 115, 22, 0.4);
+  }
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    right: 16px;
+    bottom: 90px;
+    width: 44px;
+    height: 44px;
+  }
 }
 </style>

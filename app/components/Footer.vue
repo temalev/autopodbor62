@@ -35,23 +35,24 @@
         <nav class="footer__nav" aria-label="Навигация по сайту">
           <p class="footer__nav-title">Услуги</p>
           <ul class="footer__nav-list">
-            <li><a href="#services" class="footer__nav-link">Автоподбор под ключ</a></li>
-            <li><a href="#services" class="footer__nav-link">Разовая проверка</a></li>
-            <li><a href="#sell" class="footer__nav-link">Выкуп и продажа</a></li>
-            <li><a href="#gibdd" class="footer__nav-link">Регистрация в ГИБДД</a></li>
-            <li><a href="#korea" class="footer__nav-link">Импорт из Кореи и Китая</a></li>
-            <li><a href="#services" class="footer__nav-link">Приёмка авто</a></li>
+            <li><a href="/#services" class="footer__nav-link">Автоподбор под ключ</a></li>
+            <li><a href="/#services" class="footer__nav-link">Разовая проверка</a></li>
+            <li><a href="/#sell" class="footer__nav-link">Выкуп и продажа</a></li>
+            <li><a href="/#gibdd" class="footer__nav-link">Регистрация в ГИБДД</a></li>
+            <li><NuxtLink to="/import" class="footer__nav-link">Импорт из Кореи и Китая</NuxtLink></li>
+            <li><a href="/#services" class="footer__nav-link">Приёмка авто</a></li>
           </ul>
         </nav>
 
         <nav class="footer__nav" aria-label="Разделы сайта">
           <p class="footer__nav-title">Разделы</p>
           <ul class="footer__nav-list">
-            <li><a href="#how" class="footer__nav-link">Как мы работаем</a></li>
-            <li><a href="#team" class="footer__nav-link">Команда</a></li>
-            <li><a href="#reviews" class="footer__nav-link">Отзывы</a></li>
-            <li><a href="#faq" class="footer__nav-link">FAQ</a></li>
-            <li><a href="#contact" class="footer__nav-link">Контакты</a></li>
+            <li><NuxtLink to="/o-nas" class="footer__nav-link">О нас</NuxtLink></li>
+            <li><a href="/#how" class="footer__nav-link">Как мы работаем</a></li>
+            <li><a href="/#team" class="footer__nav-link">Команда</a></li>
+            <li><a href="/#reviews" class="footer__nav-link">Отзывы</a></li>
+            <li><a href="/#faq" class="footer__nav-link">FAQ</a></li>
+            <li><a href="/#contact" class="footer__nav-link">Контакты</a></li>
           </ul>
         </nav>
 

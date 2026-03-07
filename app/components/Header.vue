@@ -28,8 +28,9 @@ const closeDrawer = () => {
       <!-- Десктопное меню -->
       <nav class="header__nav header__nav--desktop">
         <NuxtLink to="/" class="header__link">Главная</NuxtLink>
+        <NuxtLink to="/o-nas" class="header__link">О нас</NuxtLink>
         <NuxtLink to="/" class="header__link">Подбор автомобиля</NuxtLink>
-        <NuxtLink to="/" class="header__link">Импорт</NuxtLink>
+        <NuxtLink to="/import" class="header__link">Импорт</NuxtLink>
       </nav>
 
       <!-- Бургер-кнопка для мобильной версии -->
@@ -60,10 +61,13 @@ const closeDrawer = () => {
           <NuxtLink to="/" class="header__link--mobile" @click="closeDrawer">
             Главная
           </NuxtLink>
+          <NuxtLink to="/o-nas" class="header__link--mobile" @click="closeDrawer">
+            О нас
+          </NuxtLink>
           <NuxtLink to="/" class="header__link--mobile" @click="closeDrawer">
             Подбор автомобиля
           </NuxtLink>
-          <NuxtLink to="/" class="header__link--mobile" @click="closeDrawer">
+          <NuxtLink to="/import" class="header__link--mobile" @click="closeDrawer">
             Импорт
           </NuxtLink>
         </nav>
