@@ -213,7 +213,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--services">
+    <div id="services" class="page__section page__section--services">
       <h2 class="page__section-title">Наши услуги</h2>
       <p class="page__section-text">
         Полный спектр услуг для покупки, продажи и обслуживания автомобилей
@@ -259,7 +259,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--key page__section--key-twin">
+    <div id="how" class="page__section page__section--key page__section--key-twin">
       <p class="page__key-twin-lead">Два формата работы</p>
 
       <div class="page__key-twin">
@@ -329,7 +329,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--sell">
+    <div id="sell" class="page__section page__section--sell">
       <div class="page__sell-wrap">
         <h2 class="page__sell-title">Выкуп и комиссионная продажа</h2>
         <p class="page__sell-lead">Продать автомобиль быстро и без головной боли</p>
@@ -362,7 +362,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--gibdd">
+    <div id="gibdd" class="page__section page__section--gibdd">
       <div class="page__gibdd-wrap">
         <p class="page__gibdd-label">Регистрация в ГИБДД</p>
         <h2 class="page__gibdd-title">Сэкономим ваше время и нервы</h2>
@@ -377,7 +377,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--korea">
+    <div id="korea" class="page__section page__section--korea">
       <div class="page__korea-image">
         <img :src="assetUrl('/images/korea.webp')" alt="Авто из Кореи и Китая" />
         <div class="page__korea-image-overlay" />
@@ -418,7 +418,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--team">
+    <div id="team" class="page__section page__section--team">
       <p class="page__team-label">Наша команда</p>
       <h2 class="page__team-title">Люди, которым вы доверяете свой выбор</h2>
 
@@ -461,7 +461,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section">
+    <div id="reviews" class="page__section">
       <h2 class="page__section-title">Отзывы клиентов</h2>
       <p class="page__section-text">
         Реальные отзывы о нашей работе по автоподбору и проверке автомобилей
@@ -569,7 +569,7 @@ const reviews: Review[] = [
       </div>
     </div>
 
-    <div class="page__section page__section--alt">
+    <div id="faq" class="page__section page__section--alt">
       <h2 class="page__section-title">FAQ — часто задаваемые вопросы</h2>
       
       <div class="page__faq">
