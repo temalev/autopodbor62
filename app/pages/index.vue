@@ -206,26 +206,43 @@ const reviews: Review[] = [
   <div class="page">
     <div class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.jpg)` }">
       <div class="page__hero-inner">
-        <div class="page__content">
-          <h1 class="page__title">
-            Автоподбор 62 — покупка
-            и&nbsp;продажа&nbsp;автомобиля без&nbsp;риска
-            и&nbsp;потери времени
-          </h1>
-          <p class="page__text">
-            Мы берём на себя все сложные и рискованные этапы, чтобы вы получили честный автомобиль по реальной цене — без обмана, сюрпризов и лишних затрат.
-          </p>
-        </div>
-        <div class="page__hero-cta">
-          <div class="page__hero-cta-badge">
-            <span class="page__hero-cta-badge-dot"></span>
-            Хорошие автомобили разбирают как горячие пирожки — успейте забрать свой
+        <div class="page__hero-left">
+          <div class="page__content">
+            <h1 class="page__title">
+              Автоподбор 62 — покупка
+              и&nbsp;продажа&nbsp;автомобиля без&nbsp;риска
+              и&nbsp;потери времени
+            </h1>
+            <p class="page__text">
+              Мы берём на себя все сложные и рискованные этапы, чтобы вы получили честный автомобиль по реальной цене — без обмана, сюрпризов и лишних затрат.
+            </p>
           </div>
-          <form class="page__hero-form" @submit.prevent>
-            <input type="text" class="page__hero-form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-            <input type="tel" class="page__hero-form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
-            <button type="submit" class="page__hero-form-btn">Оставить заявку</button>
-          </form>
+          <div class="page__hero-cta">
+            <div class="page__hero-cta-badge">
+              <span class="page__hero-cta-badge-dot"></span>
+              Хорошие автомобили разбирают как горячие пирожки — успейте забрать свой
+            </div>
+            <form class="page__hero-form" @submit.prevent>
+              <input type="text" class="page__hero-form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
+              <input type="tel" class="page__hero-form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <button type="submit" class="page__hero-form-btn">Оставить заявку</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="page__hero-stats">
+          <div class="page__hero-stat">
+            <span class="page__hero-stat-num">10+</span>
+            <span class="page__hero-stat-label">лет в автоподборе</span>
+          </div>
+          <div class="page__hero-stat">
+            <span class="page__hero-stat-num">500+</span>
+            <span class="page__hero-stat-label">проверенных авто</span>
+          </div>
+          <div class="page__hero-stat">
+            <span class="page__hero-stat-num">5.0</span>
+            <span class="page__hero-stat-label">рейтинг на Авито</span>
+          </div>
         </div>
       </div>
     </div>
@@ -307,6 +324,7 @@ const reviews: Review[] = [
             </ul>
 
             <p class="page__key-outcome">Вы покупаете автомобиль, который реально стоит своих денег.</p>
+            <NuxtLink to="/podbor" class="page__key-link">Подробнее о подборе под ключ</NuxtLink>
           </div>
         </div>
 
@@ -341,6 +359,7 @@ const reviews: Review[] = [
             </ul>
 
             <p class="page__key-outcome">Вы знаете правду об автомобиле до покупки.</p>
+            <NuxtLink to="/proverka" class="page__key-link">Подробнее о разовой проверке</NuxtLink>
           </div>
         </div>
       </div>
@@ -348,49 +367,36 @@ const reviews: Review[] = [
 
     <div id="sell" class="page__section page__section--sell">
       <div class="page__sell-wrap">
-        <h2 class="page__sell-title">Выкуп и комиссионная продажа</h2>
-        <p class="page__sell-lead">Продать автомобиль быстро и без головной боли</p>
+        <div class="page__sell-header">
+          <p class="page__sell-label">Продажа автомобиля</p>
+          <h2 class="page__sell-title">Выкуп и комиссионная продажа</h2>
+          <p class="page__sell-lead">Выберите формат — мы возьмём всё остальное на себя</p>
+        </div>
 
         <div class="page__sell-options">
-          <div class="page__sell-option">
-            <div class="page__sell-option-head">
-              <span class="page__sell-option-dot"></span>
-              <h3 class="page__sell-option-title">Выкуп</h3>
-            </div>
+          <div class="page__sell-option page__sell-option--dark">
+            <span class="page__sell-option-badge">Деньги сразу</span>
+            <h3 class="page__sell-option-title">Выкуп</h3>
+            <p class="page__sell-option-desc">Продаёте автомобиль сразу — без торга, ожидания и лишних звонков</p>
             <ul class="page__sell-option-list">
-              <li>Быстрая удалённая оценка</li>
-              <li>Честная цена, без «сюрпризов» на осмотре</li>
+              <li>Честная оценка по состоянию, комплектации и рынку</li>
+              <li>Приедем на осмотр в удобное вам время</li>
+              <li>Называем цену сразу — без занижения на месте</li>
             </ul>
           </div>
 
-          <div class="page__sell-option">
-            <div class="page__sell-option-head">
-              <span class="page__sell-option-dot"></span>
-              <h3 class="page__sell-option-title">Комиссионная продажа</h3>
-            </div>
+          <div class="page__sell-option page__sell-option--light">
+            <span class="page__sell-option-badge">Максимальная цена</span>
+            <h3 class="page__sell-option-title">Комиссионная продажа</h3>
+            <p class="page__sell-option-desc">Никаких звонков, показов и бесконечного торга — мы занимаемся продажей, вы живёте своей жизнью</p>
             <ul class="page__sell-option-list">
-              <li>Профессиональный осмотр и отчёт</li>
-              <li>Качественные фото и честное описание</li>
-              <li>Размещение на всех площадках</li>
-              <li>Переговоры с покупателями — на нас</li>
+              <li>Профессиональный осмотр и подробный отчёт</li>
+              <li>Качественные фото и продающее описание</li>
+              <li>Размещение на всех ключевых площадках</li>
+              <li>Показы и переговоры с покупателями — на нас</li>
             </ul>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div id="gibdd" class="page__section page__section--gibdd">
-      <div class="page__gibdd-wrap">
-        <p class="page__gibdd-label">Регистрация в ГИБДД</p>
-        <h2 class="page__gibdd-title">Сэкономим ваше время и нервы</h2>
-        <p class="page__gibdd-lead">Подача документов, осмотр, получение номеров — делаем за вас. Вы занимаетесь своими делами.</p>
-
-        <ul class="page__gibdd-list">
-          <li>Полное сопровождение регистрации</li>
-          <li>Физлица и юрлица</li>
-          <li>Оплата после результата</li>
-          <li>Вы получаете авто уже на учёте</li>
-        </ul>
       </div>
     </div>
 
@@ -775,38 +781,122 @@ const reviews: Review[] = [
     display: flex;
     align-items: stretch;
     justify-content: center;
-    text-align: center;
-    padding: 0 24px;
+    padding: 0 40px;
     background-image: none;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+
+    @media (max-width: 1024px) {
+      padding: 0 24px;
+    }
+
+    @media (max-width: 720px) {
+      padding: 0 20px;
+    }
   }
 
   &__hero-inner {
     width: 100%;
-    max-width: 820px;
+    max-width: 80%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    padding: 100px 0 56px;
+    gap: 64px;
+    padding: 120px 0 64px;
+
+    @media (max-width: 960px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 48px;
+      padding: 100px 0 48px;
+    }
 
     @media (max-width: 720px) {
-      padding: 72px 0 40px;
+      padding: 80px 0 40px;
+      gap: 36px;
     }
   }
 
+  &__hero-left {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  &__hero-stats {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 180px;
+    margin-left: auto;
+    padding-left: 64px;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+
+    @media (max-width: 960px) {
+      flex-direction: row;
+      width: 100%;
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+
+  &__hero-stat {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+    &:first-child {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    @media (max-width: 960px) {
+      flex: 1;
+      padding: 0 24px;
+      border-bottom: none;
+      border-top: none;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+
+      &:first-child {
+        border-left: none;
+        padding-left: 0;
+      }
+    }
+  }
+
+  &__hero-stat-num {
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 5px;
+
+    @media (max-width: 960px) {
+      font-size: 28px;
+    }
+  }
+
+  &__hero-stat-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+  }
+
   &__content {
-    max-width: 820px;
-    margin-bottom: 0;
-    margin-top: 50px;
+    max-width: 680px;
   }
 
   &__title {
     font-family: var(--font-body);
     color: #fff;
-    font-size: clamp(36px, 6vw, 56px);
+    font-size: clamp(32px, 5vw, 52px);
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -817,16 +907,16 @@ const reviews: Review[] = [
   &__title::after {
     content: '';
     display: block;
-    width: 80px;
+    width: 60px;
     height: 4px;
     background: var(--color-accent);
-    margin: 20px auto 0;
+    margin: 20px 0 0;
     border-radius: 2px;
   }
 
   &__text {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
     line-height: 1.6;
     margin: 0;
@@ -834,8 +924,7 @@ const reviews: Review[] = [
   }
 
   &__hero-cta {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 560px;
     width: 100%;
   }
 
@@ -990,27 +1079,39 @@ const reviews: Review[] = [
 
   &__section--services {
     background: var(--color-bg-alt);
+    padding-left: 40px;
+    padding-right: 40px;
+
+    @media (max-width: 1024px) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    @media (max-width: 720px) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
   }
 
   &__services {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
     max-width: 1280px;
     margin: 0 auto;
 
     @media (max-width: 720px) {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 12px;
     }
   }
 
   &__service {
     --service-bg: url('');
     position: relative;
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
-    min-height: 480px;
+    min-height: 280px;
     background: #1a1a1a;
     background-image: var(--service-bg);
     background-size: cover;
@@ -1018,12 +1119,12 @@ const reviews: Review[] = [
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.4);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38);
     }
   }
 
@@ -1032,11 +1133,11 @@ const reviews: Review[] = [
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0.82) 0%,
-      rgba(0, 0, 0, 0.82) 32%,
-      rgba(0, 0, 0, 0.15) 52%,
-      rgba(0, 0, 0, 0.72) 72%,
-      rgba(0, 0, 0, 0.88) 100%
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.75) 30%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.7) 70%,
+      rgba(0, 0, 0, 0.92) 100%
     );
     pointer-events: none;
   }
@@ -1045,7 +1146,7 @@ const reviews: Review[] = [
     position: absolute;
     inset: 0;
     z-index: 1;
-    padding: 28px 28px 28px;
+    padding: 24px 24px 28px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1055,16 +1156,16 @@ const reviews: Review[] = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
   }
 
   &__service-headline {
-    font-size: clamp(22px, 3.5vw, 28px);
+    font-size: clamp(18px, 2.5vw, 22px);
     font-weight: 700;
     color: #fff;
     line-height: 1.2;
     letter-spacing: -0.02em;
+    margin: 0;
 
     span {
       font-weight: 700;
@@ -1072,28 +1173,27 @@ const reviews: Review[] = [
   }
 
   &__service-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.65);
-    line-height: 1.3;
-    flex-shrink: 0;
-    padding-top: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
   }
 
   &__service-bottom {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   &__service-content {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   &__service-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
     color: #fff;
     line-height: 1.2;
@@ -1102,8 +1202,8 @@ const reviews: Review[] = [
   }
 
   &__service-text {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
     line-height: 1.5;
     margin: 0;
   }
@@ -1446,27 +1546,63 @@ const reviews: Review[] = [
     }
   }
 
+  &__key-link {
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 56px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      margin-left: 0;
+    }
+  }
+
   &__section--sell {
     padding: 80px 24px;
+    background: var(--color-bg-alt);
 
     @media (max-width: 720px) {
       padding: 56px 20px;
     }
-    background: var(--color-bg-alt);
   }
 
   &__sell-wrap {
-    max-width: 800px;
+    max-width: 920px;
     margin: 0 auto;
-    text-align: left;
+  }
+
+  &__sell-header {
+    text-align: center;
+    margin-bottom: 48px;
+
+    @media (max-width: 720px) {
+      margin-bottom: 32px;
+    }
+  }
+
+  &__sell-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    margin: 0 0 10px;
   }
 
   &__sell-title {
-    font-size: clamp(24px, 3.5vw, 32px);
+    font-size: clamp(24px, 3.5vw, 34px);
     font-weight: 800;
     color: var(--color-dark);
     letter-spacing: -0.02em;
-    margin: 0 0 12px 0;
+    margin: 0 0 12px;
     line-height: 1.2;
   }
 
@@ -1474,149 +1610,122 @@ const reviews: Review[] = [
     font-size: 17px;
     color: var(--color-text-muted);
     line-height: 1.5;
-    margin: 0 0 40px 0;
+    margin: 0;
   }
 
   &__sell-options {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 
-  &__sell-option {
-    padding: 24px 0;
-    border-bottom: 1px solid var(--color-border);
-
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
     }
   }
 
-  &__sell-option-head {
+  &__sell-option {
+    border-radius: 20px;
+    padding: 36px;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
+    flex-direction: column;
+
+    @media (max-width: 480px) {
+      padding: 28px 24px;
+    }
+
+    &--dark {
+      background: var(--color-dark);
+    }
+
+    &--light {
+      background: var(--color-surface, #fff);
+      border: 1.5px solid var(--color-border);
+    }
   }
 
-  &__sell-option-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    flex-shrink: 0;
+  &__sell-option-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+
+    .page__sell-option--dark & {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .page__sell-option--light & {
+      background: var(--color-accent-bg);
+      color: var(--color-accent);
+    }
   }
 
   &__sell-option-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--color-dark);
-    margin: 0;
-    letter-spacing: -0.01em;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+    line-height: 1.2;
+
+    .page__sell-option--dark & {
+      color: #fff;
+    }
+
+    .page__sell-option--light & {
+      color: var(--color-dark);
+    }
+  }
+
+  &__sell-option-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 24px;
+
+    .page__sell-option--dark & {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .page__sell-option--light & {
+      color: var(--color-text-muted);
+    }
   }
 
   &__sell-option-list {
     margin: 0;
-    padding: 0 0 0 26px;
-    list-style: none;
-    font-size: 15px;
-    color: var(--color-text);
-    line-height: 1.7;
-
-    li {
-      position: relative;
-      margin-bottom: 8px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      &::before {
-        content: '—';
-        position: absolute;
-        left: -20px;
-        color: var(--color-accent);
-        font-weight: 600;
-      }
-    }
-  }
-
-  &__section--gibdd {
-    padding: 80px 24px;
-
-    @media (max-width: 720px) {
-      padding: 56px 20px;
-    }
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  &__gibdd-wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: left;
-    padding-left: 32px;
-    border-left: 3px solid var(--color-accent);
-
-    @media (max-width: 600px) {
-      padding-left: 20px;
-    }
-  }
-
-  &__gibdd-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin: 0 0 12px 0;
-  }
-
-  &__gibdd-title {
-    font-size: clamp(22px, 3.5vw, 28px);
-    font-weight: 800;
-    color: var(--color-dark);
-    letter-spacing: -0.02em;
-    margin: 0 0 12px 0;
-    line-height: 1.25;
-  }
-
-  &__gibdd-lead {
-    font-size: 16px;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    margin: 0 0 24px 0;
-  }
-
-  &__gibdd-list {
-    margin: 0;
     padding: 0;
     list-style: none;
     font-size: 15px;
-    color: var(--color-text);
-    line-height: 1.65;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 10px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
 
       &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0.5em;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--color-accent);
+        content: '✓';
+        flex-shrink: 0;
+        font-weight: 700;
+        font-size: 13px;
+        margin-top: 2px;
+        color: var(--color-accent);
       }
+    }
+
+    .page__sell-option--dark & li {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .page__sell-option--light & li {
+      color: var(--color-text);
     }
   }
 

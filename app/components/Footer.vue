@@ -35,8 +35,8 @@
         <nav class="footer__nav" aria-label="Навигация по сайту">
           <p class="footer__nav-title">Услуги</p>
           <ul class="footer__nav-list">
-            <li><a href="/#services" class="footer__nav-link">Автоподбор под ключ</a></li>
-            <li><a href="/#services" class="footer__nav-link">Разовая проверка</a></li>
+            <li><NuxtLink to="/podbor" class="footer__nav-link">Автоподбор под ключ</NuxtLink></li>
+            <li><NuxtLink to="/proverka" class="footer__nav-link">Разовая проверка</NuxtLink></li>
             <li><a href="/#sell" class="footer__nav-link">Выкуп и продажа</a></li>
             <li><a href="/#gibdd" class="footer__nav-link">Регистрация в ГИБДД</a></li>
             <li><NuxtLink to="/import" class="footer__nav-link">Импорт из Кореи и Китая</NuxtLink></li>

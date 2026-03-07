@@ -1,0 +1,480 @@
+<script setup lang="ts">
+const { app: { baseURL } } = useRuntimeConfig()
+const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
+
+useHead({
+  title: 'Подбор автомобиля под ключ — Автоподбор 62',
+  meta: [
+    {
+      name: 'description',
+      content: 'Автоподбор под ключ в Рязани: поиск по рынку, три этапа проверки, сопровождение сделки, регистрация в ГИБДД. Гарантия юридической чистоты и выкупа в течение 90 дней.',
+    },
+  ],
+})
+
+const phoneRaw = ref('')
+
+function phoneDisplay(raw: string): string {
+  if (!raw) return ''
+  let r = '+7'
+  if (raw.length > 0) r += ' (' + raw.slice(0, 3)
+  if (raw.length > 3) r += ') ' + raw.slice(3, 6)
+  if (raw.length > 6) r += '-' + raw.slice(6, 8)
+  if (raw.length > 8) r += '-' + raw.slice(8, 10)
+  return r
+}
+
+function handlePhoneInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  let digits = input.value.replace(/\D/g, '')
+  if (digits.startsWith('7') || digits.startsWith('8')) digits = digits.slice(1)
+  phoneRaw.value = digits.slice(0, 10)
+  input.value = phoneDisplay(phoneRaw.value)
+}
+
+function handlePhoneKeydown(e: KeyboardEvent) {
+  if (e.key === 'Backspace') {
+    e.preventDefault()
+    phoneRaw.value = phoneRaw.value.slice(0, -1)
+    const input = e.target as HTMLInputElement
+    input.value = phoneDisplay(phoneRaw.value)
+  }
+}
+
+const includes = [
+  { title: 'Анализ бюджета и задачи', text: 'Обсуждаем ваши цели, бюджет и пожелания к марке, модели и состоянию. Оцениваем ситуацию на рынке и реалистичные сроки.' },
+  { title: 'Поиск по всем каналам', text: 'Авито, закрытые чаты, партнёры. Проверяем все варианты в вашем бюджете — не «что попалось», а то, что подходит под критерии.' },
+  { title: 'Юридическая проверка', text: 'Документы, VIN, маркировочные обозначения, история. Гарантируем юридическую чистоту.' },
+  { title: 'Техническая проверка и кузов', text: 'Техсостояние, силовая конструкция кузова, замер толщины ЛКП, электрика, подвеска, диагностика. Всё, что важно перед покупкой.' },
+  { title: 'Контроль перед сделкой', text: 'Финальный осмотр выбранного авто, чтобы исключить сюрпризы. Если машина не стоит своих денег — говорим прямо.' },
+  { title: 'Сопровождение сделки', text: 'Переговоры с продавцом, оформление документов. При необходимости присутствуем при сделке. Вы получаете готовый результат.' },
+  { title: 'Регистрация в ГИБДД', text: 'Подача документов, осмотр, получение номеров. В рамках подбора под ключ по РФ регистрация входит в стоимость — вы получаете авто уже на учёте.' },
+]
+
+const steps = [
+  { num: '01', title: 'Заявка и согласование', text: 'Обсуждаем бюджет, пожелания к автомобилю и сроки. Фиксируем критерии: марка, модель, год, пробег, важные опции.' },
+  { num: '02', title: 'Поиск и отбор вариантов', text: 'Ищем по всем доступным каналам, проверяем историю и объявления. Отбираем варианты, которые соответствуют вашим условиям.' },
+  { num: '03', title: 'Проверки', text: 'Юридическая чистота, техосмотр, кузов, диагностика. Формируем отчёт. Рекомендуем к покупке или честно отказываем.' },
+  { num: '04', title: 'Сделка', text: 'Ведём переговоры, сопровождаем оформление. Вы получаете автомобиль с чистыми документами и ясной историей.' },
+  { num: '05', title: 'Регистрация', text: 'Оформляем постановку на учёт в ГИБДД. Вы забираете авто уже с номерами — без очередей и лишних поездок.' },
+]
+</script>
+
+<template>
+  <div class="podbor-page">
+    <div class="podbor-page__hero">
+      <div class="podbor-page__hero-bg">
+        <img :src="`${base}/images/services/1.jpeg`" alt="Подбор автомобиля" class="podbor-page__hero-img" />
+        <div class="podbor-page__hero-overlay" />
+      </div>
+      <div class="podbor-page__hero-content">
+        <NuxtLink to="/" class="podbor-page__back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          На главную
+        </NuxtLink>
+        <p class="podbor-page__label">Автоподбор под ключ</p>
+        <h1 class="podbor-page__title">Подбор автомобиля под ключ</h1>
+        <p class="podbor-page__lead">От анализа бюджета и поиска по рынку до проверок, сделки и регистрации в ГИБДД — берём на себя весь цикл. Вы получаете автомобиль, который реально стоит своих денег.</p>
+      </div>
+    </div>
+
+    <section class="podbor-page__section">
+      <div class="podbor-page__container">
+        <h2 class="podbor-page__h2">Что входит в подбор под ключ</h2>
+        <p class="podbor-page__intro">Полный комплекс работ: мы не просто осматриваем авто, а ищем лучший вариант на рынке, проверяем историю и технику, сопровождаем сделку и берём ответственность за результат.</p>
+        <ul class="podbor-page__includes">
+          <li v-for="(item, i) in includes" :key="i" class="podbor-page__include">
+            <span class="podbor-page__include-num" aria-hidden="true">{{ String(i + 1).padStart(2, '0') }}</span>
+            <div class="podbor-page__include-body">
+              <h3 class="podbor-page__include-title">{{ item.title }}</h3>
+              <p class="podbor-page__include-text">{{ item.text }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="podbor-page__section podbor-page__section--dark">
+      <div class="podbor-page__container">
+        <h2 class="podbor-page__h2 podbor-page__h2--light">Как мы работаем: по шагам</h2>
+        <p class="podbor-page__intro podbor-page__intro--light">От заявки до ключей и номеров — один контакт, прозрачные этапы и фиксированная стоимость.</p>
+        <ol class="podbor-page__steps">
+          <li v-for="step in steps" :key="step.num" class="podbor-page__step">
+            <span class="podbor-page__step-num" aria-hidden="true">{{ step.num }}</span>
+            <div class="podbor-page__step-body">
+              <h3 class="podbor-page__step-title">{{ step.title }}</h3>
+              <p class="podbor-page__step-text">{{ step.text }}</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="podbor-page__section">
+      <div class="podbor-page__container">
+        <h2 class="podbor-page__h2">Что вы получаете и какие гарантии</h2>
+        <div class="podbor-page__result">
+          <p>Автомобиль без юридических проблем, без серьёзных ДТП, с прозрачной историей и адекватным состоянием под заявленный бюджет. Если машина не стоит своих денег — мы прямо об этом говорим.</p>
+        </div>
+        <ul class="podbor-page__guarantees">
+          <li><strong>Гарантия юридической чистоты</strong></li>
+          <li><strong>Гарантия актуальности информации</strong> о состоянии авто</li>
+          <li><strong>Гарантия выкупа</strong> подобранного автомобиля в течение 90 дней</li>
+        </ul>
+        <p class="podbor-page__terms">Срок подбора — от 2 до 60 дней. Доступен экспресс-подбор до 10 дней с предложением до 3 лучших вариантов. Стоимость зависит от ценовой категории автомобиля и фиксируется до начала работ — без скрытых доплат.</p>
+        <div class="podbor-page__cta">
+          <p class="podbor-page__cta-text">Обсудим бюджет и подберём оптимальный вариант</p>
+          <form class="podbor-page__form" @submit.prevent>
+            <div class="podbor-page__form-fields">
+              <input type="text" class="podbor-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
+              <input type="tel" class="podbor-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+            </div>
+            <button type="submit" class="podbor-page__form-btn">Оставить заявку на подбор</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.podbor-page {
+  padding-top: 0;
+  min-height: 100vh;
+}
+
+.podbor-page__hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 120px 24px 64px;
+
+  @media (max-width: 768px) {
+    min-height: 60vh;
+    padding: 100px 20px 48px;
+  }
+}
+
+.podbor-page__hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.podbor-page__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.podbor-page__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.95) 100%);
+}
+
+.podbor-page__hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.podbor-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.podbor-page__label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-accent);
+  margin: 0 0 12px;
+}
+
+.podbor-page__title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+.podbor-page__lead {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.podbor-page__section {
+  padding: 64px 24px;
+
+  @media (max-width: 720px) {
+    padding: 48px 20px;
+  }
+
+  &--dark {
+    background: var(--color-dark);
+    color: #fff;
+  }
+}
+
+.podbor-page__container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.podbor-page__h2 {
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  color: var(--color-dark);
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  line-height: 1.2;
+
+  &--light {
+    color: #fff;
+  }
+}
+
+.podbor-page__intro {
+  font-size: 17px;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin: 0 0 40px;
+
+  &--light {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 40px;
+  }
+}
+
+.podbor-page__includes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.podbor-page__include {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--color-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 20px 0;
+  }
+}
+
+.podbor-page__include-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+}
+
+.podbor-page__include-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.podbor-page__include-text {
+  font-size: 15px;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.podbor-page__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.podbor-page__step {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 20px 0;
+  }
+}
+
+.podbor-page__step-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+}
+
+.podbor-page__step-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.podbor-page__step-text {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.podbor-page__result {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin-bottom: 24px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.podbor-page__guarantees {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+
+  li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+  }
+}
+
+.podbor-page__terms {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin: 0 0 48px;
+}
+
+.podbor-page__cta {
+  padding: 36px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.podbor-page__cta-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0 0 24px;
+}
+
+.podbor-page__form-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.podbor-page__form-input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--color-dark);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+}
+
+.podbor-page__form-btn {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
+
+  &:hover {
+    background: var(--color-accent-hover);
+    box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
+    transform: translateY(-2px);
+  }
+}
+</style>

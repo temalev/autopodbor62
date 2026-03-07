@@ -12,6 +12,35 @@ useHead({
   ],
 })
 
+const phoneRaw = ref('')
+
+function phoneDisplay(raw: string): string {
+  if (!raw) return ''
+  let r = '+7'
+  if (raw.length > 0) r += ' (' + raw.slice(0, 3)
+  if (raw.length > 3) r += ') ' + raw.slice(3, 6)
+  if (raw.length > 6) r += '-' + raw.slice(6, 8)
+  if (raw.length > 8) r += '-' + raw.slice(8, 10)
+  return r
+}
+
+function handlePhoneInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  let digits = input.value.replace(/\D/g, '')
+  if (digits.startsWith('7') || digits.startsWith('8')) digits = digits.slice(1)
+  phoneRaw.value = digits.slice(0, 10)
+  input.value = phoneDisplay(phoneRaw.value)
+}
+
+function handlePhoneKeydown(e: KeyboardEvent) {
+  if (e.key === 'Backspace') {
+    e.preventDefault()
+    phoneRaw.value = phoneRaw.value.slice(0, -1)
+    const input = e.target as HTMLInputElement
+    input.value = phoneDisplay(phoneRaw.value)
+  }
+}
+
 const steps = [
   { num: '01', title: 'Заявка и бюджет', text: 'Обсуждаем задачу, бюджет и пожелания к автомобилю. Определяем рынок (Корея или Китай) и ориентировочные сроки.' },
   { num: '02', title: 'Анализ рынка и подбор', text: 'Ищем варианты на аукционах и у проверенных поставщиков. Проверяем историю, аукционный лист, пробег и состояние. Отбираем несколько вариантов под ваши критерии.' },
@@ -79,6 +108,53 @@ const steps = [
       </div>
     </section>
 
+    <section class="import-page__section import-page__section--gallery">
+      <div class="import-page__container import-page__container--wide">
+        <h2 class="import-page__h2">Наши автомобили из Кореи и Китая</h2>
+        <div class="import-page__gallery">
+          <div class="import-page__gallery-item import-page__gallery-item--wide">
+            <img :src="`${base}/images/import/1.jpeg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/2.jpeg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/3.jpeg`" alt="Импортный автомобиль из Китая" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/4.jpeg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/5.jpeg`" alt="Импортный автомобиль из Китая" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/6.jpeg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/7.jpg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/8.jpg`" alt="Импортный автомобиль из Китая" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/9.jpg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/10.jpg`" alt="Импортный автомобиль из Китая" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/11.jpg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/12.jpg`" alt="Импортный автомобиль из Китая" loading="lazy" />
+          </div>
+          <div class="import-page__gallery-item">
+            <img :src="`${base}/images/import/13.jpg`" alt="Импортный автомобиль из Кореи" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="import-page__section import-page__section--dark">
       <div class="import-page__container">
         <h2 class="import-page__h2 import-page__h2--light">Как мы ведём импорт: по шагам</h2>
@@ -103,10 +179,13 @@ const steps = [
         </div>
         <div class="import-page__cta">
           <p class="import-page__cta-text">Обсудим ваш бюджет и подберём оптимальный вариант</p>
-          <div class="import-page__cta-links">
-            <a href="tel:+79156095787" class="import-page__cta-btn import-page__cta-btn--phone">+7 915 609 5787</a>
-            <a href="https://t.me/Autopodbor62" target="_blank" rel="noopener noreferrer" class="import-page__cta-btn import-page__cta-btn--tg">Написать в Telegram</a>
-          </div>
+          <form class="import-page__form" @submit.prevent>
+            <div class="import-page__form-fields">
+              <input type="text" class="import-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
+              <input type="tel" class="import-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+            </div>
+            <button type="submit" class="import-page__form-btn">Оставить заявку на консультацию</button>
+          </form>
         </div>
       </div>
     </section>
@@ -278,6 +357,55 @@ const steps = [
   border-radius: 50%;
 }
 
+.import-page__container--wide {
+  max-width: 1100px;
+}
+
+.import-page__section--gallery {
+  padding-bottom: 48px;
+}
+
+.import-page__gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 12px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.import-page__gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+
+  &--wide {
+    grid-column: span 2;
+
+    @media (max-width: 560px) {
+      grid-column: span 1;
+    }
+  }
+}
+
 .import-page__steps {
   list-style: none;
   margin: 0;
@@ -341,7 +469,7 @@ const steps = [
 }
 
 .import-page__cta {
-  padding: 32px;
+  padding: 36px;
   background: var(--color-bg-alt);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
@@ -351,44 +479,60 @@ const steps = [
   font-size: 18px;
   font-weight: 600;
   color: var(--color-dark);
-  margin: 0 0 20px;
+  margin: 0 0 24px;
 }
 
-.import-page__cta-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+.import-page__form-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
 }
 
-.import-page__cta-btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 24px;
-  font-size: 16px;
-  font-weight: 600;
+.import-page__form-input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 15px;
   font-family: inherit;
-  text-decoration: none;
+  color: var(--color-dark);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-  &--phone {
-    background: var(--color-accent);
-    color: #fff;
-
-    &:hover {
-      background: var(--color-accent-hover);
-      transform: translateY(-2px);
-    }
+  &::placeholder {
+    color: var(--color-text-muted);
   }
 
-  &--tg {
-    background: #0088cc;
-    color: #fff;
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+}
 
-    &:hover {
-      background: #0077b5;
-      transform: translateY(-2px);
-    }
+.import-page__form-btn {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
+
+  &:hover {
+    background: var(--color-accent-hover);
+    box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
+    transform: translateY(-2px);
   }
 }
 </style>

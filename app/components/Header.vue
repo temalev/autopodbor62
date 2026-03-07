@@ -29,7 +29,8 @@ const closeDrawer = () => {
       <nav class="header__nav header__nav--desktop">
         <NuxtLink to="/" class="header__link">Главная</NuxtLink>
         <NuxtLink to="/o-nas" class="header__link">О нас</NuxtLink>
-        <NuxtLink to="/" class="header__link">Подбор автомобиля</NuxtLink>
+        <NuxtLink to="/podbor" class="header__link">Подбор автомобиля</NuxtLink>
+        <NuxtLink to="/proverka" class="header__link">Разовая проверка</NuxtLink>
         <NuxtLink to="/import" class="header__link">Импорт</NuxtLink>
       </nav>
 
@@ -64,8 +65,11 @@ const closeDrawer = () => {
           <NuxtLink to="/o-nas" class="header__link--mobile" @click="closeDrawer">
             О нас
           </NuxtLink>
-          <NuxtLink to="/" class="header__link--mobile" @click="closeDrawer">
+          <NuxtLink to="/podbor" class="header__link--mobile" @click="closeDrawer">
             Подбор автомобиля
+          </NuxtLink>
+          <NuxtLink to="/proverka" class="header__link--mobile" @click="closeDrawer">
+            Разовая проверка
           </NuxtLink>
           <NuxtLink to="/import" class="header__link--mobile" @click="closeDrawer">
             Импорт
@@ -79,150 +83,152 @@ const closeDrawer = () => {
 <style scoped lang="scss">
 .header {
   position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(17, 17, 17, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  height: 64px;
-  width: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: var(--color-dark, #111);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 100;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+}
+
+.header__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+  padding: 0 24px;
+  gap: 40px;
 
   @media (max-width: 768px) {
-    width: calc(100% - 32px);
-    max-width: 400px;
-    top: 12px;
+    height: 64px;
+    padding: 0 20px;
   }
+}
 
-  &__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    padding: 0 24px;
-    gap: 40px;
-  }
-
-  &__logo {
-    a {
-      text-decoration: none;
-      display: block;
-    }
-  }
-
-  &__logo-img {
-    height: 48px;
-    width: auto;
+.header__logo {
+  a {
+    text-decoration: none;
     display: block;
   }
+}
 
-  &__nav {
-    display: flex;
-    gap: 36px;
-    align-items: center;
-    margin: 0 16px;
+.header__logo-img {
+  height: 44px;
+  width: auto;
+  display: block;
 
-    &--desktop {
-      @media (max-width: 768px) {
-        display: none;
-      }
-    }
+  @media (max-width: 768px) {
+    height: 40px;
+  }
+}
 
-    &--mobile {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding: 16px 0;
+.header__nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+
+  &--desktop {
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
-  &__link {
-    color: rgba(255, 255, 255, 0.92);
+  &--mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 0;
+  }
+}
+
+.header__link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+
+  &.router-link-active {
+    color: var(--color-accent);
+  }
+
+  &--mobile {
+    color: #1a1d23;
     text-decoration: none;
-    font-size: 15px;
+    padding: 14px 24px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 17px;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    transition: color 0.25s ease;
 
     &:hover {
-      color: #fff;
-    }
-
-    &--mobile {
-      color: #1a1d23;
-      text-decoration: none;
-      padding: 14px 24px;
-      border-radius: 10px;
-      transition: background 0.2s ease, color 0.2s ease;
-      font-size: 17px;
-      font-weight: 500;
-
-      &:hover {
-        background: rgba(249, 115, 22, 0.1);
-        color: #f97316;
-      }
+      background: rgba(249, 115, 22, 0.1);
+      color: #f97316;
     }
   }
+}
 
-  &__burger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 28px;
-    height: 28px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+.header__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.header__burger-line {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.header__drawer {
+  :deep(.el-drawer) {
+    z-index: 10000;
+  }
+
+  :deep(.el-overlay) {
+    z-index: 9999;
+  }
+
+  :deep(.el-drawer__header) {
+    margin-bottom: 16px;
+    padding: 24px;
+    border-bottom: 1px solid #e8e6e3;
+  }
+
+  :deep(.el-drawer__title) {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1d23;
+  }
+
+  :deep(.el-drawer__body) {
     padding: 0;
-    z-index: 101;
-
-    @media (max-width: 768px) {
-      display: flex;
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__burger-line {
-    width: 100%;
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  &__drawer {
-    :deep(.el-drawer) {
-      z-index: 10000;
-    }
-
-    :deep(.el-overlay) {
-      z-index: 9999;
-    }
-
-    :deep(.el-drawer__header) {
-      margin-bottom: 16px;
-      padding: 24px;
-      border-bottom: 1px solid #e8e6e3;
-    }
-
-    :deep(.el-drawer__title) {
-      font-size: 22px;
-      font-weight: 600;
-      color: #1a1d23;
-    }
-
-    :deep(.el-drawer__body) {
-      padding: 0;
-    }
   }
 }
 </style>
