@@ -8,6 +8,35 @@ function assetUrl(path: string) {
   return `${base}${path}`
 }
 
+const phoneRaw = ref('')
+
+function phoneDisplay(raw: string): string {
+  if (!raw) return ''
+  let r = '+7'
+  if (raw.length > 0) r += ' (' + raw.slice(0, 3)
+  if (raw.length > 3) r += ') ' + raw.slice(3, 6)
+  if (raw.length > 6) r += '-' + raw.slice(6, 8)
+  if (raw.length > 8) r += '-' + raw.slice(8, 10)
+  return r
+}
+
+function handlePhoneInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  let digits = input.value.replace(/\D/g, '')
+  if (digits.startsWith('7') || digits.startsWith('8')) digits = digits.slice(1)
+  phoneRaw.value = digits.slice(0, 10)
+  input.value = phoneDisplay(phoneRaw.value)
+}
+
+function handlePhoneKeydown(e: KeyboardEvent) {
+  if (e.key === 'Backspace') {
+    e.preventDefault()
+    phoneRaw.value = phoneRaw.value.slice(0, -1)
+    const input = e.target as HTMLInputElement
+    input.value = phoneDisplay(phoneRaw.value)
+  }
+}
+
 interface ReviewImage {
   '1280x960'?: string
   '640x480'?: string
@@ -159,15 +188,28 @@ const reviews: Review[] = [
 <template>
   <div class="page">
     <div class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.jpg)` }">
-      <div class="page__content">
-        <h1 class="page__title">
-          Автоподбор 62 — покупка
-          и&nbsp;продажа&nbsp;автомобиля без&nbsp;риска
-          и&nbsp;потери времени
-        </h1>
-        <p class="page__text">
-          Мы берём на себя все сложные и рискованные этапы, чтобы вы получили честный автомобиль по реальной цене — без обмана, сюрпризов и лишних затрат.
-        </p>
+      <div class="page__hero-inner">
+        <div class="page__content">
+          <h1 class="page__title">
+            Автоподбор 62 — покупка
+            и&nbsp;продажа&nbsp;автомобиля без&nbsp;риска
+            и&nbsp;потери времени
+          </h1>
+          <p class="page__text">
+            Мы берём на себя все сложные и рискованные этапы, чтобы вы получили честный автомобиль по реальной цене — без обмана, сюрпризов и лишних затрат.
+          </p>
+        </div>
+        <div class="page__hero-cta">
+          <div class="page__hero-cta-badge">
+            <span class="page__hero-cta-badge-dot"></span>
+            Хорошие автомобили разбирают как горячие пирожки — успейте забрать свой
+          </div>
+          <form class="page__hero-form" @submit.prevent>
+            <input type="text" class="page__hero-form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
+            <input type="tel" class="page__hero-form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+            <button type="submit" class="page__hero-form-btn">Оставить заявку</button>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -620,6 +662,48 @@ const reviews: Review[] = [
       </ClientOnly>
     </div>
 
+    <div class="page__section page__section--cta-bottom">
+      <div class="page__cta-bottom">
+        <div class="page__cta-bottom-left">
+          <p class="page__cta-bottom-label">Бесплатная консультация</p>
+          <h2 class="page__cta-bottom-title">Уже присматриваете авто? Не рискуйте — позвоните нам первыми</h2>
+          <p class="page__cta-bottom-sub">Расскажем, на что смотреть, какие варианты реально стоят своих денег, и сразу назовём стоимость проверки.</p>
+          <div class="page__cta-bottom-stats">
+            <div class="page__cta-bottom-stat">
+              <span class="page__cta-bottom-stat-num">10+</span>
+              <span class="page__cta-bottom-stat-text">лет в автоподборе</span>
+            </div>
+            <div class="page__cta-bottom-stat">
+              <span class="page__cta-bottom-stat-num">500+</span>
+              <span class="page__cta-bottom-stat-text">проверенных авто</span>
+            </div>
+            <div class="page__cta-bottom-stat">
+              <span class="page__cta-bottom-stat-num">5.0</span>
+              <span class="page__cta-bottom-stat-text">рейтинг на Авито</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="page__cta-bottom-right">
+          <form class="page__cta-bottom-form" @submit.prevent>
+            <p class="page__cta-bottom-form-title">Оставьте заявку — перезвоним в течение 15 минут</p>
+            <div class="page__cta-bottom-form-fields">
+              <input type="text" class="page__cta-bottom-input" name="name" placeholder="Ваше имя" autocomplete="name" />
+              <input type="tel" class="page__cta-bottom-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+            </div>
+            <button type="submit" class="page__cta-bottom-btn">
+              Хочу бесплатную консультацию
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <p class="page__cta-bottom-guarantee">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              Без спама. Не передаём данные третьим лицам.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div id="contact" class="page__section page__section--contact">
       <h2 class="page__section-title">Связаться с нами</h2>
       <p class="page__section-text">
@@ -637,6 +721,18 @@ const reviews: Review[] = [
     </div>
   </div>
   </div>
+
+  <a href="tel:+79156095787" class="page__fixed-call">
+    <span class="page__fixed-call-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.5 11.5 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.5 11.5 0 0 0 .57 3.6 1 1 0 0 1-.25 1.02l-2.2 2.17z"/>
+      </svg>
+    </span>
+    <span class="page__fixed-call-body">
+      <span class="page__fixed-call-label">Позвоните нам</span>
+      <span class="page__fixed-call-number">+7 915 609 5787</span>
+    </span>
+  </a>
 </template>
 
 <style scoped lang="scss">
@@ -648,14 +744,10 @@ const reviews: Review[] = [
   &__hero {
     min-height: 90vh;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     text-align: center;
-    padding: 80px 24px 72px;
-
-    @media (max-width: 720px) {
-      padding: 56px 20px 48px;
-    }
+    padding: 0 24px;
     background-image: none;
     background-size: cover;
     background-position: center;
@@ -663,8 +755,23 @@ const reviews: Review[] = [
     background-attachment: fixed;
   }
 
+  &__hero-inner {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 100px 0 56px;
+
+    @media (max-width: 720px) {
+      padding: 72px 0 40px;
+    }
+  }
+
   &__content {
     max-width: 820px;
+    margin-bottom: 0;
+    margin-top: 50px;
   }
 
   &__title {
@@ -695,6 +802,113 @@ const reviews: Review[] = [
     line-height: 1.6;
     margin: 0;
     text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  &__hero-cta {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  &__hero-cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 8px 16px 8px 12px;
+    background: rgba(249, 115, 22, 0.15);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+    text-align: left;
+
+    @media (max-width: 520px) {
+      font-size: 12px;
+    }
+  }
+
+  &__hero-cta-badge-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(249, 115, 22, 0.12); }
+  }
+
+  &__hero-form {
+    display: flex;
+    gap: 10px;
+    max-width: 100%;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  &__hero-form-input {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 18px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(249, 115, 22, 0.7);
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    @media (max-width: 600px) {
+      padding: 14px 16px;
+    }
+  }
+
+  &__hero-form-btn {
+    flex-shrink: 0;
+    padding: 15px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    color: #fff;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4);
+
+    &:hover {
+      background: var(--color-accent-hover);
+      box-shadow: 0 6px 24px rgba(249, 115, 22, 0.5);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      padding: 14px 20px;
+      width: 100%;
+    }
   }
 
   &__section {
@@ -1508,23 +1722,24 @@ const reviews: Review[] = [
   &__korea-blocks {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     margin: 0;
   }
 
   &__korea-block {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    gap: 18px;
+    padding: 18px 22px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 12px;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -1539,8 +1754,8 @@ const reviews: Review[] = [
 
   &__korea-block-text {
     font-size: 15px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.92);
+    font-weight: 600;
+    color: #fff;
     line-height: 1.4;
   }
 
@@ -2064,6 +2279,179 @@ const reviews: Review[] = [
     font-size: 16px;
   }
 
+  &__section--cta-bottom {
+    background: var(--color-dark);
+    padding: 80px 24px;
+    text-align: left;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
+  }
+
+  &__cta-bottom {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  &__cta-bottom-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    margin: 0 0 16px;
+  }
+
+  &__cta-bottom-title {
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+
+  &__cta-bottom-sub {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.65;
+    margin: 0 0 40px;
+  }
+
+  &__cta-bottom-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  &__cta-bottom-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__cta-bottom-stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  &__cta-bottom-stat-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.3;
+  }
+
+  &__cta-bottom-right {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 36px;
+
+    @media (max-width: 520px) {
+      padding: 24px 20px;
+    }
+  }
+
+  &__cta-bottom-form-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+    margin: 0 0 24px;
+  }
+
+  &__cta-bottom-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__cta-bottom-input {
+    width: 100%;
+    padding: 15px 18px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(249, 115, 22, 0.6);
+      background: rgba(255, 255, 255, 0.11);
+    }
+  }
+
+  &__cta-bottom-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    color: #fff;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
+    margin-bottom: 16px;
+
+    svg {
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      background: var(--color-accent-hover);
+      box-shadow: 0 8px 32px rgba(249, 115, 22, 0.55);
+      transform: translateY(-2px);
+
+      svg {
+        transform: translateX(4px);
+      }
+    }
+  }
+
+  &__cta-bottom-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    justify-content: center;
+
+    svg {
+      flex-shrink: 0;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
   &__contact-links {
     display: flex;
     flex-wrap: wrap;
@@ -2115,5 +2503,119 @@ const reviews: Review[] = [
   .el-collapse-item__title {
   line-height: 1.4;
 }
+}
+</style>
+
+<style lang="scss">
+.page__fixed-call {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(calc(100% - 52px));
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  background: var(--color-accent, #f97316);
+  color: #fff;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -4px 4px 24px rgba(249, 115, 22, 0.4);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  animation: callSlideAttention 4s ease-in-out 2s infinite;
+
+  &:hover {
+    transform: translateY(-50%) translateX(0);
+    box-shadow: -6px 6px 32px rgba(249, 115, 22, 0.5);
+    animation: none;
+  }
+
+  @media (max-width: 600px) {
+    top: auto;
+    bottom: 24px;
+    right: 16px;
+    transform: none;
+    border-radius: 999px;
+    padding: 0;
+    animation: callPulseMobile 3s ease-in-out 2s infinite;
+
+    &:hover {
+      transform: translateY(-3px);
+      animation: none;
+    }
+  }
+}
+
+@keyframes callSlideAttention {
+  0%, 70%, 100% {
+    transform: translateY(-50%) translateX(calc(100% - 52px));
+    box-shadow: -4px 4px 24px rgba(249, 115, 22, 0.4);
+  }
+  80% {
+    transform: translateY(-50%) translateX(calc(100% - 52px - 12px));
+    box-shadow: -6px 4px 32px rgba(249, 115, 22, 0.55);
+  }
+  90% {
+    transform: translateY(-50%) translateX(calc(100% - 52px - 6px));
+  }
+}
+
+@keyframes callPulseMobile {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 32px rgba(249, 115, 22, 0.7), 0 0 0 8px rgba(249, 115, 22, 0.15);
+  }
+}
+
+.page__fixed-call-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.15);
+  animation: callIconRing 4s ease-in-out 2s infinite;
+}
+
+@keyframes callIconRing {
+  0%, 70%, 100% { transform: rotate(0deg); }
+  72% { transform: rotate(-15deg); }
+  76% { transform: rotate(15deg); }
+  80% { transform: rotate(-10deg); }
+  84% { transform: rotate(8deg); }
+  88% { transform: rotate(0deg); }
+}
+
+.page__fixed-call-body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px 10px 16px;
+  white-space: nowrap;
+  gap: 2px;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.page__fixed-call-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: inherit;
+}
+
+.page__fixed-call-number {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+  font-family: inherit;
 }
 </style>
