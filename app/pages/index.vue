@@ -189,7 +189,7 @@ const reviews: Review[] = [
 
             <div class="page__service-top">
               <h3 class="page__service-headline">
-                {{ srv.headline }} <em>{{ srv.headlineItalic }}</em>
+                {{ srv.headline }} <span>{{ srv.headlineItalic }}</span>
               </h3>
               <div class="page__service-label">
                 Наши услуги
@@ -619,6 +619,22 @@ const reviews: Review[] = [
         </el-collapse>
       </ClientOnly>
     </div>
+
+    <div id="contact" class="page__section page__section--contact">
+      <h2 class="page__section-title">Связаться с нами</h2>
+      <p class="page__section-text">
+        Позвоните или напишите — ответим на вопросы и подберём удобное время
+      </p>
+      <div class="page__contact-links">
+        <a href="tel:+79156095787" class="page__contact-phone">+7 915 609 5787</a>
+        <a href="https://t.me/Autopodbor62" target="_blank" rel="noopener noreferrer" class="page__contact-telegram">
+          <svg class="page__contact-telegram-icon" viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+          Написать в Telegram
+        </a>
+      </div>
+    </div>
   </div>
   </div>
 </template>
@@ -694,6 +710,10 @@ const reviews: Review[] = [
 
     &--alt {
       background-color: var(--color-bg-alt);
+    }
+
+    &--contact {
+      background-color: var(--color-bg);
     }
   }
 
@@ -803,8 +823,7 @@ const reviews: Review[] = [
     line-height: 1.2;
     letter-spacing: -0.02em;
 
-    em {
-      font-style: italic;
+    span {
       font-weight: 700;
     }
   }
@@ -1701,7 +1720,7 @@ const reviews: Review[] = [
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top center;
+      object-position: center;
       display: block;
       transition: transform 0.4s ease;
     }
@@ -2043,6 +2062,52 @@ const reviews: Review[] = [
     padding: 40px;
     color: var(--color-text-muted);
     font-size: 16px;
+  }
+
+  &__contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px 32px;
+    margin-top: 12px;
+  }
+
+  &__contact-phone {
+    display: inline-block;
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--color-accent);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-accent-hover);
+    }
+  }
+
+  &__contact-telegram {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: #0088cc;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background: #0077b5;
+      transform: translateY(-2px);
+    }
+  }
+
+  &__contact-telegram-icon {
+    flex-shrink: 0;
   }
 }
 
