@@ -337,19 +337,31 @@ const reviews: Review[] = [
 
     <div class="page__section page__section--korea">
       <div class="page__korea-image">
-        <img :src="assetUrl('/images/korea.webp')" alt="Авто из Кореи" />
+        <img :src="assetUrl('/images/korea.webp')" alt="Авто из Кореи и Китая" />
         <div class="page__korea-image-overlay" />
       </div>
       <div class="page__korea-content">
-        <p class="page__korea-label">Импорт из Кореи</p>
-        <h2 class="page__korea-title">Корейский рынок: свежие авто дешевле российских до&nbsp;40%</h2>
-        <p class="page__korea-text">Берём на себя всё — от подбора на аукционе и проверки аукционного листа до доставки и оформления в России. Никаких скрытых платежей, никаких сюрпризов на таможне.</p>
-        <ul class="page__korea-list">
-          <li>Проверка истории и аукционного листа</li>
-          <li>Сопровождение сделки на корейском рынке</li>
-          <li>Доставка и таможенное оформление</li>
-          <li>Регистрация в ГИБДД под ключ</li>
-        </ul>
+        <p class="page__korea-label">Импорт из Кореи и Китая</p>
+        <h2 class="page__korea-title">Покупка автомобиля в Корее и Китае под ключ</h2>
+        <p class="page__korea-text">Берём на себя анализ рынка, подбор и проверку автомобиля, сопровождение сделки, логистику, таможенное оформление, доставку в Рязань, техобслуживание, детейлинг и регистрацию в ГИБДД. Вы получаете полностью готовый к эксплуатации автомобиль с номерами — обслуженный, чистый, с прозрачной историей и понятной конечной стоимостью, без скрытых платежей.</p>
+        <div class="page__korea-blocks">
+          <div class="page__korea-block">
+            <span class="page__korea-block-icon material-symbols-outlined" aria-hidden="true">fact_check</span>
+            <span class="page__korea-block-text">Подбор, проверка и сопровождение сделки</span>
+          </div>
+          <div class="page__korea-block">
+            <span class="page__korea-block-icon material-symbols-outlined" aria-hidden="true">local_shipping</span>
+            <span class="page__korea-block-text">Логистика, таможня, доставка в Рязань</span>
+          </div>
+          <div class="page__korea-block">
+            <span class="page__korea-block-icon material-symbols-outlined" aria-hidden="true">build_circle</span>
+            <span class="page__korea-block-text">ТО, детейлинг и регистрация в ГИБДД</span>
+          </div>
+          <div class="page__korea-block">
+            <span class="page__korea-block-icon material-symbols-outlined" aria-hidden="true">receipt_long</span>
+            <span class="page__korea-block-text">Прозрачная стоимость без скрытых платежей</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -623,7 +635,11 @@ const reviews: Review[] = [
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 24px;
+    padding: 80px 24px 72px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px 48px;
+    }
     background-image: none;
     background-size: cover;
     background-position: center;
@@ -669,8 +685,12 @@ const reviews: Review[] = [
     width: 100%;
     margin: 0 auto;
     text-align: center;
-    padding: 88px 24px;
+    padding: 80px 24px;
     background-color: var(--color-surface);
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
 
     &--alt {
       background-color: var(--color-bg-alt);
@@ -693,7 +713,7 @@ const reviews: Review[] = [
     width: 60px;
     height: 3px;
     background: var(--color-accent);
-    margin: 14px auto 0;
+    margin: 12px auto 0;
     border-radius: 2px;
   }
 
@@ -701,7 +721,7 @@ const reviews: Review[] = [
     color: var(--color-text-muted);
     font-size: 17px;
     line-height: 1.65;
-    margin: 0 auto 44px;
+    margin: 0 auto 40px;
     max-width: 600px;
   }
 
@@ -712,12 +732,13 @@ const reviews: Review[] = [
   &__services {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 24px;
+    gap: 20px;
     max-width: 1280px;
     margin: 0 auto;
 
     @media (max-width: 720px) {
       grid-template-columns: 1fr;
+      gap: 16px;
     }
   }
 
@@ -973,20 +994,27 @@ const reviews: Review[] = [
     }
 
     &--key {
-      margin-top: 40px;
       text-align: center;
     }
   }
 
   &__section--key {
-    padding: 100px 24px;
+    padding: 80px 24px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
     background: var(--color-dark);
     color: #fff;
     text-align: left;
   }
 
   &__section--key-twin {
-    padding: 88px 24px 100px;
+    padding: 80px 24px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
   }
 
   &__key-twin-lead {
@@ -996,13 +1024,13 @@ const reviews: Review[] = [
     letter-spacing: 0.2em;
     color: rgba(255, 255, 255, 0.45);
     text-align: center;
-    margin: 0 0 48px 0;
+    margin: 0 0 40px 0;
   }
 
   &__key-twin {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 0 56px;
+    gap: 0 48px;
     max-width: 1240px;
     margin: 0 auto;
     align-items: stretch;
@@ -1020,8 +1048,8 @@ const reviews: Review[] = [
     @media (max-width: 900px) {
       padding: 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 48px;
-      margin-bottom: 48px;
+      padding-bottom: 40px;
+      margin-bottom: 40px;
 
       &:last-of-type {
         border-bottom: none;
@@ -1041,7 +1069,7 @@ const reviews: Review[] = [
       width: 100%;
       min-height: 0;
       height: 1px;
-      margin: 0 0 40px 0;
+      margin: 0 0 32px 0;
     }
   }
 
@@ -1096,7 +1124,7 @@ const reviews: Review[] = [
     line-height: 1.25;
     letter-spacing: -0.02em;
     color: #fff;
-    margin: 0 0 48px 0;
+    margin: 0 0 40px 0;
   }
 
   &__key-list {
@@ -1105,15 +1133,15 @@ const reviews: Review[] = [
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 28px;
   }
 
   &__key-item {
     display: grid;
     grid-template-columns: 48px 1fr;
-    gap: 20px;
+    gap: 16px;
     align-items: start;
-    padding-bottom: 32px;
+    padding-bottom: 28px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
     &:last-child {
@@ -1141,7 +1169,7 @@ const reviews: Review[] = [
   }
 
   &__key-outcome {
-    margin: 48px 0 0 68px;
+    margin: 40px 0 0 56px;
     font-size: 20px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
@@ -1157,7 +1185,11 @@ const reviews: Review[] = [
   }
 
   &__section--sell {
-    padding: 88px 24px;
+    padding: 80px 24px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
     background: var(--color-bg-alt);
   }
 
@@ -1180,17 +1212,17 @@ const reviews: Review[] = [
     font-size: 17px;
     color: var(--color-text-muted);
     line-height: 1.5;
-    margin: 0 0 48px 0;
+    margin: 0 0 40px 0;
   }
 
   &__sell-options {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;
   }
 
   &__sell-option {
-    padding: 28px 0;
+    padding: 24px 0;
     border-bottom: 1px solid var(--color-border);
 
     &:last-child {
@@ -1250,6 +1282,10 @@ const reviews: Review[] = [
 
   &__section--gibdd {
     padding: 80px 24px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
@@ -1281,7 +1317,7 @@ const reviews: Review[] = [
     font-weight: 800;
     color: var(--color-dark);
     letter-spacing: -0.02em;
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0;
     line-height: 1.25;
   }
 
@@ -1289,7 +1325,7 @@ const reviews: Review[] = [
     font-size: 16px;
     color: var(--color-text-muted);
     line-height: 1.6;
-    margin: 0 0 28px 0;
+    margin: 0 0 24px 0;
   }
 
   &__gibdd-list {
@@ -1325,7 +1361,7 @@ const reviews: Review[] = [
   &__features {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 20px;
     max-width: 900px;
     margin: 0 auto;
   }
@@ -1336,7 +1372,7 @@ const reviews: Review[] = [
     gap: 16px;
     background: var(--color-surface);
     border-radius: var(--radius);
-    padding: 28px;
+    padding: 24px;
     border-left: 4px solid var(--color-accent);
     box-shadow: var(--shadow-sm);
     text-align: left;
@@ -1414,14 +1450,14 @@ const reviews: Review[] = [
   }
 
   &__korea-content {
-    padding: 64px 56px;
+    padding: 80px 56px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 0;
 
     @media (max-width: 860px) {
-      padding: 40px 24px 56px;
+      padding: 56px 24px 64px;
     }
   }
 
@@ -1431,7 +1467,7 @@ const reviews: Review[] = [
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--color-accent);
-    margin: 0 0 14px;
+    margin: 0 0 12px;
   }
 
   &__korea-title {
@@ -1440,48 +1476,61 @@ const reviews: Review[] = [
     color: #fff;
     letter-spacing: -0.02em;
     line-height: 1.2;
-    margin: 0 0 18px;
+    margin: 0 0 16px;
   }
 
   &__korea-text {
     font-size: 15px;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.65;
-    margin: 0 0 28px;
+    margin: 0 0 24px;
   }
 
-  &__korea-list {
+  &__korea-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.7;
+  }
 
-    li {
-      position: relative;
-      padding-left: 18px;
-      margin-bottom: 8px;
+  &__korea-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    transition: background 0.2s ease, border-color 0.2s ease;
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0.55em;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: var(--color-accent);
-      }
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
     }
+  }
+
+  &__korea-block-icon {
+    font-family: 'Material Symbols Outlined', sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  &__korea-block-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.4;
   }
 
   &__section--why {
     padding: 72px 24px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
     background: var(--color-dark);
     color: #fff;
     text-align: center;
@@ -1492,7 +1541,7 @@ const reviews: Review[] = [
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.02em;
-    margin: 0 0 32px 0;
+    margin: 0 0 28px 0;
     line-height: 1.3;
   }
 
@@ -1565,8 +1614,12 @@ const reviews: Review[] = [
   }
 
   &__section--team {
+    padding: 80px 24px;
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
     background: var(--color-dark);
-    padding: 88px 24px;
     text-align: left;
   }
 
@@ -1586,7 +1639,7 @@ const reviews: Review[] = [
     color: #fff;
     letter-spacing: -0.02em;
     line-height: 1.2;
-    margin: 0 0 56px;
+    margin: 0 0 48px;
     text-align: center;
   }
 
@@ -1608,7 +1661,7 @@ const reviews: Review[] = [
 
   &__team-member {
     background: #1a1a1a;
-    padding: 36px 32px;
+    padding: 32px 28px;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -1640,7 +1693,7 @@ const reviews: Review[] = [
     height: 280px;
     border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     flex-shrink: 0;
     background: #2a2a2a;
 
@@ -1695,7 +1748,7 @@ const reviews: Review[] = [
   &__reviews {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
 
@@ -1705,7 +1758,7 @@ const reviews: Review[] = [
 
     @media (max-width: 600px) {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 16px;
     }
   }
 
@@ -1887,7 +1940,7 @@ const reviews: Review[] = [
 
   &__reviews-more {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 32px;
   }
 
   &__reviews-more-btn {
