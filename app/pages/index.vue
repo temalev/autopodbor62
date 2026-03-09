@@ -997,9 +997,9 @@ const reviews: Review[] = [
   &__hero-cta-badge {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     margin-bottom: 16px;
-    padding: 8px 16px 8px 12px;
+    padding: 8px 16px 8px 14px;
     background: rgba(249, 115, 22, 0.15);
     border: 1px solid rgba(249, 115, 22, 0.35);
     border-radius: 999px;
