@@ -96,14 +96,101 @@ interface Review {
   answer?: ReviewAnswer
 }
 
+const activeServiceIndex = ref(0)
+const activeService = computed(() => services[activeServiceIndex.value]!)
+
 const services = [
-  { headline: 'Автоподбор —', headlineItalic: 'под ключ', label: 'Наши услуги', title: 'Найдём лучший вариант', description: 'Поиск и проверка автомобиля с полным сопровождением сделки', image: assetUrl('/images/services/1.jpeg'), index: '01' },
-  { headline: 'Разовая —', headlineItalic: 'проверка', label: 'Наши услуги', title: 'Проверим честно', description: 'Детальная диагностика автомобиля перед покупкой', image: assetUrl('/images/services/2.jpeg'), index: '02' },
-  { headline: 'Выкуп и —', headlineItalic: 'продажа', label: 'Наши услуги', title: 'Быстро и выгодно', description: 'Быстрый выкуп или комиссионная продажа вашего авто', image: assetUrl('/images/services/3.jpeg'), index: '03' },
-  { headline: 'ГИБДД —', headlineItalic: 'регистрация', label: 'Наши услуги', title: 'Без очередей', description: 'Полное сопровождение регистрации автомобиля', image: assetUrl('/images/services/1.jpeg'), index: '04' },
-  { headline: 'Импорт —', headlineItalic: 'из-за рубежа', label: 'Наши услуги', title: 'Авто из любой страны', description: 'Пригон и оформление автомобилей из-за рубежа', image: assetUrl('/images/services/2.jpeg'), index: '05' },
-  { headline: 'Приёмка —', headlineItalic: 'авто', label: 'Наши услуги', title: 'Профессиональный взгляд', description: 'Приёмка автомобиля после ремонта или покупки', image: assetUrl('/images/services/3.jpeg'), index: '06' },
-  { headline: 'Кузовной —', headlineItalic: 'ремонт', label: 'Наши услуги', title: 'Оценим качество', description: 'Оценка ремонта по КАСКО и ОСАГО в сторонних техцентрах', image: assetUrl('/images/services/1.jpeg'), index: '07' },
+  {
+    icon: 'manage_search',
+    title: 'Автоподбор под ключ',
+    description: 'Полный цикл: от анализа рынка и поиска вариантов до проверки и оформления сделки. Вы получаете честный автомобиль по реальной цене без лишних усилий.',
+    features: [
+      { icon: 'travel_explore', text: 'Поиск по Авито, закрытым чатам и партнёрским каналам' },
+      { icon: 'shield', text: 'Юридическая и техническая проверка в 3 этапа' },
+      { icon: 'handshake', text: 'Переговоры с продавцом и сопровождение сделки' },
+      { icon: 'article', text: 'Регистрация в ГИБДД включена в стоимость' },
+    ],
+    link: '/podbor',
+    index: '01',
+  },
+  {
+    icon: 'verified',
+    title: 'Разовая проверка',
+    description: 'Уже нашли вариант? Проверим глубже, чем в обычном сервисе — толщинометрия, диагностика, VIN-история. Полный отчёт за несколько часов.',
+    features: [
+      { icon: 'straighten', text: 'Толщинометрия кузова — более 200 точек замера' },
+      { icon: 'car_repair', text: 'Компьютерная диагностика всех электросистем' },
+      { icon: 'manage_search', text: 'Проверка VIN, истории, залогов и ограничений' },
+      { icon: 'photo_camera', text: 'Фото- и видеоотчёт 150+ файлов с заключением эксперта' },
+    ],
+    link: '/proverka',
+    index: '02',
+  },
+  {
+    icon: 'sell',
+    title: 'Выкуп и продажа',
+    description: 'Продайте автомобиль быстро и выгодно. Выкупим сразу или возьмём на комиссию — вы занимаетесь своими делами, мы продаём.',
+    features: [
+      { icon: 'price_check', text: 'Честная оценка по рынку — без занижения на месте' },
+      { icon: 'payments', text: 'Выкуп в день обращения, деньги сразу' },
+      { icon: 'campaign', text: 'Качественные фото и размещение на всех площадках' },
+      { icon: 'forum', text: 'Показы и переговоры с покупателями — на нас' },
+    ],
+    link: '#sell',
+    index: '03',
+  },
+  {
+    icon: 'article',
+    title: 'Регистрация в ГИБДД',
+    description: 'Оформим автомобиль на нового владельца без очередей и лишних поездок. Входит в стоимость подбора под ключ и импорта.',
+    features: [
+      { icon: 'queue', text: 'Подача документов без очередей' },
+      { icon: 'directions_car', text: 'Осмотр автомобиля с нашим сопровождением' },
+      { icon: 'pin', text: 'Получение государственных номерных знаков' },
+      { icon: 'check_circle', text: 'Входит в стоимость подбора под ключ и импорта' },
+    ],
+    link: '#contact',
+    index: '04',
+  },
+  {
+    icon: 'flight_takeoff',
+    title: 'Импорт из-за рубежа',
+    description: 'Привезём автомобиль из Кореи или Китая под ключ — подбор, проверка, таможня, доставка в Рязань и постановка на учёт.',
+    features: [
+      { icon: 'public', text: 'Подбор и проверка автомобиля в Корее или Китае' },
+      { icon: 'local_shipping', text: 'Логистика и таможенное оформление' },
+      { icon: 'location_on', text: 'Доставка до Рязани, ТО и детейлинг' },
+      { icon: 'badge', text: 'Постановка на учёт в ГИБДД' },
+    ],
+    link: '/import',
+    index: '05',
+  },
+  {
+    icon: 'fact_check',
+    title: 'Приёмка авто',
+    description: 'Принимаем автомобиль после ремонта, кузовных работ или покупки у дилера. Проверяем качество, замеряем ЛКП, фиксируем нарушения.',
+    features: [
+      { icon: 'build', text: 'Осмотр после ремонта или покупки у дилера' },
+      { icon: 'brush', text: 'Контроль качества кузовных и малярных работ' },
+      { icon: 'straighten', text: 'Замер ЛКП и сверка с нормо-часами' },
+      { icon: 'photo_camera', text: 'Подробный отчёт с фотофиксацией нарушений' },
+    ],
+    link: '#contact',
+    index: '06',
+  },
+  {
+    icon: 'build_circle',
+    title: 'Кузовной ремонт',
+    description: 'Независимая оценка качества ремонта по КАСКО и ОСАГО. Выезжаем в любой техцентр и проверяем, всё ли сделано честно.',
+    features: [
+      { icon: 'directions_car', text: 'Выезд в любой техцентр Рязани и области' },
+      { icon: 'fact_check', text: 'Оценка соответствия ремонта по КАСКО и ОСАГО' },
+      { icon: 'gavel', text: 'Независимая экспертиза качества работ' },
+      { icon: 'inventory', text: 'Проверка использованных запчастей и материалов' },
+    ],
+    link: '#contact',
+    index: '07',
+  },
 ]
 
 const reviews: Review[] = [
@@ -264,152 +351,49 @@ const reviews: Review[] = [
         Полный спектр услуг для покупки, продажи и обслуживания автомобилей
       </p>
 
-      <div class="page__services">
-        <article
-          v-for="(srv, i) in services"
-          :key="i"
-          class="page__service"
-          :style="{ '--service-bg': `url(${srv.image})` }"
-        >
-          <div class="page__service-overlay" />
-          <div class="page__service-inner">
+      <div class="page__svc-wrap">
+        <div class="page__svc-tabs" role="tablist">
+          <button
+            v-for="(srv, i) in services"
+            :key="i"
+            class="page__svc-tab"
+            :class="{ 'page__svc-tab--active': activeServiceIndex === i }"
+            role="tab"
+            :aria-selected="activeServiceIndex === i"
+            @click="activeServiceIndex = i"
+          >
+            <span class="page__svc-tab-icon material-symbols-outlined" aria-hidden="true">{{ srv.icon }}</span>
+            <span class="page__svc-tab-label">{{ srv.title }}</span>
+          </button>
+        </div>
 
-            <div class="page__service-top">
-              <h3 class="page__service-headline">
-                {{ srv.headline }} <span>{{ srv.headlineItalic }}</span>
-              </h3>
-              <div class="page__service-label">
-                Наши услуги
+        <div class="page__svc-panel" role="tabpanel">
+          <div class="page__svc-panel-left">
+            <h3 class="page__svc-panel-title">{{ activeService.title }}</h3>
+            <p class="page__svc-panel-desc">{{ activeService.description }}</p>
+            <NuxtLink :to="activeService.link" class="page__svc-panel-btn">
+              Подробнее об услуге
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </NuxtLink>
+          </div>
+
+          <div class="page__svc-panel-right">
+            <div class="page__svc-features">
+              <div
+                v-for="(feat, j) in activeService.features"
+                :key="j"
+                class="page__svc-feature"
+              >
+                <span class="page__svc-feature-icon material-symbols-outlined" aria-hidden="true">{{ feat.icon }}</span>
+                <span class="page__svc-feature-text">{{ feat.text }}</span>
               </div>
             </div>
-
-            <div class="page__service-bottom">
-              <div class="page__service-content">
-                <h4 class="page__service-title">{{ srv.title }}</h4>
-                <p class="page__service-text">{{ srv.description }}</p>
-              </div>
-              <div class="page__service-footer">
-                <a href="#contact" class="page__service-btn">
-                  <span class="page__service-btn-label">Подробнее</span>
-                  <span class="page__service-btn-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
-                </a>
-                <span class="page__service-number" aria-hidden="true">{{ srv.index }}</span>
-              </div>
-            </div>
-
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="how" class="page__section page__section--key page__section--key-twin">
-      <p class="page__key-twin-lead">Два формата работы</p>
-
-      <div class="page__key-twin">
-        <div class="page__key-panel">
-          <div class="page__key-wrap">
-            <p class="page__key-lead">Автоподбор под ключ</p>
-            <h2 class="page__key-title">Подбираем под ваш бюджет и задачи, а не «что попалось»</h2>
-
-            <ul class="page__key-list">
-              <li class="page__key-item">
-                <span class="page__key-item-num">01</span>
-                <div class="page__key-item-body">
-                  <strong>Поиск по всем каналам</strong> — Авито, закрытые чаты, партнёры. Проверяем все варианты в вашем бюджете.
-                </div>
-              </li>
-              <li class="page__key-item">
-                <span class="page__key-item-num">02</span>
-                <div class="page__key-item-body">
-                  <strong>Три этапа проверки</strong> — юридическая чистота, техосмотр и кузов, контроль перед сделкой.
-                </div>
-              </li>
-              <li class="page__key-item">
-                <span class="page__key-item-num">03</span>
-                <div class="page__key-item-body">
-                  <strong>Сделка за вас</strong> — при необходимости ведём переговоры и оформляем. Вы получаете готовый результат.
-                </div>
-              </li>
-            </ul>
-
-            <p class="page__key-outcome">Вы покупаете автомобиль, который реально стоит своих денег.</p>
-            <NuxtLink to="/podbor" class="page__key-link">Подробнее о подборе под ключ</NuxtLink>
-          </div>
-        </div>
-
-        <div class="page__key-twin-divider" aria-hidden="true">
-          <span class="page__key-twin-or">или</span>
-        </div>
-
-        <div class="page__key-panel">
-          <div class="page__key-wrap">
-            <p class="page__key-lead">Разовая проверка</p>
-            <h2 class="page__key-title">Уже нашли вариант? Проверим глубже, чем в сервисе</h2>
-
-            <ul class="page__key-list">
-              <li class="page__key-item">
-                <span class="page__key-item-num">01</span>
-                <div class="page__key-item-body">
-                  <strong>Полная диагностика</strong> — техсостояние, кузов, электрика, подвеска. Всё, что важно перед покупкой.
-                </div>
-              </li>
-              <li class="page__key-item">
-                <span class="page__key-item-num">02</span>
-                <div class="page__key-item-body">
-                  <strong>VIN, история, пробег, залоги</strong> — юридическая чистота и реальная история авто.
-                </div>
-              </li>
-              <li class="page__key-item">
-                <span class="page__key-item-num">03</span>
-                <div class="page__key-item-body">
-                  <strong>Фото- и видеоотчёт</strong> — 200+ материалов и заключение: стоит покупать или нет.
-                </div>
-              </li>
-            </ul>
-
-            <p class="page__key-outcome">Вы знаете правду об автомобиле до покупки.</p>
-            <NuxtLink to="/proverka" class="page__key-link">Подробнее о разовой проверке</NuxtLink>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="sell" class="page__section page__section--sell">
-      <div class="page__sell-wrap">
-        <div class="page__sell-header">
-          <p class="page__sell-label">Продажа автомобиля</p>
-          <h2 class="page__sell-title">Выкуп и комиссионная продажа</h2>
-          <p class="page__sell-lead">Выберите формат — мы возьмём всё остальное на себя</p>
-        </div>
 
-        <div class="page__sell-options">
-          <div class="page__sell-option page__sell-option--dark">
-            <span class="page__sell-option-badge">Деньги сразу</span>
-            <h3 class="page__sell-option-title">Выкуп</h3>
-            <p class="page__sell-option-desc">Продаёте автомобиль сразу — без торга, ожидания и лишних звонков</p>
-            <ul class="page__sell-option-list">
-              <li>Честная оценка по состоянию, комплектации и рынку</li>
-              <li>Приедем на осмотр в удобное вам время</li>
-              <li>Называем цену сразу — без занижения на месте</li>
-            </ul>
-          </div>
-
-          <div class="page__sell-option page__sell-option--light">
-            <span class="page__sell-option-badge">Максимальная цена</span>
-            <h3 class="page__sell-option-title">Комиссионная продажа</h3>
-            <p class="page__sell-option-desc">Никаких звонков, показов и бесконечного торга — мы занимаемся продажей, вы живёте своей жизнью</p>
-            <ul class="page__sell-option-list">
-              <li>Профессиональный осмотр и подробный отчёт</li>
-              <li>Качественные фото и продающее описание</li>
-              <li>Размещение на всех ключевых площадках</li>
-              <li>Показы и переговоры с покупателями — на нас</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section id="korea" class="page__section page__section--korea">
       <div class="page__korea-image">
@@ -869,6 +853,7 @@ const reviews: Review[] = [
       align-items: flex-start;
       gap: 48px;
       padding: 100px 0 48px;
+      max-width: 100%;
     }
 
     @media (max-width: 720px) {
@@ -1151,186 +1136,199 @@ const reviews: Review[] = [
     }
   }
 
-  &__services {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    max-width: 1280px;
+  &__svc-wrap {
+    max-width: 1100px;
     margin: 0 auto;
-
-    @media (max-width: 720px) {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
   }
 
-  &__service {
-    --service-bg: url('');
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    min-height: 280px;
-    background: #1a1a1a;
-    background-image: var(--service-bg);
-    background-size: cover;
-    background-position: center;
+  &__svc-tabs {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    &:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38);
-    }
-  }
-
-  &__service-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.75) 0%,
-      rgba(0, 0, 0, 0.75) 30%,
-      rgba(0, 0, 0, 0.1) 50%,
-      rgba(0, 0, 0, 0.7) 70%,
-      rgba(0, 0, 0, 0.92) 100%
-    );
-    pointer-events: none;
-  }
-
-  &__service-inner {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    padding: 24px 24px 28px;
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
-  }
-
-  &__service-top {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     gap: 8px;
-  }
+    margin-bottom: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
 
-  &__service-headline {
-    font-size: clamp(18px, 2.5vw, 22px);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    margin: 0;
-
-    span {
-      font-weight: 700;
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 
-  &__service-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  &__service-bottom {
+  &__svc-tab {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-  }
-
-  &__service-content {
-    display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 6px;
-  }
+    padding: 14px 16px;
+    width: 140px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
 
-  &__service-title {
-    font-size: 20px;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.2;
-    margin: 0;
-    letter-spacing: -0.02em;
-  }
+    &--active {
+      background: var(--color-dark);
+      border-color: var(--color-dark);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
 
-  &__service-text {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 13px;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  &__service-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  &__service-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-    padding: 6px 6px 6px 20px;
-    background: rgba(30, 30, 30, 0.8);
-    backdrop-filter: blur(10px);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background 0.2s ease, border-color 0.2s ease;
-
-    &:hover {
-      background: rgba(50, 50, 50, 0.95);
-      border-color: rgba(255, 255, 255, 0.35);
-
-      .page__service-btn-icon {
-        background: var(--color-accent);
+      .page__svc-tab-icon {
+        color: var(--color-accent);
       }
 
-      .page__service-btn-icon svg {
+      .page__svc-tab-label {
         color: #fff;
       }
     }
-  }
 
-  &__service-btn-label {
-    padding-right: 14px;
-  }
-
-  &__service-btn-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.2s ease;
-
-    svg {
-      color: #111;
-      transition: color 0.2s ease;
+    &:not(&--active):hover {
+      border-color: var(--color-accent);
+      background: var(--color-accent-bg);
     }
   }
 
-  &__service-number {
-    font-size: clamp(72px, 10vw, 120px);
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.12);
+  &__svc-tab-icon {
+    font-family: 'Material Symbols Outlined', sans-serif;
+    font-size: 22px;
+    font-weight: normal;
     line-height: 1;
-    letter-spacing: -0.06em;
-    pointer-events: none;
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+  }
+
+  &__svc-tab-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    line-height: 1.3;
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    transition: color 0.2s ease;
+  }
+
+  &__svc-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    background: var(--color-dark);
+    border-radius: 24px;
+    padding: 48px;
+    align-items: center;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      padding: 36px 32px;
+    }
+
+    @media (max-width: 520px) {
+      padding: 28px 20px;
+    }
+  }
+
+  &__svc-panel-index {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 12px;
+  }
+
+  &__svc-panel-title {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+
+  &__svc-panel-desc {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.65;
+    margin: 0 0 32px;
+  }
+
+  &__svc-panel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+
+    svg {
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(249, 115, 22, 0.5);
+
+      svg {
+        transform: translateX(4px);
+      }
+    }
+  }
+
+  &__svc-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+
+    @media (max-width: 520px) {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
+
+  &__svc-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 18px 16px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(249, 115, 22, 0.4);
+    }
+  }
+
+  &__svc-feature-icon {
+    font-family: 'Material Symbols Outlined', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 1;
+    color: var(--color-accent);
     flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  &__svc-feature-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    text-align: left;
   }
 
   &__cards {
@@ -1923,29 +1921,93 @@ const reviews: Review[] = [
   }
 
   &__korea-block {
+    --glow: #f97316;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     gap: 18px;
     padding: 18px 22px;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 12px;
-    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 14px;
+    background:
+      linear-gradient(rgba(18, 18, 18, 0.95), rgba(18, 18, 18, 0.95)) padding-box,
+      linear-gradient(135deg, var(--glow), rgba(255, 255, 255, 0.06) 70%) border-box;
+    border: 1px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+
+    &:nth-child(2) { --glow: #3b82f6; }
+    &:nth-child(3) { --glow: #a855f7; }
+    &:nth-child(4) { --glow: #10b981; }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    &::before {
+      top: -24px;
+      left: -24px;
+      width: 90px;
+      height: 90px;
+      background: var(--glow);
+      opacity: 0.1;
+      filter: blur(32px);
+    }
+
+    &::after {
+      bottom: -16px;
+      right: -16px;
+      width: 60px;
+      height: 60px;
+      background: var(--glow);
+      opacity: 0.06;
+      filter: blur(22px);
+    }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transform: translateX(6px);
+      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      background:
+        linear-gradient(rgba(24, 24, 24, 0.98), rgba(24, 24, 24, 0.98)) padding-box,
+        linear-gradient(135deg, var(--glow), rgba(255, 255, 255, 0.12) 70%) border-box;
+
+      &::before {
+        opacity: 0.25;
+        transform: scale(1.4);
+      }
+
+      &::after {
+        opacity: 0.15;
+        transform: scale(1.3);
+      }
     }
   }
 
   &__korea-block-icon {
     font-family: 'Material Symbols Outlined', sans-serif;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: normal;
-    color: var(--color-accent);
+    color: var(--glow);
     flex-shrink: 0;
     line-height: 1;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--glow) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 30%, transparent);
+    transition: background 0.3s ease, border-color 0.3s ease;
+
+    .page__korea-block:hover & {
+      background: color-mix(in srgb, var(--glow) 25%, transparent);
+      border-color: color-mix(in srgb, var(--glow) 50%, transparent);
+    }
   }
 
   &__korea-block-text {
