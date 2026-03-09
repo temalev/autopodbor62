@@ -474,12 +474,50 @@ const reviews: Review[] = [
 
     <section class="page__section page__section--why">
       <h2 class="page__why-headline">Почему выбирают Автоподбор 62</h2>
-      <div class="page__why-tags">
-        <span class="page__why-tag">Реальный рынок</span>
-        <span class="page__why-tag">Не продаём кота в мешке</span>
-        <span class="page__why-tag">Экономим деньги и время</span>
-        <span class="page__why-tag">Ответственность за результат</span>
-        <span class="page__why-tag">Скажем, если не стоит покупать</span>
+      <p class="page__why-intro">Мы работаем так, чтобы вы получили честный автомобиль по адекватной цене — без сюрпризов после покупки.</p>
+      <div class="page__why-cards">
+        <div class="page__why-card">
+          <span class="page__why-card-num" aria-hidden="true">1</span>
+          <div class="page__why-card-body">
+            <h3 class="page__why-card-title">Реальный рынок</h3>
+            <p class="page__why-card-text">Работаем с живыми объявлениями и реальными продавцами. Никаких «виртуальных» машин и завышенных ожиданий — только то, что можно осмотреть и купить.</p>
+          </div>
+        </div>
+        <div class="page__why-card">
+          <span class="page__why-card-num" aria-hidden="true">2</span>
+          <div class="page__why-card-body">
+            <h3 class="page__why-card-title">Честность без прикрас</h3>
+            <p class="page__why-card-text">Если машина не тянет на ваши деньги или есть скрытые дефекты — скажем прямо. Не продаём кота в мешке и не навязываем сомнительные варианты.</p>
+          </div>
+        </div>
+        <div class="page__why-card">
+          <span class="page__why-card-num" aria-hidden="true">3</span>
+          <div class="page__why-card-body">
+            <h3 class="page__why-card-title">Экономим деньги и время</h3>
+            <p class="page__why-card-text">Отсекаем риски до сделки: проверяем юрчистоту, техсостояние, историю. Вы не платите за чужие проблемы и не теряете время на «пустые» поездки.</p>
+          </div>
+        </div>
+        <div class="page__why-card">
+          <span class="page__why-card-num" aria-hidden="true">4</span>
+          <div class="page__why-card-body">
+            <h3 class="page__why-card-title">Ответственность за результат</h3>
+            <p class="page__why-card-text">Берём на себя осмотр, подробный отчёт и чёткую рекомендацию. Итог — ваша уверенность в выборе и понимание, за что платите.</p>
+          </div>
+        </div>
+        <div class="page__why-card">
+          <span class="page__why-card-num" aria-hidden="true">5</span>
+          <div class="page__why-card-body">
+            <h3 class="page__why-card-title">Опыт и репутация</h3>
+            <p class="page__why-card-text">Более 10 лет в автоподборе, 500+ проверенных автомобилей, рейтинг 5.0 на Авито. Работаем так, чтобы клиенты возвращались и советовали нас друзьям.</p>
+          </div>
+        </div>
+        <div class="page__why-card">
+          <span class="page__why-card-num" aria-hidden="true">6</span>
+          <div class="page__why-card-body">
+            <h3 class="page__why-card-title">Поддержка после покупки</h3>
+            <p class="page__why-card-text">Собственный автосервис для наших клиентов: приоритетная запись, честные цены, знаем историю вашего авто. Купили у нас — остаётесь под нашей заботой.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2219,39 +2257,87 @@ const reviews: Review[] = [
   }
 
   &__why-headline {
-    font-size: clamp(20px, 3vw, 26px);
+    font-size: clamp(22px, 3vw, 28px);
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.02em;
-    margin: 0 0 28px 0;
+    margin: 0 0 12px 0;
     line-height: 1.3;
   }
 
-  &__why-tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px 16px;
-    max-width: 720px;
-    margin: 0 auto;
+  &__why-intro {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.55;
+    max-width: 560px;
+    margin: 0 auto 36px;
   }
 
-  &__why-tag {
-    display: inline-block;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 999px;
-    white-space: nowrap;
-    transition: background 0.2s ease, border-color 0.2s ease;
+  &__why-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+
+    @media (max-width: 660px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  &__why-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px 22px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: var(--color-accent);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(249, 115, 22, 0.35);
+      transform: translateY(-2px);
     }
+  }
+
+  &__why-card-num {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    flex-shrink: 0;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #f97316 0%, #fb923c 40%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: filter 0.2s ease;
+
+    .page__why-card:hover & {
+      filter: brightness(1.1);
+    }
+  }
+
+  &__why-card-body {
+    min-width: 0;
+  }
+
+  &__why-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+
+  &__why-card-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.55;
+    margin: 0;
   }
 
   &__advantages {
