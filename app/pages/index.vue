@@ -17,6 +17,17 @@ function scrollToTop() {
 
 function onScroll() {
   showScrollTop.value = window.scrollY > 400
+
+  if (window.location.hash) {
+    const id = window.location.hash.slice(1)
+    const el = document.getElementById(id)
+    if (el) {
+      const rect = el.getBoundingClientRect()
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        history.replaceState(null, '', window.location.pathname)
+      }
+    }
+  }
 }
 
 onMounted(() => {
@@ -425,6 +436,53 @@ const reviews: Review[] = [
           <div class="page__korea-block">
             <span class="page__korea-block-icon material-symbols-outlined" aria-hidden="true">receipt_long</span>
             <span class="page__korea-block-text">Прозрачная стоимость без скрытых платежей</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="afterservice" class="page__section page__section--afterservice">
+      <div class="page__afterservice-wrap">
+        <div class="page__afterservice-content">
+          <div class="page__afterservice-left">
+            <p class="page__afterservice-label">Собственный сервис</p>
+            <h2 class="page__afterservice-title">Обслуживаем своих клиентов после покупки</h2>
+            <p class="page__afterservice-text">У нас есть собственный автосервис, где мы проводим техническое обслуживание для наших клиентов. Купили у нас — остаётесь под нашей заботой.</p>
+            <p class="page__afterservice-text">Мы знаем историю каждого автомобиля, который подбирали, поэтому обслуживаем его правильно — без лишних работ и переплат.</p>
+            <a href="#contact" class="page__afterservice-btn">Записаться на ТО</a>
+          </div>
+
+          <div class="page__afterservice-right">
+            <div class="page__afterservice-list">
+              <div class="page__afterservice-item">
+                <span class="page__afterservice-item-icon material-symbols-outlined" aria-hidden="true">oil_barrel</span>
+                <div class="page__afterservice-item-body">
+                  <h3 class="page__afterservice-item-title">Плановое ТО</h3>
+                  <p class="page__afterservice-item-text">Замена масла, фильтров, технических жидкостей по регламенту производителя</p>
+                </div>
+              </div>
+              <div class="page__afterservice-item">
+                <span class="page__afterservice-item-icon material-symbols-outlined" aria-hidden="true">tire_repair</span>
+                <div class="page__afterservice-item-body">
+                  <h3 class="page__afterservice-item-title">Ходовая часть</h3>
+                  <p class="page__afterservice-item-text">Диагностика и ремонт подвески, тормозной системы, рулевого управления</p>
+                </div>
+              </div>
+              <div class="page__afterservice-item">
+                <span class="page__afterservice-item-icon material-symbols-outlined" aria-hidden="true">electric_car</span>
+                <div class="page__afterservice-item-body">
+                  <h3 class="page__afterservice-item-title">Компьютерная диагностика</h3>
+                  <p class="page__afterservice-item-text">Чтение и сброс ошибок, проверка всех систем профильным оборудованием</p>
+                </div>
+              </div>
+              <div class="page__afterservice-item">
+                <span class="page__afterservice-item-icon material-symbols-outlined" aria-hidden="true">handshake</span>
+                <div class="page__afterservice-item-body">
+                  <h3 class="page__afterservice-item-title">Только для наших клиентов</h3>
+                  <p class="page__afterservice-item-text">Приоритетная запись и честные цены — для тех, кто покупал автомобиль через нас</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1895,6 +1953,211 @@ const reviews: Review[] = [
     font-weight: 600;
     color: #fff;
     line-height: 1.4;
+  }
+
+  &__section--afterservice {
+    padding: 80px 24px;
+    background: var(--color-dark);
+
+    @media (max-width: 720px) {
+      padding: 56px 20px;
+    }
+  }
+
+  &__afterservice-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__afterservice-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  &__afterservice-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__afterservice-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin: 0 0 12px;
+  }
+
+  &__afterservice-title {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 24px;
+  }
+
+  &__afterservice-text {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+    margin: 0 0 16px;
+
+    &:last-of-type {
+      margin-bottom: 36px;
+    }
+  }
+
+  &__afterservice-btn {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 15px 32px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.45);
+
+    &:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(249, 115, 22, 0.55);
+    }
+  }
+
+  &__afterservice-right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__afterservice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__afterservice-item {
+    --glow: #f97316;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px 24px;
+    border-radius: 16px;
+    background:
+      linear-gradient(rgba(18, 18, 18, 0.95), rgba(18, 18, 18, 0.95)) padding-box,
+      linear-gradient(135deg, var(--glow), rgba(255, 255, 255, 0.06) 70%) border-box;
+    border: 1px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+
+    &:nth-child(2) { --glow: #3b82f6; }
+    &:nth-child(3) { --glow: #a855f7; }
+    &:nth-child(4) { --glow: #10b981; }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    &::before {
+      top: -30px;
+      left: -30px;
+      width: 110px;
+      height: 110px;
+      background: var(--glow);
+      opacity: 0.12;
+      filter: blur(40px);
+    }
+
+    &::after {
+      bottom: -20px;
+      right: -20px;
+      width: 70px;
+      height: 70px;
+      background: var(--glow);
+      opacity: 0.07;
+      filter: blur(28px);
+    }
+
+    &:hover {
+      transform: translateX(8px);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+      background:
+        linear-gradient(rgba(24, 24, 24, 0.98), rgba(24, 24, 24, 0.98)) padding-box,
+        linear-gradient(135deg, var(--glow), rgba(255, 255, 255, 0.12) 70%) border-box;
+
+      &::before {
+        opacity: 0.28;
+        transform: scale(1.5);
+      }
+
+      &::after {
+        opacity: 0.18;
+        transform: scale(1.4);
+      }
+    }
+  }
+
+  &__afterservice-item-icon {
+    font-family: 'Material Symbols Outlined', sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+    color: var(--glow);
+    flex-shrink: 0;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--glow) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 30%, transparent);
+    transition: background 0.3s ease, border-color 0.3s ease;
+    flex-shrink: 0;
+
+    .page__afterservice-item:hover & {
+      background: color-mix(in srgb, var(--glow) 25%, transparent);
+    }
+  }
+
+  &__afterservice-item-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 2px;
+  }
+
+  &__afterservice-item-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  &__afterservice-item-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.55;
+    margin: 0;
   }
 
   &__section--why {
