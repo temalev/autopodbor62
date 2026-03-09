@@ -110,7 +110,7 @@ const closeDrawer = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 72px;
+  height: 62px;
   padding: 0 24px;
   gap: 40px;
 
