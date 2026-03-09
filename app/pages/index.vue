@@ -473,7 +473,7 @@ const reviews: Review[] = [
     </section>
 
     <section class="page__section page__section--why">
-      <h2 class="page__why-headline">Почему выбирают Autopodbor_62</h2>
+      <h2 class="page__why-headline">Почему выбирают Автоподбор 62</h2>
       <div class="page__why-tags">
         <span class="page__why-tag">Реальный рынок</span>
         <span class="page__why-tag">Не продаём кота в мешке</span>
