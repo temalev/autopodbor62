@@ -22,6 +22,7 @@ const closeDrawer = () => {
       <div class="header__logo">
         <NuxtLink to="/" @click="closeDrawer">
           <img :src="`${base}/images/logo.png`" alt="Автоподбор 62" class="header__logo-img" />
+          <span class="header__logo-name">Автоподбор <span class="header__logo-name-accent">62</span></span>
         </NuxtLink>
       </div>
       
@@ -87,10 +88,20 @@ const closeDrawer = () => {
   left: 0;
   right: 0;
   width: 100%;
-  background: var(--color-dark, #111);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    135deg,
+    rgba(14, 10, 6, 0.88) 0%,
+    rgba(24, 14, 4, 0.252) 50%,
+    rgba(14, 10, 6, 0.372) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(249, 115, 22, 0.18);
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(249, 115, 22, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
   z-index: 100;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }
 
 .header__container {
@@ -112,8 +123,27 @@ const closeDrawer = () => {
 .header__logo {
   a {
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
+}
+
+.header__logo-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  line-height: 1;
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+  }
+}
+
+.header__logo-name-accent {
+  color: var(--color-accent);
 }
 
 .header__logo-img {
@@ -148,7 +178,7 @@ const closeDrawer = () => {
 .header__link {
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.02em;
   padding: 8px 0;
@@ -162,13 +192,13 @@ const closeDrawer = () => {
     color: var(--color-accent);
   }
 
-  &--mobile {
-    color: #1a1d23;
-    text-decoration: none;
-    padding: 14px 24px;
-    border-radius: 10px;
-    transition: background 0.2s ease, color 0.2s ease;
-    font-size: 17px;
+    &--mobile {
+      color: #1a1d23;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      transition: background 0.2s ease, color 0.2s ease;
+      font-size: 16px;
     font-weight: 500;
 
     &:hover {

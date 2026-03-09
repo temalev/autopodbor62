@@ -215,7 +215,7 @@ const reviews: Review[] = [
 
 <template>
   <div class="page">
-    <div class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.jpg)` }">
+    <section class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.jpg)` }">
       <div class="page__hero-inner">
         <div class="page__hero-left">
           <div class="page__content">
@@ -256,9 +256,9 @@ const reviews: Review[] = [
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="services" class="page__section page__section--services">
+    <section id="services" class="page__section page__section--services">
       <h2 class="page__section-title">Наши услуги</h2>
       <p class="page__section-text">
         Полный спектр услуг для покупки, продажи и обслуживания автомобилей
@@ -302,9 +302,9 @@ const reviews: Review[] = [
           </div>
         </article>
       </div>
-    </div>
+    </section>
 
-    <div id="how" class="page__section page__section--key page__section--key-twin">
+    <section id="how" class="page__section page__section--key page__section--key-twin">
       <p class="page__key-twin-lead">Два формата работы</p>
 
       <div class="page__key-twin">
@@ -374,9 +374,9 @@ const reviews: Review[] = [
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="sell" class="page__section page__section--sell">
+    <section id="sell" class="page__section page__section--sell">
       <div class="page__sell-wrap">
         <div class="page__sell-header">
           <p class="page__sell-label">Продажа автомобиля</p>
@@ -409,9 +409,9 @@ const reviews: Review[] = [
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="korea" class="page__section page__section--korea">
+    <section id="korea" class="page__section page__section--korea">
       <div class="page__korea-image">
         <img :src="assetUrl('/images/korea.webp')" alt="Авто из Кореи и Китая" />
         <div class="page__korea-image-overlay" />
@@ -439,9 +439,9 @@ const reviews: Review[] = [
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="afterservice" class="page__section page__section--afterservice">
+    <section id="afterservice" class="page__section page__section--afterservice">
       <div class="page__afterservice-wrap">
         <div class="page__afterservice-content">
           <div class="page__afterservice-left">
@@ -486,9 +486,9 @@ const reviews: Review[] = [
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="page__section page__section--why">
+    <section class="page__section page__section--why">
       <h2 class="page__why-headline">Почему выбирают Autopodbor_62</h2>
       <div class="page__why-tags">
         <span class="page__why-tag">Реальный рынок</span>
@@ -497,9 +497,9 @@ const reviews: Review[] = [
         <span class="page__why-tag">Ответственность за результат</span>
         <span class="page__why-tag">Скажем, если не стоит покупать</span>
       </div>
-    </div>
+    </section>
 
-    <div id="team" class="page__section page__section--team">
+    <section id="team" class="page__section page__section--team">
       <p class="page__team-label">Наша команда</p>
       <h2 class="page__team-title">Люди, которым вы доверяете свой выбор</h2>
 
@@ -540,9 +540,9 @@ const reviews: Review[] = [
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="reviews" class="page__section">
+    <section id="reviews" class="page__section">
       <h2 class="page__section-title">Отзывы клиентов</h2>
       <p class="page__section-text">
         Реальные отзывы о нашей работе по автоподбору и проверке автомобилей
@@ -648,9 +648,9 @@ const reviews: Review[] = [
           Больше отзывов на Авито
         </a>
       </div>
-    </div>
+    </section>
 
-    <div id="faq" class="page__section page__section--alt">
+    <section id="faq" class="page__section page__section--alt">
       <h2 class="page__section-title">FAQ — часто задаваемые вопросы</h2>
       
       <div class="page__faq">
@@ -741,9 +741,10 @@ const reviews: Review[] = [
           </el-collapse-item>
         </el-collapse>
       </ClientOnly>
-    </div>
+      </div>
+    </section>
 
-    <div class="page__section page__section--cta-bottom">
+    <section class="page__section page__section--cta-bottom">
       <div class="page__cta-bottom">
         <div class="page__cta-bottom-left">
           <p class="page__cta-bottom-label">Бесплатная консультация</p>
@@ -783,9 +784,9 @@ const reviews: Review[] = [
           </form>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="contact" class="page__section page__section--contact">
+    <section id="contact" class="page__section page__section--contact">
       <h2 class="page__section-title">Связаться с нами</h2>
       <p class="page__section-text">
         Позвоните или напишите — ответим на вопросы и подберём удобное время
@@ -799,8 +800,7 @@ const reviews: Review[] = [
           Написать в Telegram
         </a>
       </div>
-    </div>
-  </div>
+    </section>
   </div>
 
   <a href="tel:+79156095787" class="page__fixed-call">
@@ -844,7 +844,6 @@ const reviews: Review[] = [
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
 
     @media (max-width: 1024px) {
       padding: 0 24px;
@@ -863,7 +862,7 @@ const reviews: Review[] = [
     align-items: center;
     justify-content: space-between;
     gap: 64px;
-    padding: 120px 0 64px;
+    padding: 120px 0 0px;
 
     @media (max-width: 960px) {
       flex-direction: column;
@@ -883,6 +882,8 @@ const reviews: Review[] = [
     min-width: 0;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
     gap: 36px;
   }
 
@@ -893,7 +894,6 @@ const reviews: Review[] = [
     width: 180px;
     margin-left: auto;
     padding-left: 64px;
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
 
     @media (max-width: 960px) {
       flex-direction: row;
@@ -954,7 +954,7 @@ const reviews: Review[] = [
   &__title {
     font-family: var(--font-body);
     color: #fff;
-    font-size: clamp(32px, 5vw, 52px);
+    font-size: clamp(32px, 5vw, 42px);
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -974,7 +974,7 @@ const reviews: Review[] = [
 
   &__text {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 1.6;
     margin: 0;
@@ -1036,7 +1036,7 @@ const reviews: Review[] = [
     flex: 1;
     min-width: 0;
     padding: 15px 18px;
-    font-size: 15px;
+    font-size: 16px;
     font-family: inherit;
     color: #fff;
     background: rgba(255, 255, 255, 0.1);
@@ -1063,7 +1063,7 @@ const reviews: Review[] = [
   &__hero-form-btn {
     flex-shrink: 0;
     padding: 15px 24px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     font-family: inherit;
     color: #fff;
@@ -1129,7 +1129,7 @@ const reviews: Review[] = [
 
   &__section-text {
     color: var(--color-text-muted);
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.65;
     margin: 0 auto 40px;
     max-width: 600px;
@@ -1379,14 +1379,14 @@ const reviews: Review[] = [
 
   &__card-text {
     color: var(--color-text);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.65;
     flex: 1;
   }
 
   &__card-list {
     color: var(--color-text);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.9;
     margin: 12px 0 0 0;
     padding-left: 20px;
@@ -1608,7 +1608,7 @@ const reviews: Review[] = [
     display: inline-block;
     margin-top: 20px;
     margin-left: 56px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--color-accent);
     text-decoration: none;
@@ -1665,7 +1665,7 @@ const reviews: Review[] = [
   }
 
   &__sell-lead {
-    font-size: 17px;
+    font-size: 16px;
     color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0;
@@ -1740,7 +1740,7 @@ const reviews: Review[] = [
   }
 
   &__sell-option-desc {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     margin: 0 0 24px;
 
@@ -1757,7 +1757,7 @@ const reviews: Review[] = [
     margin: 0;
     padding: 0;
     list-style: none;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -1909,7 +1909,7 @@ const reviews: Review[] = [
   }
 
   &__korea-text {
-    font-size: 15px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.65;
     margin: 0 0 24px;
@@ -1949,7 +1949,7 @@ const reviews: Review[] = [
   }
 
   &__korea-block-text {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: #fff;
     line-height: 1.4;
@@ -2023,7 +2023,7 @@ const reviews: Review[] = [
     padding: 15px 32px;
     background: var(--color-accent);
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     text-decoration: none;
     border-radius: 10px;
@@ -2154,7 +2154,7 @@ const reviews: Review[] = [
   }
 
   &__afterservice-item-text {
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
     line-height: 1.55;
     margin: 0;
@@ -2243,7 +2243,7 @@ const reviews: Review[] = [
 
   &__advantage-text {
     color: var(--color-text);
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.5;
     flex: 1;
   }
@@ -2364,7 +2364,7 @@ const reviews: Review[] = [
   }
 
   &__team-bio {
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.6);
     line-height: 1.6;
     margin: 0 0 16px;
@@ -2626,7 +2626,7 @@ const reviews: Review[] = [
       padding: 22px 28px;
       background: var(--color-bg-alt);
       border: none;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--color-dark);
       transition: background 0.2s ease;
@@ -2784,7 +2784,7 @@ const reviews: Review[] = [
   &__cta-bottom-input {
     width: 100%;
     padding: 15px 18px;
-    font-size: 15px;
+    font-size: 16px;
     font-family: inherit;
     color: #fff;
     background: rgba(255, 255, 255, 0.08);
