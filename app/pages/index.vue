@@ -1862,6 +1862,7 @@ const reviews: Review[] = [
     grid-template-columns: 1fr 1fr;
     min-height: 560px;
     overflow: hidden;
+    border-radius: 24px 24px 0 0;
 
     @media (max-width: 860px) {
       grid-template-columns: 1fr;
@@ -2383,6 +2384,7 @@ const reviews: Review[] = [
 
   &__section--team {
     padding: 80px 24px;
+    border-radius: 0 0 24px 24px;
 
     @media (max-width: 720px) {
       padding: 56px 20px;
