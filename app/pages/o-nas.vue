@@ -50,7 +50,7 @@ useHead({
             </span>
             <div>
               <p class="about__contact-label">Телефон</p>
-              <a href="tel:+79156095787" class="about__contact-value">+7 915 609 5787</a>
+              <a :href="SITE_PHONE_HREF" class="about__contact-value">{{ SITE_PHONE_DISPLAY }}</a>
             </div>
           </div>
           <div class="about__contact-card">
@@ -68,7 +68,7 @@ useHead({
             </span>
             <div>
               <p class="about__contact-label">География</p>
-              <span class="about__contact-value">Рязань и область, выезд к клиенту</span>
+              <span class="about__contact-value">{{ SITE_ADDRESS }}</span>
             </div>
           </div>
           <div class="about__contact-card">
@@ -77,7 +77,7 @@ useHead({
             </span>
             <div>
               <p class="about__contact-label">Режим работы</p>
-              <span class="about__contact-value">Пн–Вс, 9:00–21:00</span>
+              <span class="about__contact-value">{{ SITE_HOURS }}</span>
             </div>
           </div>
           <div class="about__contact-card">

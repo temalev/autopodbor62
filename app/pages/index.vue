@@ -810,7 +810,7 @@ const reviews: Review[] = [
 
   </div>
 
-  <a href="tel:+79156095787" class="page__fixed-call">
+  <a :href="SITE_PHONE_HREF" class="page__fixed-call">
     <span class="page__fixed-call-icon">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.5 11.5 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.5 11.5 0 0 0 .57 3.6 1 1 0 0 1-.25 1.02l-2.2 2.17z"/>
@@ -818,7 +818,7 @@ const reviews: Review[] = [
     </span>
     <span class="page__fixed-call-body">
       <span class="page__fixed-call-label">Позвоните нам</span>
-      <span class="page__fixed-call-number">+7 915 609 5787</span>
+      <span class="page__fixed-call-number">{{ SITE_PHONE_DISPLAY }}</span>
     </span>
   </a>
 
