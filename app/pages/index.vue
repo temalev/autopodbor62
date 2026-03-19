@@ -136,7 +136,7 @@ const services = [
       { icon: 'campaign', text: 'Качественные фото и размещение на всех площадках' },
       { icon: 'forum', text: 'Показы и переговоры с покупателями — на нас' },
     ],
-    link: '#sell',
+    link: '/vykup',
     index: '03',
   },
   {
@@ -149,7 +149,7 @@ const services = [
       { icon: 'pin', text: 'Получение государственных номерных знаков' },
       { icon: 'check_circle', text: 'Входит в стоимость подбора под ключ и импорта' },
     ],
-    link: '#contact',
+    link: '/registraciya-gibdd',
     index: '04',
   },
   {
@@ -175,7 +175,7 @@ const services = [
       { icon: 'straighten', text: 'Замер ЛКП и сверка с нормо-часами' },
       { icon: 'photo_camera', text: 'Подробный отчёт с фотофиксацией нарушений' },
     ],
-    link: '#contact',
+    link: '/proverka-kuzova',
     index: '06',
   },
 ]
