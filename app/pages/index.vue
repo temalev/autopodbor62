@@ -531,7 +531,7 @@ const reviews: Review[] = [
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Дмитрий</h3>
-            <p class="page__team-role">Эксперт по осмотру и диагностике</p>
+            <p class="page__team-role">Руководитель, технический эксперт</p>
             <p class="page__team-bio">РГАТУ им. Костычева, «Сервис транспортных и технологических машин и оборудования», выпуск&nbsp;2011. С&nbsp;автомобилями с&nbsp;2007&nbsp;года.</p>
             <p class="page__team-since">В автоподборе с 2014 года</p>
           </div>
@@ -543,7 +543,7 @@ const reviews: Review[] = [
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Иван Ермаков</h3>
-            <p class="page__team-role">Юридическое сопровождение</p>
+            <p class="page__team-role">Аналитик автомобильного рынка, эксперт направления импорта, юридический консультант</p>
             <p class="page__team-bio">РГУ им. С.А. Есенина, юридический факультет, уголовно-правовой профиль, выпуск&nbsp;2020. С&nbsp;техникой с&nbsp;2020&nbsp;года.</p>
             <p class="page__team-since">В автоподборе с 2022 года</p>
           </div>
