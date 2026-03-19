@@ -33,6 +33,7 @@ const closeDrawer = () => {
         <NuxtLink to="/podbor" class="header__link">Подбор автомобиля</NuxtLink>
         <NuxtLink to="/proverka" class="header__link">Разовая проверка</NuxtLink>
         <NuxtLink to="/import" class="header__link">Импорт</NuxtLink>
+        <NuxtLink to="/dkp" class="header__link">ДКП</NuxtLink>
       </nav>
 
       <!-- Бургер-кнопка для мобильной версии -->
@@ -74,6 +75,9 @@ const closeDrawer = () => {
           </NuxtLink>
           <NuxtLink to="/import" class="header__link--mobile" @click="closeDrawer">
             Импорт
+          </NuxtLink>
+          <NuxtLink to="/dkp" class="header__link--mobile" @click="closeDrawer">
+            ДКП
           </NuxtLink>
         </nav>
       </ElDrawer>

@@ -167,7 +167,7 @@ const services = [
   },
   {
     icon: 'fact_check',
-    title: 'Приёмка авто',
+    title: 'Проверка качества кузовного ремонта',
     description: 'Принимаем автомобиль после ремонта, кузовных работ или покупки у дилера. Проверяем качество, замеряем ЛКП, фиксируем нарушения.',
     features: [
       { icon: 'build', text: 'Осмотр после ремонта или покупки у дилера' },
@@ -177,19 +177,6 @@ const services = [
     ],
     link: '#contact',
     index: '06',
-  },
-  {
-    icon: 'build_circle',
-    title: 'Кузовной ремонт',
-    description: 'Независимая оценка качества ремонта по КАСКО и ОСАГО. Выезжаем в любой техцентр и проверяем, всё ли сделано честно.',
-    features: [
-      { icon: 'directions_car', text: 'Выезд в любой техцентр Рязани и области' },
-      { icon: 'fact_check', text: 'Оценка соответствия ремонта по КАСКО и ОСАГО' },
-      { icon: 'gavel', text: 'Независимая экспертиза качества работ' },
-      { icon: 'inventory', text: 'Проверка использованных запчастей и материалов' },
-    ],
-    link: '#contact',
-    index: '07',
   },
 ]
 
@@ -1184,7 +1171,7 @@ const reviews: Review[] = [
     align-items: center;
     gap: 6px;
     padding: 14px 16px;
-    width: 140px;
+    flex: 1;
     background: var(--color-surface);
     border: 1.5px solid var(--color-border);
     border-radius: 14px;
@@ -1192,6 +1179,11 @@ const reviews: Review[] = [
     flex-shrink: 0;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     font-family: inherit;
+
+    @media (max-width: 860px) {
+      width: 150px;
+      flex: none;
+    }
 
     &--active {
       background: var(--color-dark);

@@ -40,7 +40,7 @@
             <li><a href="/#sell" class="footer__nav-link">Выкуп и продажа</a></li>
             <li><a href="/#gibdd" class="footer__nav-link">Регистрация в ГИБДД</a></li>
             <li><NuxtLink to="/import" class="footer__nav-link">Импорт из Кореи и Китая</NuxtLink></li>
-            <li><a href="/#services" class="footer__nav-link">Приёмка авто</a></li>
+            <li><a href="/#services" class="footer__nav-link">Проверка качества кузовного ремонта</a></li>
           </ul>
         </nav>
 
@@ -48,6 +48,7 @@
           <p class="footer__nav-title">Разделы</p>
           <ul class="footer__nav-list">
             <li><NuxtLink to="/o-nas" class="footer__nav-link">О нас</NuxtLink></li>
+            <li><NuxtLink to="/dkp" class="footer__nav-link">ДКП</NuxtLink></li>
             <li><a href="/#how" class="footer__nav-link">Как мы работаем</a></li>
             <li><a href="/#team" class="footer__nav-link">Команда</a></li>
             <li><a href="/#reviews" class="footer__nav-link">Отзывы</a></li>
