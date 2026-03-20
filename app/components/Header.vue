@@ -55,10 +55,6 @@ const services = [
       <nav class="header__nav header__nav--desktop">
         <NuxtLink to="/" class="header__link">Главная</NuxtLink>
         <NuxtLink to="/o-nas" class="header__link">О нас</NuxtLink>
-
-        <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink>
-
-        <!-- Выпадающее меню услуг -->
         <div
           class="header__dropdown"
           @mouseenter="openDropdown"
@@ -85,6 +81,7 @@ const services = [
             </div>
           </Transition>
         </div>
+        <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink>
       </nav>
 
       <!-- Бургер-кнопка для мобильной версии -->
@@ -118,11 +115,6 @@ const services = [
           <NuxtLink to="/o-nas" class="header__link--mobile" @click="closeDrawer">
             О нас
           </NuxtLink>
-          <NuxtLink to="/dkp" class="header__link--mobile" @click="closeDrawer">
-            ДКП онлайн
-          </NuxtLink>
-
-          <!-- Аккордеон услуг -->
           <div class="header__mobile-services">
             <button
               class="header__mobile-services-toggle"
@@ -148,6 +140,9 @@ const services = [
               </div>
             </Transition>
           </div>
+          <NuxtLink to="/dkp" class="header__link--mobile" @click="closeDrawer">
+            ДКП онлайн
+          </NuxtLink>
         </nav>
       </ElDrawer>
     </ClientOnly>
