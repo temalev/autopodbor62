@@ -3,7 +3,7 @@ const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
 useHead({
-  title: 'Выкуп авто в Рязани — срочный выкуп и продажа автомобиля | Автоподбор 62',
+  title: 'Выкуп авто в Рязани — срочный выкуп и комиссионная продажа автомобиля | Автоподбор 62',
   meta: [
     {
       name: 'description',
@@ -77,7 +77,7 @@ const steps = [
   <div class="vykup-page">
     <div class="vykup-page__hero">
       <div class="vykup-page__hero-bg">
-        <img :src="`${base}/images/services/3.jpeg`" alt="Выкуп и продажа автомобиля" class="vykup-page__hero-img" />
+        <img :src="`${base}/images/services/3.jpeg`" alt="Выкуп и комиссионная продажа автомобиля" class="vykup-page__hero-img" />
         <div class="vykup-page__hero-overlay" />
       </div>
       <div class="vykup-page__hero-content">
@@ -85,8 +85,8 @@ const steps = [
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           На главную
         </NuxtLink>
-        <p class="vykup-page__label">Выкуп и продажа</p>
-        <h1 class="vykup-page__title">Выкуп и продажа автомобиля в Рязани</h1>
+        <p class="vykup-page__label">Выкуп и комиссионная продажа</p>
+        <h1 class="vykup-page__title">Выкуп и комиссионная продажа автомобиля в Рязани</h1>
         <p class="vykup-page__lead">Выкупим в день обращения — деньги сразу. Или возьмём на комиссию: профессиональные фото, размещение на всех площадках, показы и сделка — полностью на нас.</p>
       </div>
     </div>

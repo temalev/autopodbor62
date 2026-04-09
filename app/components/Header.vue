@@ -34,7 +34,7 @@ const closeDrawer = () => {
 const services = [
   { to: '/podbor', label: 'Подбор автомобиля' },
   { to: '/proverka', label: 'Разовая проверка' },
-  { to: '/vykup', label: 'Выкуп и продажа' },
+  { to: '/vykup', label: 'Выкуп и комиссионная продажа' },
   { to: '/registraciya-gibdd', label: 'Регистрация в ГИБДД' },
   { to: '/import', label: 'Импорт из-за рубежа' },
   { to: '/proverka-kuzova', label: 'Проверка кузова' },

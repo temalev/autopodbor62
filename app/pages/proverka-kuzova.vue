@@ -3,7 +3,7 @@ const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
 useHead({
-  title: 'Проверка качества кузовного ремонта — Автоподбор 62',
+  title: 'Прием а/м из кузовного ремонта — Автоподбор 62',
   meta: [
     {
       name: 'description',
