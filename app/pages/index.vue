@@ -471,36 +471,36 @@ const reviews: Review[] = [
             <p class="page__why-card-text">Работаем с живыми объявлениями и реальными продавцами. Никаких «виртуальных» машин и завышенных ожиданий — только то, что можно осмотреть и купить.</p>
           </div>
         </div>
-        <div class="page__why-card">
+        <!-- <div class="page__why-card">
           <span class="page__why-card-num" aria-hidden="true">2</span>
           <div class="page__why-card-body">
             <h3 class="page__why-card-title">Честность без прикрас</h3>
             <p class="page__why-card-text">Если машина не тянет на ваши деньги или есть скрытые дефекты — скажем прямо. Не продаём кота в мешке и не навязываем сомнительные варианты.</p>
           </div>
-        </div>
+        </div> -->
         <div class="page__why-card">
-          <span class="page__why-card-num" aria-hidden="true">3</span>
+          <span class="page__why-card-num" aria-hidden="true">2</span>
           <div class="page__why-card-body">
             <h3 class="page__why-card-title">Экономим деньги и время</h3>
             <p class="page__why-card-text">Отсекаем риски до сделки: проверяем юрчистоту, техсостояние, историю. Вы не платите за чужие проблемы и не теряете время на «пустые» поездки.</p>
           </div>
         </div>
         <div class="page__why-card">
-          <span class="page__why-card-num" aria-hidden="true">4</span>
+          <span class="page__why-card-num" aria-hidden="true">3</span>
           <div class="page__why-card-body">
             <h3 class="page__why-card-title">Ответственность за результат</h3>
             <p class="page__why-card-text">Берём на себя осмотр, подробный отчёт и чёткую рекомендацию. Итог — ваша уверенность в выборе и понимание, за что платите.</p>
           </div>
         </div>
         <div class="page__why-card">
-          <span class="page__why-card-num" aria-hidden="true">5</span>
+          <span class="page__why-card-num" aria-hidden="true">4</span>
           <div class="page__why-card-body">
             <h3 class="page__why-card-title">Опыт и репутация</h3>
             <p class="page__why-card-text">Более 10 лет в автоподборе, 500+ проверенных автомобилей, рейтинг 5.0 на Авито. Работаем так, чтобы клиенты возвращались и советовали нас друзьям.</p>
           </div>
         </div>
         <div class="page__why-card">
-          <span class="page__why-card-num" aria-hidden="true">6</span>
+          <span class="page__why-card-num" aria-hidden="true">5</span>
           <div class="page__why-card-body">
             <h3 class="page__why-card-title">Поддержка после покупки</h3>
             <p class="page__why-card-text">Собственный автосервис для наших клиентов: приоритетная запись, честные цены, знаем историю вашего авто. Купили у нас — остаётесь под нашей заботой.</p>
@@ -666,7 +666,7 @@ const reviews: Review[] = [
       <div class="page__faq">
         <ClientOnly>
           <el-collapse>
-          <el-collapse-item name="1">
+          <!-- <el-collapse-item name="1">
             <template #title>
                 Что такое Автоподбор62 и чем мы отличаемся от обычного осмотра автомобиля в автосервисе?
             </template>
@@ -684,7 +684,7 @@ const reviews: Review[] = [
               • с небольшим пробегом и прозрачной историей,<br>
               • без скрытых вложений.<br><br>
               Если автомобиль не стоит своих денег — мы прямо об этом говорим.
-          </el-collapse-item>
+          </el-collapse-item> -->
 
           <el-collapse-item name="3">
             <template #title>
