@@ -12,7 +12,7 @@ export const SITE_PHONE_DISPLAY = '+7 900 601 03 05'
 export const SITE_PHONE_HREF = 'tel:+79006010305'
 
 /** Адрес / география работы */
-export const SITE_ADDRESS = 'Рязань, выезд по всей области'
+export const SITE_ADDRESS = 'Рязань, ул. Грибоедова, 8Б'
 
 /** Режим работы */
 export const SITE_HOURS = 'Пн–Вс, 10:00–19:00'
