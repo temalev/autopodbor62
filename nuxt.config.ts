@@ -22,10 +22,27 @@ export default defineNuxtConfig({
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined' },
       ],
       meta: [
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: 'Автоподбор 62' },
+        { property: 'og:title', content: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани' },
         {
           name: 'description',
           content: 'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД. Честный осмотр и отчёт без риска.',
         },
+        {
+          property: 'og:description',
+          content: 'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД. Честный осмотр и отчёт без риска.',
+        },
+        { property: 'og:url', content: 'https://xn--62-6kceem3eacgpr.xn--p1ai/' },
+        { property: 'og:image', content: 'https://xn--62-6kceem3eacgpr.xn--p1ai/images/logo.png' },
+        { property: 'og:image:type', content: 'image/png' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани' },
+        {
+          name: 'twitter:description',
+          content: 'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД. Честный осмотр и отчёт без риска.',
+        },
+        { name: 'twitter:image', content: 'https://xn--62-6kceem3eacgpr.xn--p1ai/images/logo.png' },
       ],
       script: [
         {
