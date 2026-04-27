@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     'element-plus/dist/index.css',
   ],
   app: {
-    baseURL: (globalThis.process?.env?.NUXT_PUBLIC_BASE_URL as string) || '/',
+    baseURL: '/',
     head: {
       title: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани',
       link: [
