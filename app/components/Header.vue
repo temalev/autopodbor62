@@ -81,7 +81,7 @@ const services = [
             </div>
           </Transition>
         </div>
-        <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink>
+        <!-- <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink> -->
       </nav>
 
       <!-- Бургер-кнопка для мобильной версии -->
