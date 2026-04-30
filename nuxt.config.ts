@@ -7,6 +7,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      /**
+       * Публичный endpoint для приёма заявок (например, Formspree).
+       * Задаётся на этапе билда через переменную окружения.
+       */
+      formspreeEndpoint: process.env.NUXT_PUBLIC_FORMSPREE_ENDPOINT || 'https://formspree.io/f/mqenzran',
+    },
+  },
   css: [
     resolve(__dirname, 'assets/styles/main.scss'),
     'element-plus/dist/index.css',

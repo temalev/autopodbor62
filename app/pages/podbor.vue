@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { sendLead } from '../utils/lead'
+
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
@@ -13,6 +15,8 @@ useHead({
 })
 
 const phoneRaw = ref('')
+const leadStatus = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
+const leadError = ref('')
 
 function phoneDisplay(raw: string): string {
   if (!raw) return ''
@@ -39,6 +43,29 @@ function handlePhoneKeydown(e: KeyboardEvent) {
     const input = e.target as HTMLInputElement
     input.value = phoneDisplay(phoneRaw.value)
   }
+}
+
+async function submitLead(e: Event) {
+  const form = e.target as HTMLFormElement | null
+  if (!form) return
+
+  leadStatus.value = 'sending'
+  leadError.value = ''
+
+  const fd = new FormData(form)
+  const name = String(fd.get('name') || '').trim()
+  const phone = String(fd.get('phone') || '').trim()
+
+  const res = await sendLead({ name, phone, source: 'podbor' })
+  if (res.ok) {
+    leadStatus.value = 'sent'
+    form.reset()
+    phoneRaw.value = ''
+    return
+  }
+
+  leadStatus.value = 'error'
+  leadError.value = 'error' in res ? res.error : 'Ошибка отправки'
 }
 
 const includes = [
@@ -107,12 +134,16 @@ const steps = [
         <p class="podbor-page__terms">Срок подбора — от 2 до 60 дней. Доступен экспресс-подбор до 10 дней с предложением до 3 лучших вариантов. Стоимость зависит от ценовой категории автомобиля и фиксируется до начала работ — без скрытых доплат.</p>
         <div class="podbor-page__cta">
           <p class="podbor-page__cta-text">Обсудим бюджет и подберём оптимальный вариант</p>
-          <form class="podbor-page__form" @submit.prevent>
+          <form class="podbor-page__form" @submit.prevent="submitLead">
             <div class="podbor-page__form-fields">
               <input type="text" class="podbor-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
               <input type="tel" class="podbor-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
-            <button type="submit" class="podbor-page__form-btn">Оставить заявку на подбор</button>
+            <button type="submit" class="podbor-page__form-btn" :disabled="leadStatus === 'sending'">
+              {{ leadStatus === 'sending' ? 'Отправляем…' : 'Оставить заявку на подбор' }}
+            </button>
+            <p v-if="leadStatus === 'sent'" class="podbor-page__form-hint">Заявка отправлена. Перезвоним в ближайшее время.</p>
+            <p v-else-if="leadStatus === 'error'" class="podbor-page__form-hint podbor-page__form-hint--error">Не удалось отправить заявку. {{ leadError }}</p>
           </form>
         </div>
       </div>
@@ -459,5 +490,21 @@ const steps = [
     box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
     transform: translateY(-2px);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+    transform: none;
+  }
+}
+
+.podbor-page__form-hint {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: rgba(17, 17, 17, 0.8);
+}
+
+.podbor-page__form-hint--error {
+  color: #b42318;
 }
 </style>

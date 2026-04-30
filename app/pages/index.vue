@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElCollapse, ElCollapseItem } from 'element-plus'
+import { sendLead } from '../utils/lead'
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
@@ -10,6 +11,11 @@ function assetUrl(path: string) {
 
 const phoneRaw = ref('')
 const showScrollTop = ref(false)
+
+const heroLeadStatus = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
+const heroLeadError = ref('')
+const ctaLeadStatus = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
+const ctaLeadError = ref('')
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -63,6 +69,52 @@ function handlePhoneKeydown(e: KeyboardEvent) {
     const input = e.target as HTMLInputElement
     input.value = phoneDisplay(phoneRaw.value)
   }
+}
+
+async function submitHeroLead(e: Event) {
+  const form = e.target as HTMLFormElement | null
+  if (!form) return
+
+  heroLeadStatus.value = 'sending'
+  heroLeadError.value = ''
+
+  const fd = new FormData(form)
+  const name = String(fd.get('name') || '').trim()
+  const phone = String(fd.get('phone') || '').trim()
+
+  const res = await sendLead({ name, phone, source: 'index-hero' })
+  if (res.ok) {
+    heroLeadStatus.value = 'sent'
+    form.reset()
+    phoneRaw.value = ''
+    return
+  }
+
+  heroLeadStatus.value = 'error'
+  heroLeadError.value = 'error' in res ? res.error : 'Ошибка отправки'
+}
+
+async function submitCtaLead(e: Event) {
+  const form = e.target as HTMLFormElement | null
+  if (!form) return
+
+  ctaLeadStatus.value = 'sending'
+  ctaLeadError.value = ''
+
+  const fd = new FormData(form)
+  const name = String(fd.get('name') || '').trim()
+  const phone = String(fd.get('phone') || '').trim()
+
+  const res = await sendLead({ name, phone, source: 'index-cta-bottom' })
+  if (res.ok) {
+    ctaLeadStatus.value = 'sent'
+    form.reset()
+    phoneRaw.value = ''
+    return
+  }
+
+  ctaLeadStatus.value = 'error'
+  ctaLeadError.value = 'error' in res ? res.error : 'Ошибка отправки'
 }
 
 interface ReviewImage {
@@ -307,10 +359,14 @@ const reviews: Review[] = [
               <span class="page__hero-cta-badge-dot"></span>
               Хорошие автомобили разбирают как горячие пирожки — успейте забрать свой
             </div>
-            <form class="page__hero-form" @submit.prevent>
+            <form class="page__hero-form" @submit.prevent="submitHeroLead">
               <input type="text" class="page__hero-form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
               <input type="tel" class="page__hero-form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
-              <button type="submit" class="page__hero-form-btn">Оставить заявку</button>
+              <button type="submit" class="page__hero-form-btn" :disabled="heroLeadStatus === 'sending'">
+                {{ heroLeadStatus === 'sending' ? 'Отправляем…' : 'Оставить заявку' }}
+              </button>
+              <p v-if="heroLeadStatus === 'sent'" class="page__form-hint">Заявка отправлена. Перезвоним в ближайшее время.</p>
+              <p v-else-if="heroLeadStatus === 'error'" class="page__form-hint page__form-hint--error">Не удалось отправить заявку. {{ heroLeadError }}</p>
             </form>
           </div>
         </div>
@@ -777,16 +833,18 @@ const reviews: Review[] = [
         </div>
 
         <div class="page__cta-bottom-right">
-          <form class="page__cta-bottom-form" @submit.prevent>
+          <form class="page__cta-bottom-form" @submit.prevent="submitCtaLead">
             <p class="page__cta-bottom-form-title">Оставьте заявку — перезвоним в течение 15 минут</p>
             <div class="page__cta-bottom-form-fields">
               <input type="text" class="page__cta-bottom-input" name="name" placeholder="Ваше имя" autocomplete="name" />
               <input type="tel" class="page__cta-bottom-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
-            <button type="submit" class="page__cta-bottom-btn">
-              Хочу бесплатную консультацию
+            <button type="submit" class="page__cta-bottom-btn" :disabled="ctaLeadStatus === 'sending'">
+              {{ ctaLeadStatus === 'sending' ? 'Отправляем…' : 'Хочу бесплатную консультацию' }}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
+            <p v-if="ctaLeadStatus === 'sent'" class="page__form-hint page__form-hint--light">Заявка отправлена. Перезвоним в ближайшее время.</p>
+            <p v-else-if="ctaLeadStatus === 'error'" class="page__form-hint page__form-hint--light page__form-hint--error">Не удалось отправить заявку. {{ ctaLeadError }}</p>
             <p class="page__cta-bottom-guarantee">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
               Без спама. Не передаём данные третьим лицам.
@@ -1075,6 +1133,12 @@ const reviews: Review[] = [
       background: var(--color-accent-hover);
       box-shadow: 0 6px 24px rgba(249, 115, 22, 0.5);
       transform: translateY(-2px);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+      transform: none;
     }
 
     @media (max-width: 600px) {
@@ -2964,6 +3028,31 @@ const reviews: Review[] = [
         transform: translateX(4px);
       }
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+      transform: none;
+
+      svg {
+        transform: none;
+      }
+    }
+  }
+
+  &__form-hint {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: rgba(17, 17, 17, 0.8);
+    text-align: left;
+  }
+
+  &__form-hint--light {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__form-hint--error {
+    color: #b42318;
   }
 
   &__cta-bottom-guarantee {

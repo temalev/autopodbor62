@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { sendLead } from '../utils/lead'
+
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
@@ -13,6 +15,8 @@ useHead({
 })
 
 const phoneRaw = ref('')
+const leadStatus = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
+const leadError = ref('')
 
 function phoneDisplay(raw: string): string {
   if (!raw) return ''
@@ -39,6 +43,30 @@ function handlePhoneKeydown(e: KeyboardEvent) {
     const input = e.target as HTMLInputElement
     input.value = phoneDisplay(phoneRaw.value)
   }
+}
+
+async function submitLead(e: Event) {
+  const form = e.target as HTMLFormElement | null
+  if (!form) return
+
+  leadStatus.value = 'sending'
+  leadError.value = ''
+
+  const fd = new FormData(form)
+  const name = String(fd.get('name') || '').trim()
+  const phone = String(fd.get('phone') || '').trim()
+  const car = String(fd.get('car') || '').trim()
+
+  const res = await sendLead({ name, phone, car, source: 'vykup' })
+  if (res.ok) {
+    leadStatus.value = 'sent'
+    form.reset()
+    phoneRaw.value = ''
+    return
+  }
+
+  leadStatus.value = 'error'
+  leadError.value = 'error' in res ? res.error : 'Ошибка отправки'
 }
 
 const options = [
@@ -140,13 +168,17 @@ const steps = [
         </ul>
         <div class="vykup-page__cta">
           <p class="vykup-page__cta-text">Узнайте стоимость вашего автомобиля прямо сейчас</p>
-          <form class="vykup-page__form" @submit.prevent>
+          <form class="vykup-page__form" @submit.prevent="submitLead">
             <div class="vykup-page__form-fields">
               <input type="text" class="vykup-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
               <input type="tel" class="vykup-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <input type="text" class="vykup-page__form-input vykup-page__form-input--wide" name="car" placeholder="Марка, модель, год, пробег (например: Toyota Camry 2019, 85 000 км)" />
-            <button type="submit" class="vykup-page__form-btn">Узнать стоимость</button>
+            <button type="submit" class="vykup-page__form-btn" :disabled="leadStatus === 'sending'">
+              {{ leadStatus === 'sending' ? 'Отправляем…' : 'Узнать стоимость' }}
+            </button>
+            <p v-if="leadStatus === 'sent'" class="vykup-page__form-hint">Заявка отправлена. Перезвоним в ближайшее время.</p>
+            <p v-else-if="leadStatus === 'error'" class="vykup-page__form-hint vykup-page__form-hint--error">Не удалось отправить заявку. {{ leadError }}</p>
           </form>
         </div>
       </div>
@@ -521,5 +553,21 @@ const steps = [
     box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
     transform: translateY(-2px);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+    transform: none;
+  }
+}
+
+.vykup-page__form-hint {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: rgba(17, 17, 17, 0.8);
+}
+
+.vykup-page__form-hint--error {
+  color: #b42318;
 }
 </style>

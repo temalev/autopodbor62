@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { sendLead } from '../utils/lead'
+
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
@@ -13,6 +15,8 @@ useHead({
 })
 
 const phoneRaw = ref('')
+const leadStatus = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
+const leadError = ref('')
 
 function phoneDisplay(raw: string): string {
   if (!raw) return ''
@@ -39,6 +43,29 @@ function handlePhoneKeydown(e: KeyboardEvent) {
     const input = e.target as HTMLInputElement
     input.value = phoneDisplay(phoneRaw.value)
   }
+}
+
+async function submitLead(e: Event) {
+  const form = e.target as HTMLFormElement | null
+  if (!form) return
+
+  leadStatus.value = 'sending'
+  leadError.value = ''
+
+  const fd = new FormData(form)
+  const name = String(fd.get('name') || '').trim()
+  const phone = String(fd.get('phone') || '').trim()
+
+  const res = await sendLead({ name, phone, source: 'import' })
+  if (res.ok) {
+    leadStatus.value = 'sent'
+    form.reset()
+    phoneRaw.value = ''
+    return
+  }
+
+  leadStatus.value = 'error'
+  leadError.value = 'error' in res ? res.error : 'Ошибка отправки'
 }
 
 const steps = [
@@ -173,12 +200,16 @@ const steps = [
         </div>
         <div class="import-page__cta">
           <p class="import-page__cta-text">Обсудим ваш бюджет и подберём оптимальный вариант</p>
-          <form class="import-page__form" @submit.prevent>
+          <form class="import-page__form" @submit.prevent="submitLead">
             <div class="import-page__form-fields">
               <input type="text" class="import-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
               <input type="tel" class="import-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
-            <button type="submit" class="import-page__form-btn">Оставить заявку на консультацию</button>
+            <button type="submit" class="import-page__form-btn" :disabled="leadStatus === 'sending'">
+              {{ leadStatus === 'sending' ? 'Отправляем…' : 'Оставить заявку на консультацию' }}
+            </button>
+            <p v-if="leadStatus === 'sent'" class="import-page__form-hint">Заявка отправлена. Перезвоним в ближайшее время.</p>
+            <p v-else-if="leadStatus === 'error'" class="import-page__form-hint import-page__form-hint--error">Не удалось отправить заявку. {{ leadError }}</p>
           </form>
         </div>
       </div>
@@ -528,5 +559,21 @@ const steps = [
     box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
     transform: translateY(-2px);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+    transform: none;
+  }
+}
+
+.import-page__form-hint {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: rgba(17, 17, 17, 0.8);
+}
+
+.import-page__form-hint--error {
+  color: #b42318;
 }
 </style>
