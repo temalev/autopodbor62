@@ -1079,6 +1079,7 @@ const reviews: Review[] = [
     display: flex;
     gap: 10px;
     max-width: 100%;
+    flex-wrap: wrap;
 
     @media (max-width: 600px) {
       flex-direction: column;
@@ -3045,6 +3046,8 @@ const reviews: Review[] = [
     font-size: 14px;
     color: rgba(17, 17, 17, 0.8);
     text-align: left;
+    flex-basis: 100%;
+    width: 100%;
   }
 
   &__form-hint--light {
