@@ -34,6 +34,7 @@ export default defineNuxtConfig({
         { property: 'og:type', content: 'website' },
         { property: 'og:site_name', content: 'Автоподбор 62' },
         { property: 'og:title', content: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани' },
+        { name: 'yandex-verification', content: '714fa8559263ac0d' },
         {
           name: 'description',
           content: 'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД. Честный осмотр и отчёт без риска.',
