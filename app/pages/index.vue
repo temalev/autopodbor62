@@ -341,7 +341,7 @@ const reviews: Review[] = [
 
 <template>
   <div class="page">
-    <section class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.jpg)` }">
+    <section class="page__hero" :style="{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%), url(${base}/images/bg.webp)` }">
       <div class="page__hero-inner">
         <div class="page__hero-left">
           <div class="page__content">
