@@ -552,7 +552,7 @@ const reviews: Review[] = [
           <span class="page__why-card-num" aria-hidden="true">4</span>
           <div class="page__why-card-body">
             <h3 class="page__why-card-title">Опыт и репутация</h3>
-            <p class="page__why-card-text">Более 10 лет в автоподборе, 500+ проверенных автомобилей, рейтинг 5.0 на Авито. Работаем так, чтобы клиенты возвращались и советовали нас друзьям.</p>
+            <p class="page__why-card-text">Более 10 лет в автоподборе, 5000+ проверенных автомобилей, рейтинг 5.0 на Авито. Работаем так, чтобы клиенты возвращались и советовали нас друзьям.</p>
           </div>
         </div>
         <div class="page__why-card">
@@ -822,7 +822,7 @@ const reviews: Review[] = [
               <span class="page__cta-bottom-stat-text">лет в автоподборе</span>
             </div>
             <div class="page__cta-bottom-stat">
-              <span class="page__cta-bottom-stat-num">500+</span>
+              <span class="page__cta-bottom-stat-num">5000+</span>
               <span class="page__cta-bottom-stat-text">проверенных авто</span>
             </div>
             <div class="page__cta-bottom-stat">
