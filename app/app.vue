@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { jsonLdScript, localBusinessJsonLd } from './utils/schema'
+
+// Глобальная микроразметка LocalBusiness/AutomotiveBusiness — подключается на всех страницах.
+useHead({
+  script: [jsonLdScript(localBusinessJsonLd(), 'ld-organization')],
+})
+</script>
+
 <template>
   <div class="main-container">
     <Header />

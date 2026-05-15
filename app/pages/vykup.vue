@@ -1,16 +1,46 @@
 <script setup lang="ts">
 import { sendLead } from '../utils/lead'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  jsonLdScript,
+  serviceJsonLd,
+} from '../utils/schema'
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+const PAGE_URL = `${SITE_URL}/vykup`
+const PAGE_TITLE = 'Выкуп авто в Рязани — срочный выкуп и комиссионная продажа автомобиля | Автоподбор 62'
+const PAGE_DESCRIPTION =
+  'Срочный выкуп автомобиля в Рязани — деньги в день обращения. Комиссионная продажа по рыночной цене: фото, размещение на всех площадках, показы и сделка под ключ.'
+
 useHead({
-  title: 'Выкуп авто в Рязани — срочный выкуп и комиссионная продажа автомобиля | Автоподбор 62',
+  title: PAGE_TITLE,
   meta: [
-    {
-      name: 'description',
-      content: 'Срочный выкуп автомобиля в Рязани — деньги в день обращения. Комиссионная продажа по рыночной цене: фото, размещение на всех площадках, показы и сделка под ключ.',
-    },
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      serviceJsonLd({
+        name: 'Выкуп и комиссионная продажа автомобиля',
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        serviceType: 'Выкуп автомобиля и комиссионная продажа',
+      }),
+      'ld-vykup-service',
+    ),
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'Выкуп и комиссионная продажа', url: PAGE_URL },
+      ]),
+      'ld-vykup-breadcrumbs',
+    ),
   ],
 })
 

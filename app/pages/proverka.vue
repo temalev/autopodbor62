@@ -1,16 +1,46 @@
 <script setup lang="ts">
 import { sendLead } from '../utils/lead'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  jsonLdScript,
+  serviceJsonLd,
+} from '../utils/schema'
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+const PAGE_URL = `${SITE_URL}/proverka`
+const PAGE_TITLE = 'Проверка автомобиля перед покупкой в Рязани — Автоподбор 62'
+const PAGE_DESCRIPTION =
+  'Проверка автомобиля перед покупкой: полная диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и видео. Заключение эксперта — стоит ли покупать. Рязань.'
+
 useHead({
-  title: 'Разовая проверка автомобиля перед покупкой — Автоподбор 62',
+  title: PAGE_TITLE,
   meta: [
-    {
-      name: 'description',
-      content: 'Проверка автомобиля перед покупкой: полная диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и видео. Заключение эксперта — стоит ли покупать. Рязань.',
-    },
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      serviceJsonLd({
+        name: 'Разовая проверка автомобиля перед покупкой',
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        serviceType: 'Проверка автомобиля перед покупкой',
+      }),
+      'ld-proverka-service',
+    ),
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'Разовая проверка автомобиля', url: PAGE_URL },
+      ]),
+      'ld-proverka-breadcrumbs',
+    ),
   ],
 })
 

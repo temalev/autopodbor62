@@ -1,16 +1,46 @@
 <script setup lang="ts">
 import { sendLead } from '../utils/lead'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  jsonLdScript,
+  serviceJsonLd,
+} from '../utils/schema'
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+const PAGE_URL = `${SITE_URL}/registraciya-gibdd`
+const PAGE_TITLE = 'Регистрация автомобиля в ГИБДД в Рязани — Автоподбор 62'
+const PAGE_DESCRIPTION =
+  'Поставим автомобиль на учёт в ГИБДД без очередей: подготовка документов, запись, осмотр, получение СТС и номерных знаков. Входит в стоимость подбора под ключ и импорта. Рязань.'
+
 useHead({
-  title: 'Регистрация автомобиля в ГИБДД — Автоподбор 62',
+  title: PAGE_TITLE,
   meta: [
-    {
-      name: 'description',
-      content: 'Поставим автомобиль на учёт в ГИБДД без очередей: подготовка документов, запись, осмотр, получение СТС и номерных знаков. Входит в стоимость подбора под ключ и импорта. Рязань.',
-    },
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      serviceJsonLd({
+        name: 'Регистрация автомобиля в ГИБДД',
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        serviceType: 'Регистрация транспортного средства в ГИБДД',
+      }),
+      'ld-gibdd-service',
+    ),
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'Регистрация в ГИБДД', url: PAGE_URL },
+      ]),
+      'ld-gibdd-breadcrumbs',
+    ),
   ],
 })
 

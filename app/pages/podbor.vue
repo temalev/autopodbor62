@@ -1,16 +1,46 @@
 <script setup lang="ts">
 import { sendLead } from '../utils/lead'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  jsonLdScript,
+  serviceJsonLd,
+} from '../utils/schema'
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+const PAGE_URL = `${SITE_URL}/podbor`
+const PAGE_TITLE = 'Подбор автомобиля под ключ в Рязани — Автоподбор 62'
+const PAGE_DESCRIPTION =
+  'Автоподбор под ключ в Рязани: поиск по рынку, три этапа проверки, сопровождение сделки, регистрация в ГИБДД. Гарантия юридической чистоты и выкупа в течение 90 дней.'
+
 useHead({
-  title: 'Подбор автомобиля под ключ — Автоподбор 62',
+  title: PAGE_TITLE,
   meta: [
-    {
-      name: 'description',
-      content: 'Автоподбор под ключ в Рязани: поиск по рынку, три этапа проверки, сопровождение сделки, регистрация в ГИБДД. Гарантия юридической чистоты и выкупа в течение 90 дней.',
-    },
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      serviceJsonLd({
+        name: 'Подбор автомобиля под ключ',
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        serviceType: 'Автоподбор автомобиля под ключ',
+      }),
+      'ld-podbor-service',
+    ),
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'Подбор автомобиля под ключ', url: PAGE_URL },
+      ]),
+      'ld-podbor-breadcrumbs',
+    ),
   ],
 })
 

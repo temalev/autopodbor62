@@ -1,16 +1,46 @@
 <script setup lang="ts">
 import { sendLead } from '../utils/lead'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  jsonLdScript,
+  serviceJsonLd,
+} from '../utils/schema'
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+const PAGE_URL = `${SITE_URL}/import`
+const PAGE_TITLE = 'Импорт авто из Кореи и Китая под ключ в Рязань — Автоподбор 62'
+const PAGE_DESCRIPTION =
+  'Покупка автомобиля в Корее и Китае под ключ: подбор, проверка, логистика, таможня, доставка в Рязань, ТО и регистрация. Прозрачная цена, без скрытых платежей.'
+
 useHead({
-  title: 'Импорт авто из Кореи и Китая под ключ — Автоподбор 62',
+  title: PAGE_TITLE,
   meta: [
-    {
-      name: 'description',
-      content: 'Покупка автомобиля в Корее и Китае под ключ: подбор, проверка, логистика, таможня, доставка в Рязань, ТО и регистрация. Прозрачная цена, без скрытых платежей.',
-    },
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      serviceJsonLd({
+        name: 'Импорт автомобиля из Кореи и Китая под ключ',
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        serviceType: 'Импорт автомобилей из-за рубежа',
+      }),
+      'ld-import-service',
+    ),
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'Импорт из Кореи и Китая', url: PAGE_URL },
+      ]),
+      'ld-import-breadcrumbs',
+    ),
   ],
 })
 

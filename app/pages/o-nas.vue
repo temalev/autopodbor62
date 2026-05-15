@@ -1,11 +1,28 @@
 <script setup lang="ts">
+import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
+
+const PAGE_URL = `${SITE_URL}/o-nas`
+const PAGE_TITLE = 'О нас — Автоподбор 62 в Рязани'
+const PAGE_DESCRIPTION =
+  'Автоподбор 62 — команда экспертов в Рязани. Автоподбор под ключ, проверка авто, выкуп и комиссионная продажа, регистрация в ГИБДД, импорт из Кореи и Китая. Контакты и карта.'
+
 useHead({
-  title: 'О нас — Автоподбор 62',
+  title: PAGE_TITLE,
   meta: [
-    {
-      name: 'description',
-      content: 'Автоподбор 62 — команда экспертов в Рязани. Автоподбор под ключ, проверка авто, выкуп и комиссионная продажа, регистрация в ГИБДД, импорт из Кореи и Китая. Контакты и карта.',
-    },
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'О нас', url: PAGE_URL },
+      ]),
+      'ld-onas-breadcrumbs',
+    ),
   ],
 })
 </script>
