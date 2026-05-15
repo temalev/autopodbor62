@@ -1,4 +1,31 @@
 <script setup lang="ts">
+import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
+
+const PAGE_URL = `${SITE_URL}/dkp`
+const PAGE_TITLE = 'Договор купли-продажи автомобиля онлайн — бесплатный шаблон ДКП в PDF | Автоподбор 62'
+const PAGE_DESCRIPTION =
+  'Бесплатный онлайн-конструктор договора купли-продажи автомобиля (ДКП). Заполните данные продавца, покупателя и авто — скачайте готовый договор в PDF. Актуальный бланк, без регистрации.'
+
+useHead({
+  title: PAGE_TITLE,
+  meta: [
+    { name: 'description', content: PAGE_DESCRIPTION },
+    { property: 'og:url', content: PAGE_URL },
+    { property: 'og:title', content: PAGE_TITLE },
+    { property: 'og:description', content: PAGE_DESCRIPTION },
+  ],
+  link: [{ rel: 'canonical', href: PAGE_URL }],
+  script: [
+    jsonLdScript(
+      breadcrumbJsonLd([
+        { name: 'Главная', url: `${SITE_URL}/` },
+        { name: 'Договор купли-продажи (ДКП)', url: PAGE_URL },
+      ]),
+      'ld-dkp-breadcrumbs',
+    ),
+  ],
+})
+
 const form = reactive({
   city: 'Рязань',
   date: new Date().toLocaleDateString('ru-RU'),
