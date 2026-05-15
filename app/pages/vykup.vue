@@ -14,6 +14,7 @@ const PAGE_URL = `${SITE_URL}/vykup`
 const PAGE_TITLE = 'Выкуп авто в Рязани — срочный выкуп и комиссионная продажа автомобиля | Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Срочный выкуп автомобиля в Рязани — деньги в день обращения. Комиссионная продажа по рыночной цене: фото, размещение на всех площадках, показы и сделка под ключ.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/3.jpeg`
 
 useHead({
   title: PAGE_TITLE,
@@ -22,6 +23,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/jpeg' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [
@@ -31,6 +35,7 @@ useHead({
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Выкуп автомобиля и комиссионная продажа',
+        image: PAGE_OG_IMAGE,
       }),
       'ld-vykup-service',
     ),

@@ -44,16 +44,9 @@ export default defineNuxtConfig({
           property: 'og:description',
           content: 'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД. Честный осмотр и отчёт без риска.',
         },
-        { property: 'og:url', content: 'https://xn--62-6kceem3eacgpr.xn--p1ai/' },
-        { property: 'og:image', content: 'https://xn--62-6kceem3eacgpr.xn--p1ai/images/logo.png' },
-        { property: 'og:image:type', content: 'image/png' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани' },
-        {
-          name: 'twitter:description',
-          content: 'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД. Честный осмотр и отчёт без риска.',
-        },
-        { name: 'twitter:image', content: 'https://xn--62-6kceem3eacgpr.xn--p1ai/images/logo.png' },
+        // og:url, og:title, og:description, og:image, twitter:* — задаются индивидуально
+        // на каждой странице через useHead() (см. app/pages/*.vue).
       ],
       script: [
         {

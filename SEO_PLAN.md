@@ -49,13 +49,26 @@
 
 ---
 
-### ☐ 3. Open Graph на внутренних страницах
+### ✅ 3. Open Graph на внутренних страницах — ВЫПОЛНЕНО (2026‑05‑15)
 
-`og:title`, `og:description`, `og:url`, `og:image` сейчас заданы только в [nuxt.config.ts:35-56](nuxt.config.ts#L35) — одни и те же для всех страниц.
+Что сделано:
+- ✅ Текстовые OG (`og:url`, `og:title`, `og:description`) уникальны на каждой странице (сделано в пункте 1 заодно с canonical).
+- ✅ `og:image` и `twitter:image` теперь индивидуальные:
+  - `/` → `/images/bg.webp`
+  - `/podbor` → `/images/services/1.jpeg`
+  - `/proverka` → `/images/services/2.jpeg`
+  - `/proverka-kuzova` → `/images/services/3.jpeg`
+  - `/vykup` → `/images/services/3.jpeg`
+  - `/import` → `/images/korea.webp`
+  - `/registraciya-gibdd` → `/images/services/1.jpeg`
+  - `/o-nas` → `/images/team/ivan.webp`
+  - `/dkp` → `/images/bg.webp`
+- ✅ Глобальные дефолты `og:image`/`og:image:type`/`twitter:image`/`twitter:title`/`twitter:description` убраны из [nuxt.config.ts](nuxt.config.ts) — они мешали per-page override.
+- ✅ Service JSON-LD на каждой странице услуги тоже использует тот же `image` (поле `image` в Schema).
 
-Что сделать:
-- На каждой странице услуги переопределить OG‑мета в `useHead`. При расшаривании ссылки в Telegram/WhatsApp/ВК будет правильное превью.
-- Подготовить отдельные og:image (1200×630) для главной и для каждой услуги.
+**На потом (дизайн-задача, не код):** нарисовать брендированные баннеры 1200×630 со слоганом, логотипом и фоном — отдельный для каждой страницы. Сейчас используются hero-изображения нативных пропорций (~1.33:1, не идеал для Facebook/Telegram-предпросмотра). Когда баннеры будут готовы, заменить URL в `useHead` — путь к файлу один, остальная разметка останется.
+
+Проверка: после `rm -rf .output .nuxt && npx nuxt generate` все 9 страниц имеют свой `og:image` и `twitter:image` (verified в `.output/public/*/index.html`).
 
 ---
 

@@ -5,6 +5,7 @@ const PAGE_URL = `${SITE_URL}/dkp`
 const PAGE_TITLE = 'Договор купли-продажи автомобиля онлайн — бесплатный шаблон ДКП в PDF | Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Бесплатный онлайн-конструктор договора купли-продажи автомобиля (ДКП). Заполните данные продавца, покупателя и авто — скачайте готовый договор в PDF. Актуальный бланк, без регистрации.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/bg.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -13,6 +14,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/webp' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [

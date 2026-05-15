@@ -14,6 +14,7 @@ const PAGE_URL = `${SITE_URL}/proverka-kuzova`
 const PAGE_TITLE = 'Приём авто из кузовного ремонта в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Принимаем автомобиль после кузовного ремонта или покупки у дилера: замер ЛКП, контроль малярных работ, сверка с нормо-часами, фотоотчёт. Рязань.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/3.jpeg`
 
 useHead({
   title: PAGE_TITLE,
@@ -22,6 +23,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/jpeg' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [
@@ -31,6 +35,7 @@ useHead({
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Проверка кузовного ремонта',
+        image: PAGE_OG_IMAGE,
       }),
       'ld-proverka-kuzova-service',
     ),

@@ -14,6 +14,7 @@ const PAGE_URL = `${SITE_URL}/import`
 const PAGE_TITLE = 'Импорт авто из Кореи и Китая под ключ в Рязань — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Покупка автомобиля в Корее и Китае под ключ: подбор, проверка, логистика, таможня, доставка в Рязань, ТО и регистрация. Прозрачная цена, без скрытых платежей.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/korea.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -22,6 +23,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/webp' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [
@@ -31,6 +35,7 @@ useHead({
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Импорт автомобилей из-за рубежа',
+        image: PAGE_OG_IMAGE,
       }),
       'ld-import-service',
     ),

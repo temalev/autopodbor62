@@ -14,6 +14,7 @@ const PAGE_URL = `${SITE_URL}/proverka`
 const PAGE_TITLE = 'Проверка автомобиля перед покупкой в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Проверка автомобиля перед покупкой: полная диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и видео. Заключение эксперта — стоит ли покупать. Рязань.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/2.jpeg`
 
 useHead({
   title: PAGE_TITLE,
@@ -22,6 +23,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/jpeg' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [
@@ -31,6 +35,7 @@ useHead({
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Проверка автомобиля перед покупкой',
+        image: PAGE_OG_IMAGE,
       }),
       'ld-proverka-service',
     ),

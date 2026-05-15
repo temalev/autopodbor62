@@ -14,6 +14,7 @@ const PAGE_URL = `${SITE_URL}/podbor`
 const PAGE_TITLE = 'Подбор автомобиля под ключ в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Автоподбор под ключ в Рязани: поиск по рынку, три этапа проверки, сопровождение сделки, регистрация в ГИБДД. Гарантия юридической чистоты и выкупа в течение 90 дней.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.jpeg`
 
 useHead({
   title: PAGE_TITLE,
@@ -22,6 +23,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/jpeg' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [
@@ -31,6 +35,7 @@ useHead({
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Автоподбор автомобиля под ключ',
+        image: PAGE_OG_IMAGE,
       }),
       'ld-podbor-service',
     ),

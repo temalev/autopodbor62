@@ -12,6 +12,8 @@ import {
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+const HOME_OG_IMAGE = `${SITE_URL}/images/bg.webp`
+
 useHead({
   title: 'Автоподбор в Рязани под ключ — проверка, выкуп, регистрация авто | Автоподбор 62',
   meta: [
@@ -25,6 +27,9 @@ useHead({
       property: 'og:description',
       content: 'Услуги полного цикла по автоподбору в Рязани: подбор под ключ, проверка перед покупкой, выкуп, регистрация в ГИБДД, импорт. Гарантия юридической чистоты.',
     },
+    { property: 'og:image', content: HOME_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/webp' },
+    { name: 'twitter:image', content: HOME_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: `${SITE_URL}/` }],
   script: [

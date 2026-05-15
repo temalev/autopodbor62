@@ -5,6 +5,7 @@ const PAGE_URL = `${SITE_URL}/o-nas`
 const PAGE_TITLE = 'О нас — Автоподбор 62 в Рязани'
 const PAGE_DESCRIPTION =
   'Автоподбор 62 — команда экспертов в Рязани. Автоподбор под ключ, проверка авто, выкуп и комиссионная продажа, регистрация в ГИБДД, импорт из Кореи и Китая. Контакты и карта.'
+const PAGE_OG_IMAGE = `${SITE_URL}/images/team/ivan.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -13,6 +14,9 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: PAGE_OG_IMAGE },
+    { property: 'og:image:type', content: 'image/webp' },
+    { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [
