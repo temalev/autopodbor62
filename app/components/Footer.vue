@@ -85,6 +85,9 @@
     <div class="footer__bottom">
       <div class="footer__bottom-inner">
         <p class="footer__copy">&copy; 2025 Автоподбор 62. Все права защищены.</p>
+        <NuxtLink to="/privacy-policy" class="footer__avito">
+          Политика конфиденциальности
+        </NuxtLink>
         <a href="https://www.avito.ru/brands/i17034625#open-reviews-list" target="_blank" rel="noopener noreferrer" class="footer__avito">
           Отзывы на Авито
         </a>
