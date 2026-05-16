@@ -43,7 +43,13 @@ export default defineNuxtConfig({
   },
   css: [
     resolve(__dirname, 'assets/styles/main.scss'),
-    'element-plus/dist/index.css',
+    // Element Plus: вместо полного index.css (~344 КБ) подключаем только нужные компоненты.
+    'element-plus/theme-chalk/base.css',
+    'element-plus/theme-chalk/el-collapse.css',
+    'element-plus/theme-chalk/el-collapse-item.css',
+    'element-plus/theme-chalk/el-collapse-transition.css',
+    'element-plus/theme-chalk/el-drawer.css',
+    'element-plus/theme-chalk/el-overlay.css',
   ],
   app: {
     baseURL: '/',
@@ -53,7 +59,7 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ],
       meta: [
