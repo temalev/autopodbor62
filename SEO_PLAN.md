@@ -88,14 +88,24 @@
 
 ## БЛОК 2. ВЫСОКИЙ ПРИОРИТЕТ
 
-### ☐ 5. Автогенерация sitemap.xml
+### ✅ 5. Автогенерация sitemap.xml — ВЫПОЛНЕНО (2026‑05‑16)
 
-Сейчас `public/sitemap.xml` ведётся вручную, без `lastmod`, `priority`, `changefreq`.
+Что сделано:
+- ✅ Установлен `@nuxtjs/sitemap` v8.0.15 (поддержка Nuxt 4).
+- ✅ Подключён в [nuxt.config.ts](nuxt.config.ts) как модуль, выставлен `site.url`.
+- ✅ Удалён ручной `public/sitemap.xml`.
+- ✅ Прописаны priority и changefreq per-route:
+  - `/` → 1.0 / weekly
+  - `/podbor`, `/proverka`, `/vykup`, `/import` → 0.9 / monthly
+  - `/proverka-kuzova`, `/registraciya-gibdd` → 0.8 / monthly
+  - `/o-nas`, `/dkp` → 0.6 / yearly
+  - `/privacy-policy` → 0.3 / yearly
+- ✅ Включён `autoLastmod: true` — поле `<lastmod>` ставится на каждый URL (Яндекс использует его, чтобы понимать, что переобходить).
+- ✅ Отключён `discoverImages: false` — иначе модуль автоматически тащил в sitemap внешние картинки с Авито (аватарки и фото из отзывов).
 
-Что сделать:
-- Установить `@nuxtjs/sitemap`.
-- Удалить `public/sitemap.xml`, настроить автогенерацию.
-- Прописать приоритеты: главная 1.0, услуги 0.8, о‑нас/dkp 0.5.
+`/sitemap.xml` теперь автогенерируется при `npx nuxt generate`. `robots.txt` уже на него ссылается, отдельной правки не нужно.
+
+Проверка: 10 URL в sitemap, у каждого есть `<loc>`, `<lastmod>`, `<changefreq>`, `<priority>`.
 
 ---
 

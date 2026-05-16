@@ -7,6 +7,31 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  modules: ['@nuxtjs/sitemap'],
+  site: {
+    url: 'https://xn--62-6kceem3eacgpr.xn--p1ai',
+    name: 'Автоподбор 62',
+  },
+  sitemap: {
+    // Авто-обнаружение страниц + переопределяем priority/changefreq.
+    // Google игнорирует priority, но Яндекс ещё учитывает.
+    // Отключаем авто-сканирование <img> — иначе в sitemap попадают внешние
+    // картинки с Авито (отзывы), которые нам там не нужны.
+    discoverImages: false,
+    autoLastmod: true,
+    urls: [
+      { loc: '/', priority: 1.0, changefreq: 'weekly' },
+      { loc: '/podbor', priority: 0.9, changefreq: 'monthly' },
+      { loc: '/proverka', priority: 0.9, changefreq: 'monthly' },
+      { loc: '/proverka-kuzova', priority: 0.8, changefreq: 'monthly' },
+      { loc: '/vykup', priority: 0.9, changefreq: 'monthly' },
+      { loc: '/import', priority: 0.9, changefreq: 'monthly' },
+      { loc: '/registraciya-gibdd', priority: 0.8, changefreq: 'monthly' },
+      { loc: '/o-nas', priority: 0.6, changefreq: 'yearly' },
+      { loc: '/dkp', priority: 0.6, changefreq: 'yearly' },
+      { loc: '/privacy-policy', priority: 0.3, changefreq: 'yearly' },
+    ],
+  },
   runtimeConfig: {
     public: {
       /**
