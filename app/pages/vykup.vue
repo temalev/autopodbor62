@@ -7,6 +7,24 @@ import {
   serviceJsonLd,
 } from '../utils/schema'
 
+const relatedServices = [
+  {
+    to: '/podbor',
+    title: 'Подбор автомобиля под ключ',
+    description: 'Продаёте старый, чтобы купить новый? Подберём ему замену под ваш бюджет.',
+  },
+  {
+    to: '/proverka',
+    title: 'Разовая проверка',
+    description: 'Перед покупкой следующего авто — полная диагностика и заключение эксперта.',
+  },
+  {
+    to: '/import',
+    title: 'Импорт из Кореи и Китая',
+    description: 'Альтернатива рынку РФ — привезём чистое авто из Кореи или Китая.',
+  },
+]
+
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
@@ -218,6 +236,8 @@ const steps = [
         </div>
       </div>
     </section>
+
+    <RelatedServices :items="relatedServices" subheading="Часто берут вместе с выкупом" />
   </div>
 </template>
 

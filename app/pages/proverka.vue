@@ -7,6 +7,24 @@ import {
   serviceJsonLd,
 } from '../utils/schema'
 
+const relatedServices = [
+  {
+    to: '/podbor',
+    title: 'Подбор под ключ',
+    description: 'Устали искать сами? Возьмём весь процесс на себя — от поиска до ГИБДД.',
+  },
+  {
+    to: '/proverka-kuzova',
+    title: 'Проверка кузовного ремонта',
+    description: 'Если авто было битым — отдельно проверим качество ремонта и ЛКП.',
+  },
+  {
+    to: '/vykup',
+    title: 'Выкуп и комиссионная продажа',
+    description: 'Параллельно поможем выгодно продать ваш текущий автомобиль.',
+  },
+]
+
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
@@ -192,6 +210,8 @@ const checklist = [
         </div>
       </div>
     </section>
+
+    <RelatedServices :items="relatedServices" subheading="Часто берут вместе с проверкой" />
   </div>
 </template>
 
