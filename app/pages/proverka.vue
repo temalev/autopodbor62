@@ -127,7 +127,7 @@ const checklist = [
   <div class="proverka-page">
     <div class="proverka-page__hero">
       <div class="proverka-page__hero-bg">
-        <img :src="`${base}/images/services/2.jpeg`" alt="Проверка автомобиля" class="proverka-page__hero-img" />
+        <img :src="`${base}/images/services/2.jpeg`" alt="Проверка автомобиля перед покупкой в Рязани — Автоподбор 62" class="proverka-page__hero-img" />
         <div class="proverka-page__hero-overlay" />
       </div>
       <div class="proverka-page__hero-content">

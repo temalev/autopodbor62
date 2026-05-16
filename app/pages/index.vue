@@ -520,7 +520,7 @@ const reviews: Review[] = [
 
     <section id="korea" class="page__section page__section--korea">
       <div class="page__korea-image">
-        <img :src="assetUrl('/images/korea.webp')" alt="Авто из Кореи и Китая" />
+        <img :src="assetUrl('/images/korea.webp')" alt="Импорт автомобилей из Кореи и Китая под ключ в Рязань — Автоподбор 62" />
         <div class="page__korea-image-overlay" />
       </div>
       <div class="page__korea-content">
@@ -652,7 +652,7 @@ const reviews: Review[] = [
       <div class="page__team">
         <div class="page__team-member">
           <div class="page__team-avatar">
-            <img :src="assetUrl('/images/team/vladimir.webp')" alt="Владимир" />
+            <img :src="assetUrl('/images/team/vladimir.webp')" alt="Владимир — технический эксперт, команда сервиса Автоподбор 62 в Рязани" />
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Владимир</h3>
@@ -664,7 +664,7 @@ const reviews: Review[] = [
 
         <div class="page__team-member">
           <div class="page__team-avatar">
-            <img :src="assetUrl('/images/team/dmitry.webp')" alt="Дмитрий" />
+            <img :src="assetUrl('/images/team/dmitry.webp')" alt="Дмитрий — руководитель и технический эксперт сервиса Автоподбор 62" />
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Дмитрий</h3>
@@ -676,7 +676,7 @@ const reviews: Review[] = [
 
         <div class="page__team-member">
           <div class="page__team-avatar">
-            <img :src="assetUrl('/images/team/ivan.webp')" alt="Иван Ермаков" />
+            <img :src="assetUrl('/images/team/ivan.webp')" alt="Иван Ермаков — аналитик авторынка, эксперт по импорту и юрист Автоподбор 62" />
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Иван Ермаков</h3>

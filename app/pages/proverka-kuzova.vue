@@ -142,7 +142,7 @@ const checklist = [
   <div class="kuzov-page">
     <div class="kuzov-page__hero">
       <div class="kuzov-page__hero-bg">
-        <img :src="`${base}/images/services/2.jpeg`" alt="Проверка качества кузовного ремонта" class="kuzov-page__hero-img" />
+        <img :src="`${base}/images/services/2.jpeg`" alt="Приёмка автомобиля после кузовного ремонта в Рязани — Автоподбор 62" class="kuzov-page__hero-img" />
         <div class="kuzov-page__hero-overlay" />
       </div>
       <div class="kuzov-page__hero-content">

@@ -140,7 +140,7 @@ const steps = [
   <div class="vykup-page">
     <div class="vykup-page__hero">
       <div class="vykup-page__hero-bg">
-        <img :src="`${base}/images/services/3.jpeg`" alt="Выкуп и комиссионная продажа автомобиля" class="vykup-page__hero-img" />
+        <img :src="`${base}/images/services/3.jpeg`" alt="Срочный выкуп и комиссионная продажа автомобиля в Рязани — Автоподбор 62" class="vykup-page__hero-img" />
         <div class="vykup-page__hero-overlay" />
       </div>
       <div class="vykup-page__hero-content">

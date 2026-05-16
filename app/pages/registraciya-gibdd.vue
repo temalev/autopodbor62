@@ -140,7 +140,7 @@ const documents = [
   <div class="gibdd-page">
     <div class="gibdd-page__hero">
       <div class="gibdd-page__hero-bg">
-        <img :src="`${base}/images/services/1.jpeg`" alt="Регистрация автомобиля в ГИБДД" class="gibdd-page__hero-img" />
+        <img :src="`${base}/images/services/1.jpeg`" alt="Регистрация автомобиля в ГИБДД в Рязани — Автоподбор 62" class="gibdd-page__hero-img" />
         <div class="gibdd-page__hero-overlay" />
       </div>
       <div class="gibdd-page__hero-content">

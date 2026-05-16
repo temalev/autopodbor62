@@ -126,7 +126,7 @@ const steps = [
   <div class="podbor-page">
     <div class="podbor-page__hero">
       <div class="podbor-page__hero-bg">
-        <img :src="`${base}/images/services/1.jpeg`" alt="Подбор автомобиля" class="podbor-page__hero-img" />
+        <img :src="`${base}/images/services/1.jpeg`" alt="Подбор автомобиля под ключ в Рязани — Автоподбор 62" class="podbor-page__hero-img" />
         <div class="podbor-page__hero-overlay" />
       </div>
       <div class="podbor-page__hero-content">
