@@ -524,7 +524,10 @@ const reviews: Review[] = [
         <div class="page__korea-image-overlay" />
       </div>
       <div class="page__korea-content">
-        <p class="page__korea-label">Импорт из Кореи и Китая</p>
+        <p class="page__korea-label">
+          <span class="page__korea-label-dot"></span>
+          Импорт из Кореи и Китая
+        </p>
         <h2 class="page__korea-title">Покупка автомобиля в Корее и Китае под ключ</h2>
         <p class="page__korea-text">Берём на себя анализ рынка, подбор и проверку автомобиля, сопровождение сделки, логистику, таможенное оформление, доставку в Рязань, техобслуживание, детейлинг и регистрацию в ГИБДД. Вы получаете полностью готовый к эксплуатации автомобиль с номерами — обслуженный, чистый, с прозрачной историей и понятной конечной стоимостью, без скрытых платежей.</p>
         <div class="page__korea-blocks">
@@ -552,7 +555,10 @@ const reviews: Review[] = [
       <div class="page__afterservice-wrap">
         <div class="page__afterservice-content">
           <div class="page__afterservice-left">
-            <p class="page__afterservice-label">Собственный сервис</p>
+            <p class="page__afterservice-label">
+              <span class="page__afterservice-label-dot"></span>
+              Собственный сервис · Эксклюзивно для клиентов
+            </p>
             <h2 class="page__afterservice-title">Обслуживаем авто своих клиентов после покупки</h2>
             <p class="page__afterservice-text">У нас есть собственный автосервис, где мы с огромным удовольствием и на лучших условиях можем заботится о вашем автомобиле. </p>
              <p class="page__afterservice-text">Техническое обслуживание, ремонт, предпродажная подготовка - это лишь неполный перечень услуг. Купили автомобиль с нашей помощью - будьте уверены, мы о нем позаботимся.</p>
@@ -646,7 +652,10 @@ const reviews: Review[] = [
     </section>
 
     <section id="team" class="page__section page__section--team">
-      <p class="page__team-label">Наша команда</p>
+      <p class="page__team-label">
+        <span class="page__team-label-dot"></span>
+        Наша команда
+      </p>
       <h2 class="page__team-title">Люди, которым вы доверяете свой выбор</h2>
 
       <div class="page__team">
@@ -2042,7 +2051,9 @@ const reviews: Review[] = [
     padding: 80px 56px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
+    text-align: center;
     gap: 0;
 
     @media (max-width: 860px) {
@@ -2051,12 +2062,30 @@ const reviews: Review[] = [
   }
 
   &__korea-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px 8px 14px;
+    margin: 0 0 18px;
+    background: rgba(249, 115, 22, 0.14);
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    border-radius: 999px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-accent);
-    margin: 0 0 12px;
+    letter-spacing: 0.12em;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__korea-label-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
+    animation: pulse 2s ease-in-out infinite;
   }
 
   &__korea-title {
@@ -2078,8 +2107,10 @@ const reviews: Review[] = [
   &__korea-blocks {
     display: flex;
     flex-direction: column;
+    align-self: stretch;
     gap: 14px;
     margin: 0;
+    text-align: left;
   }
 
   &__korea-block {
@@ -2180,8 +2211,23 @@ const reviews: Review[] = [
   }
 
   &__section--afterservice {
+    position: relative;
     padding: 80px 24px;
-    background: var(--color-dark);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249, 115, 22, 0.18), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(249, 115, 22, 0.08), transparent 70%),
+      var(--color-dark);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--color-accent) 50%, transparent);
+    }
 
     @media (max-width: 720px) {
       padding: 56px 20px;
@@ -2189,6 +2235,7 @@ const reviews: Review[] = [
   }
 
   &__afterservice-wrap {
+    position: relative;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -2208,16 +2255,36 @@ const reviews: Review[] = [
   &__afterservice-left {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 0;
   }
 
   &__afterservice-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px 8px 14px;
+    margin: 0 0 18px;
+    background: rgba(249, 115, 22, 0.14);
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    border-radius: 999px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-accent);
-    margin: 0 0 12px;
+    letter-spacing: 0.12em;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__afterservice-label-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
+    animation: pulse 2s ease-in-out infinite;
   }
 
   &__afterservice-title {
@@ -2243,7 +2310,6 @@ const reviews: Review[] = [
   &__afterservice-btn {
     display: inline-flex;
     align-items: center;
-    align-self: flex-start;
     padding: 15px 32px;
     background: var(--color-accent);
     color: #fff;
@@ -2385,14 +2451,53 @@ const reviews: Review[] = [
   }
 
   &__section--why {
+    position: relative;
     padding: 72px 24px;
+    background: linear-gradient(180deg, #0a0a0a 0%, #141414 100%);
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(560px, 70%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18) 50%, transparent);
+    }
 
     @media (max-width: 720px) {
       padding: 56px 20px;
     }
-    background: var(--color-dark);
-    color: #fff;
-    text-align: center;
+  }
+
+  &__why-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px 8px 14px;
+    margin: 0 0 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1;
+  }
+
+  &__why-label-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
   }
 
   &__why-headline {
@@ -2521,24 +2626,58 @@ const reviews: Review[] = [
   }
 
   &__section--team {
+    position: relative;
     padding: 80px 24px;
     border-radius: 0 0 24px 24px;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(249, 115, 22, 0.16), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 0% 0%, rgba(249, 115, 22, 0.06), transparent 70%),
+      linear-gradient(180deg, var(--color-dark) 0%, #0a0a0a 100%);
+    text-align: left;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(560px, 70%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.5) 50%, transparent);
+    }
 
     @media (max-width: 720px) {
       padding: 56px 20px;
     }
-    background: var(--color-dark);
-    text-align: left;
   }
 
   &__team-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    padding: 8px 16px 8px 14px;
+    margin: 0 auto 18px;
+    background: rgba(249, 115, 22, 0.14);
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    border-radius: 999px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-accent);
-    margin: 0 0 12px;
-    text-align: center;
+    letter-spacing: 0.12em;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__team-label-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
+    animation: pulse 2s ease-in-out infinite;
   }
 
   &__team-title {
