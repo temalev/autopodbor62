@@ -119,19 +119,18 @@ useHead({
 
 <style scoped lang="scss">
 .about {
-  padding-top: 96px;
   min-height: 100vh;
-
-  @media (max-width: 768px) {
-    padding-top: 88px;
-  }
 }
 
 .about__hero {
   background: var(--color-dark);
   color: #fff;
-  padding: 64px 24px 56px;
+  padding: 128px 24px 64px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 112px 20px 56px;
+  }
 }
 
 .about__hero-inner {
