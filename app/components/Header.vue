@@ -156,20 +156,23 @@ const services = [
   left: 0;
   right: 0;
   width: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(14, 10, 6, 0.88) 0%,
-    rgba(24, 14, 4, 0.252) 50%,
-    rgba(14, 10, 6, 0.372) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(249, 115, 22, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%),
+    rgba(18, 12, 6, 0.42);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
-    0 4px 32px rgba(0, 0, 0, 0.35),
-    inset 0 -1px 0 rgba(249, 115, 22, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 8px 32px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
   z-index: 100;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .header {
+    background: rgba(18, 12, 6, 0.92);
+  }
 }
 
 .header__container {
@@ -319,13 +322,17 @@ const services = [
   left: 50%;
   transform: translateX(-50%);
   min-width: 220px;
-  background: rgba(18, 12, 6, 0.97);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(249, 115, 22, 0.2);
-  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%),
+    rgba(18, 12, 6, 0.55);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
   padding: 8px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
   z-index: 200;
 
   &::before {
@@ -336,11 +343,25 @@ const services = [
     transform: translateX(-50%);
     width: 12px;
     height: 12px;
-    background: rgba(18, 12, 6, 0.97);
-    border-left: 1px solid rgba(249, 115, 22, 0.2);
-    border-top: 1px solid rgba(249, 115, 22, 0.2);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
+      rgba(18, 12, 6, 0.55);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     rotate: 45deg;
     border-radius: 2px 0 0 0;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .header__dropdown-menu {
+    background: rgba(18, 12, 6, 0.97);
+
+    &::before {
+      background: rgba(18, 12, 6, 0.97);
+    }
   }
 }
 
