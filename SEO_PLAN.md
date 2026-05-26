@@ -193,9 +193,38 @@
 
 ### ☐ 10. Webp/AVIF и `<NuxtImg>` для hero‑картинок
 
-- Сконвертировать большие JPG в WebP (экономия ~30‑40 % веса).
-- Использовать `@nuxt/image` с `srcset` для адаптивных размеров.
-- Для логотипа и иконок — SVG.
+**Замеры (на 2026‑05‑16):**
+
+| Файл | Размер | Вес сейчас |
+|---|---|---|
+| `public/images/services/1.jpeg` | 1024×1024 | **802 КБ** |
+| `public/images/services/2.jpeg` | 1024×1024 | **720 КБ** |
+| `public/images/services/3.jpeg` | 1024×1024 | **361 КБ** |
+| `public/images/logo.png` | **1684×1684** | 128 КБ (огромный для логотипа) |
+| `public/images/bg.webp` | 1232×928 | 64 КБ ✅ ок |
+| `public/images/korea.webp` | 1344×896 | 108 КБ ✅ ок |
+| `public/images/team/*.webp` | — | ~90 КБ каждая ✅ ок |
+| `public/images/import/*.webp` | — | 100‑350 КБ, грузятся `loading="lazy"` ✅ ок |
+
+**Решено идти ручным путём** (без `@nuxt/image`): картинки 1024×1024 — не настолько большие, чтобы `srcset` дал заметный выигрыш сверх простой конвертации формата. Экономия от ручной webp-конвертации ~75% от того, что бы дал `@nuxt/image`, но без новой зависимости и без усложнения билда.
+
+**Шаги:**
+
+1. Сконвертировать `services/*.jpeg` → `.webp`:
+   ```bash
+   cd public/images/services
+   for f in *.jpeg; do cwebp -q 82 "$f" -o "${f%.jpeg}.webp"; done
+   # (опционально, ещё компактнее) avifenc -s 6 -q 60 "$f" "${f%.jpeg}.avif"
+   rm *.jpeg
+   ```
+2. Заменить ссылки `.jpeg` → `.webp` в коде:
+   - [app/pages/podbor.vue:35](app/pages/podbor.vue#L35) (`PAGE_OG_IMAGE`) и [app/pages/podbor.vue:147](app/pages/podbor.vue#L147) (hero `<img>`)
+   - [app/pages/proverka.vue:35](app/pages/proverka.vue#L35) и [app/pages/proverka.vue:148](app/pages/proverka.vue#L148)
+   - [app/pages/vykup.vue:35](app/pages/vykup.vue#L35) и [app/pages/vykup.vue:161](app/pages/vykup.vue#L161)
+   - [app/pages/proverka-kuzova.vue:35](app/pages/proverka-kuzova.vue#L35) и [app/pages/proverka-kuzova.vue:163](app/pages/proverka-kuzova.vue#L163) (там 3.jpeg для OG и 2.jpeg для hero — оба заменить)
+   - [app/pages/registraciya-gibdd.vue:35](app/pages/registraciya-gibdd.vue#L35) и [app/pages/registraciya-gibdd.vue:161](app/pages/registraciya-gibdd.vue#L161)
+3. Ресайзить `public/images/logo.png` с 1684×1684 до ~400×400 (или сделать SVG-версию).
+4. Проверить: `npx nuxt generate`, открыть все 5 страниц-услуг, главную, дёрнуть DevTools → Network → отфильтровать «Img», убедиться, что отдаются `.webp`, ничего не битое.
 
 ---
 
