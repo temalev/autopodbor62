@@ -9,6 +9,85 @@
 
 ---
 
+## 🔥 АУДИТ 2026‑05‑26 — что нашёл при повторной проверке
+
+Прогнал свежий аудит по всем 10 страницам, `.output/public/*.html`, `robots.txt`, sitemap, JSON‑LD, alt‑текстам, размерам картинок. Что выплыло (отсортировано по приоритету):
+
+### КРИТИЧНО — починить в первую очередь
+
+1. **`<html lang>` отсутствует** — в [nuxt.config.ts](nuxt.config.ts) не задан `app.head.htmlAttrs.lang`, в собранном HTML `<html>` идёт без атрибута. И Google, и Яндекс используют lang для определения языка страницы и связывания с регионом. Фикс — одна строка: `htmlAttrs: { lang: 'ru' }` в `app.head` в [nuxt.config.ts](nuxt.config.ts).
+2. **Два `<h1>` на /dkp** — [app/pages/dkp.vue:284](app/pages/dkp.vue#L284) («Договор купли‑продажи (ДКП)») и [app/pages/dkp.vue:438](app/pages/dkp.vue#L438) («Договор купли‑продажи транспортного средства»). Второй — это печатный шаблон в `.pdf-doc--print` с `display: none` на экране, но он всё равно в DOM. Googlebot его видит. Поменять второй на `<h2>` (или `<div class="pdf-doc__title">` без изменения класса‑стиля).
+3. **`og:image` отсутствует на /privacy-policy** — [app/pages/privacy-policy.vue:11‑18](app/pages/privacy-policy.vue#L11) — в `useHead.meta` нет ни `og:image`, ни `twitter:image`. Превью в Telegram/мессенджерах будет пустым. Подставить общий брендовый баннер: `${SITE_URL}/images/bg.webp` (как на /dkp).
+4. **Service JSON‑LD на главной использует logo вместо хиро** — `index.vue` не передаёт `image` в `serviceJsonLd`, дефолт в [app/utils/schema.ts:114](app/utils/schema.ts#L114) подставляет логотип. Логотип 1684×1684 и квадратный — не подходит для Service image. Передавать `image: ${SITE_URL}/images/bg.webp`.
+5. **Service-картинки до сих пор `.jpeg`, 784/704/353 КБ** — пункт #10 плана не сделан. Это самый жирный косяк по Core Web Vitals и единственное серьёзное замечание PageSpeed. Файлы: [public/images/services/1.jpeg](public/images/services/1.jpeg), [public/images/services/2.jpeg](public/images/services/2.jpeg), [public/images/services/3.jpeg](public/images/services/3.jpeg). Конвертить в `.webp` (команда — в пункте #10 ниже) и заменить ссылки на 5 страницах услуг.
+6. **logo.png 125 КБ при размере 1684×1684** — пункт #10 плана не сделан. Логотип в шапке отображается 44×44, а грузится 1684×1684. Ресайз до 256×256 + дополнительная конвертация в `.webp` снимет ~120 КБ. Файл [public/images/logo.png](public/images/logo.png) используется в `<img>` хедера и в JSON‑LD `logo`/`image`.
+
+### ВЫСОКИЙ ПРИОРИТЕТ — поправить вскоре
+
+7. **Title слишком длинные** — Google режет ~60 символов кириллицей. Текущие:
+   - `/` — 80 симв. (брэнд в конце обрежется)
+   - `/dkp` — 85 симв.
+   - `/vykup` — 85 симв.
+
+   Остальные — 51‑62 симв., в норме. Урезать индекс/дкп/выкуп: убрать `| Автоподбор 62` из самых длинных (бренд и так в `og:site_name` и в title-конце видно).
+8. **Description слишком длинные на 4 страницах** — Google режет ~160 симв.:
+   - `/` — 232 симв.
+   - `/dkp` — 184 симв.
+   - `/o-nas` — 173 симв.
+   - `/registraciya-gibdd` — 176 симв.
+   - `/podbor` — 165 симв.
+
+   Урезать до 150‑160 симв., перенося хвост в текст страницы.
+9. **FAQ — 2 вопроса всё ещё закомментированы** — [app/pages/index.vue:805‑822](app/pages/index.vue#L805). Пункт #11 плана: расскоментировать «Что такое Автоподбор62» и «Какие автомобили подбираете» + добавить в `faqPageJsonLd()` тоже.
+10. **`<meta name="robots">` нигде не выставлен** — по умолчанию краулеры считают `index, follow`, но явное указание защитит от случайной де‑индексации. Добавить в [nuxt.config.ts](nuxt.config.ts) `{ name: 'robots', content: 'index, follow' }` (исключая `/privacy-policy` и `error.vue`, где уже `noindex`).
+11. **robots.txt без Clean‑param** — Яндекс по умолчанию считает `/?utm_source=...` отдельной страницей. Добавить:
+    ```
+    Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&fbclid&_openstat&from
+    ```
+    Это убирает дубликаты в индексе Яндекса. Google использует `?gclid` тоже, но он сам нормализует.
+
+### СРЕДНИЙ — приятные мелочи
+
+12. **Нет JSON‑LD `WebSite` с `SearchAction`** — Google может показывать поисковое окно в SERP под брендовой выдачей. Добавить в `app.vue` рядом с LocalBusiness. Хелпер написать в [app/utils/schema.ts](app/utils/schema.ts). Без реального `/search?q=` работает лимитированно (без действия), но `WebSite` сам по себе полезен для @id‑связок.
+13. **Нет `theme-color`** — мобильные браузеры окрашивают строку в цвет акцента. `{ name: 'theme-color', content: '#0a0a0a' }` в `nuxt.config.ts`.
+14. **Нет `format-detection`** — iOS Safari иногда автоматически линкует цифры в текст как телефоны. `{ name: 'format-detection', content: 'telephone=no' }` (у нас всё нужное и так в `<a href="tel:">`).
+15. **`@nuxt/image` не используется (решение по плану)** — подтверждаю, что для статичных хиро‑картинок ручной webp ок. Если в будущем появятся пользовательские загрузки или responsive‑галерея — `@nuxt/image` стоит подключить.
+16. **`@element-plus/icons-vue` всё ещё в package.json** — мёртвая зависимость, в коде не используется. Удалить из [package.json](package.json) → меньше `node_modules`, чище ауд‑отчёт.
+
+### ЧТО ХОРОШО (не трогать)
+
+- ✅ JSON‑LD LocalBusiness глобально — данные полные, координаты есть, рейтинг, sameAs.
+- ✅ Canonical на каждой странице.
+- ✅ BreadcrumbList на всех внутренних.
+- ✅ Service JSON‑LD на 6 услугах (только image на главной фиксануть).
+- ✅ Sitemap автогенерируется, lastmod, priority, changefreq — всё на месте.
+- ✅ RelatedServices на каждой странице услуги — 3 кросс‑линка × 6 = 18 внутренних ссылок, ок.
+- ✅ Семантический `<address>` с `<time datetime>` в футере.
+- ✅ Alt‑тексты на хиро‑картинках и галерее импорта — все запросно‑ориентированные.
+- ✅ Element Plus tree‑shaking — ~316 КБ CSS убрано.
+- ✅ Material Symbols с `display=swap`.
+- ✅ Яндекс‑верификация в meta + DNS.
+
+---
+
+## Раздел 0. Быстрые правки одной коммитой (1 час работы, дают сразу 5+ баллов в аудитах)
+
+Объединить в один атомарный коммит «SEO quick wins» (по находкам 1‑4, 10, 13, 14):
+
+- [ ] `htmlAttrs: { lang: 'ru' }` в [nuxt.config.ts](nuxt.config.ts)
+- [ ] второй `<h1>` в [dkp.vue:438](app/pages/dkp.vue#L438) → `<h2>`
+- [ ] `og:image` + `twitter:image` в [privacy-policy.vue:11](app/pages/privacy-policy.vue#L11) (использовать `bg.webp`)
+- [ ] `image: ${SITE_URL}/images/bg.webp` в `serviceJsonLd()` вызове в [index.vue:38](app/pages/index.vue#L38)
+- [ ] Глобальный `{ name: 'robots', content: 'index, follow' }` в `nuxt.config.ts`
+- [ ] `{ name: 'theme-color', content: '#0a0a0a' }` (или акцентный)
+- [ ] `{ name: 'format-detection', content: 'telephone=no' }`
+- [ ] Урезать title `/`, `/dkp`, `/vykup` до ≤65 симв.
+- [ ] Урезать description до 150‑160 симв. на `/`, `/dkp`, `/o-nas`, `/podbor`, `/registraciya-gibdd`
+
+Проверка после: `npx nuxt generate`, открыть `.output/public/index.html`, найти `lang="ru"`, искомые meta, новые title’ы. По 1 url прогнать через https://search.google.com/test/rich-results и https://webmaster.yandex.ru/tools/microtest/.
+
+---
+
 ## БЛОК 1. КРИТИЧНОЕ (фундамент SEO)
 
 ### ✅ 1. JSON‑LD разметка Schema.org — ВЫПОЛНЕНО (2026‑05‑15)
@@ -191,7 +270,9 @@
 
 ---
 
-### ☐ 10. Webp/AVIF и `<NuxtImg>` для hero‑картинок
+### ☐ 10. Webp/AVIF и `<NuxtImg>` для hero‑картинок — НЕ СДЕЛАНО, ВЫСОКИЙ ПРИОРИТЕТ
+
+⚠ Подтверждено на 2026‑05‑26: services/*.jpeg всё ещё 784/704/353 КБ, logo.png 125 КБ @ 1684×1684. Это самый жирный единичный косяк PageSpeed на сайте.
 
 **Замеры (на 2026‑05‑16):**
 
@@ -228,13 +309,13 @@
 
 ---
 
-### ☐ 11. Расширить FAQ‑блок и продублировать в каждую услугу
+### ☐ 11. Расширить FAQ‑блок и продублировать в каждую услугу — НЕ СДЕЛАНО
 
-Сейчас в [app/pages/index.vue:719](app/pages/index.vue#L719) 6 вопросов (ещё 2 закомментированы — расскомментировать).
+⚠ Подтверждено на 2026‑05‑26: в [app/pages/index.vue:805‑822](app/pages/index.vue#L805) 2 `<el-collapse-item>` так и закомментированы.
 
 Что сделать:
-- Раскомментировать вопросы про «Что такое Автоподбор62» и «Какие автомобили подбираете».
-- Добавить FAQ на каждую страницу услуги (3–5 вопросов, связанных именно с этой услугой) + FAQPage Schema.
+- Раскомментировать вопросы про «Что такое Автоподбор62» и «Какие автомобили подбираете» — заодно в `faqPageJsonLd()` тоже добавить эти 2 вопроса/ответа.
+- Добавить FAQ на каждую страницу услуги (3–5 вопросов, связанных именно с этой услугой) + FAQPage Schema через `faqPageJsonLd()` хелпер из `schema.ts`.
 
 ---
 
@@ -290,4 +371,23 @@
 
 ---
 
-_Последнее обновление: 2026‑05‑15_
+_Последнее обновление: 2026‑05‑26_ — добавлен свежий аудит (раздел вверху файла), обновлены статусы #10 и #11.
+
+### Использованные методы аудита
+
+- Прочитан весь `app/pages/*.vue` и `app/utils/*.ts`, проверен `useHead` на каждой странице.
+- Сравнено с собранным HTML в `.output/public/*/index.html` (что **реально** уходит краулеру).
+- Подсчёт длин title/description с UTF‑8‑aware питоновским `len()`.
+- Проверены OG / Twitter / canonical / JSON‑LD / `<h1>` на каждой странице.
+- Внутреннее линкование: grep по `to="..."` + анализ `RelatedServices.vue`.
+- Размер картинок: `find -size +200k`, инвентарь `public/images/`.
+- `robots.txt`, `sitemap.xml` (собранный), `app.head` в `nuxt.config.ts`.
+- Семантика: грубый структурный осмотр `<address>`, `<time>`, alt‑текстов.
+
+### Что ещё стоит запустить после деплоя (не локально)
+
+- https://search.google.com/test/rich-results — JSON‑LD валидность для Google.
+- https://webmaster.yandex.ru/tools/microtest/ — то же для Яндекса.
+- https://pagespeed.web.dev/ — Core Web Vitals (LCP/CLS/INP) на главной и одной услуге. После конвертации services/*.jpeg в webp LCP должен заметно упасть.
+- https://search.google.com/test/mobile-friendly — мобильная пригодность.
+- Lighthouse в Chrome DevTools — отдельный взгляд на SEO‑аудит (Lighthouse конкретно ловит lang="ru", двойной h1, alt'ы — все 3 находки из критичного блока выше).

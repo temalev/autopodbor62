@@ -54,6 +54,9 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
+      htmlAttrs: {
+        lang: 'ru',
+      },
       title: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани',
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
