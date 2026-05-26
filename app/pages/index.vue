@@ -2070,7 +2070,7 @@ const reviews: Review[] = [
     background: rgba(249, 115, 22, 0.14);
     border: 1px solid rgba(249, 115, 22, 0.4);
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -2269,7 +2269,7 @@ const reviews: Review[] = [
     background: rgba(249, 115, 22, 0.14);
     border: 1px solid rgba(249, 115, 22, 0.4);
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -2483,7 +2483,7 @@ const reviews: Review[] = [
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -2662,7 +2662,7 @@ const reviews: Review[] = [
     background: rgba(249, 115, 22, 0.14);
     border: 1px solid rgba(249, 115, 22, 0.4);
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
