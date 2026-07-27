@@ -314,6 +314,31 @@ const services = [
 
 const reviews: Review[] = [
   {
+    id: 404632129,
+    avatar: {
+      '100x100': 'https://60.img.avito.st/image/1/1.1TEDYLa1b9h9wrPbJVeHIAbBe9i9y7PbfcJ72g.OEbKK9L3dzyZueIZJOmDXERekNO1aHi8o-XB5DoqUiY',
+      '64x64': 'https://60.img.avito.st/image/1/1.1TEDYLa1b9g1wvvbJVeHIAbBe9i9y_vbNcJ72g.UDA4XY09RUb_CC3SfF4k9MI-LqhN4gUAtrX28M7_7Xg',
+    },
+    title: 'Сергей Есин',
+    titleCaption: 'Клиент',
+    rated: '14 марта 2026',
+    score: 5,
+    stageTitle: 'Сделка состоялась',
+    itemTitle: 'Проверка автомобиля, автоподбор',
+    textSections: [
+      { text: 'Спасибо за проделанную работу, осмотр автомобиля проведен профессионально, Дмитрий предоставил качественный, понятный фото и видео отчет! Также ответил на все поставленные вопросы!' },
+    ],
+    images: [
+      { '640x480': 'https://80.img.avito.st/image/1/1.tUk-tLa5s_2KlxFij8fmYwKVGKKMERkigtccoowBHaI.lwBoEFWdHPa224Csd8_6PFmSlGB4WXIPvXPgqJyqJ3E', '180x135': 'https://80.img.avito.st/image/1/1.tUk-tLa5s_2K_xksisfmYwKVGKKMERlKipkZoowBHaI.d3Xf0uUNy4gtSdFB1BiiukVJ9LV4wf0Fir8YPR-sKl8' },
+    ],
+    answer: {
+      answered: '14 марта 2026',
+      title: 'Автоподбор autopodbor_62',
+      text: 'Спасибо за обращение, коллега 🤝 рад был помочь',
+      avatar: { '64x64': 'https://00.img.avito.st/image/1/1.i-WaLra2MQysjKUPgDyvh3yNJwYkDSSOLY0l.BWlzhLPHT472Ez1lwSOu1YawJhLnks0gRxANQDl5jWM?cqp=2.pGdjs5fBvl5-fB-fm84xxYDAkt8GM2Wgr1fOyxua9Q==' },
+    },
+  },
+  {
     id: 381146673,
     avatar: {
       '100x100': 'https://30.img.avito.st/image/1/1.5hjcALa1XPGiooDynFvUCsihSPFiq4DyoqJI8w.XHVGtvGhJ_sg9YotQHS6GOGAazewA3MLkMomJOq86OA?cqp=2.pGdjs5fBvl5-fB-fm84xxYDAkt8GM2Wgr1fOyxua9Q==',
@@ -804,6 +829,8 @@ const reviews: Review[] = [
         </a>
       </div>
     </section>
+
+    <YandexReviews />
 
     <section id="faq" class="page__section page__section--alt">
       <h2 class="page__section-title">FAQ — часто задаваемые вопросы</h2>

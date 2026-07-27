@@ -73,12 +73,21 @@ export function localBusinessJsonLd() {
     sameAs: [
       'https://t.me/Autopodbor62',
       'https://www.avito.ru/brands/i17034625',
+      'https://yandex.ru/maps/org/autopodbor_62/204442224583/',
     ],
+    // Агрегат по отзывам с Авито — это тот же источник, из которого взяты
+    // карточки отзывов в HTML главной страницы (массив `reviews` в index.vue),
+    // поэтому разметка описывает именно то, что видно на странице.
+    // Сверено с профилем 2026-07-27: 136 отзывов, все с оценкой 5.
+    // Профиль указан в sameAs — значения проверяемы.
+    // Виджет Яндекс.Карт на главной показывает вторую площадку (4,8 / 26)
+    // и в этот агрегат намеренно не входит: смешивать источники в одном
+    // AggregateRating нельзя.
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5.0',
       bestRating: '5',
-      reviewCount: '50',
+      reviewCount: '136',
     },
     contactPoint: {
       '@type': 'ContactPoint',
