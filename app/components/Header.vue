@@ -81,7 +81,7 @@ const services = [
             </div>
           </Transition>
         </div>
-        <!-- <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink> -->
+        <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink>
       </nav>
 
       <!-- Бургер-кнопка для мобильной версии -->
@@ -140,9 +140,9 @@ const services = [
               </div>
             </Transition>
           </div>
-          <!-- <NuxtLink to="/dkp" class="header__link--mobile" @click="closeDrawer">
+          <NuxtLink to="/dkp" class="header__link--mobile" @click="closeDrawer">
             ДКП онлайн
-          </NuxtLink> -->
+          </NuxtLink>
         </nav>
       </ElDrawer>
     </ClientOnly>

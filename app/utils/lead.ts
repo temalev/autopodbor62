@@ -1,4 +1,5 @@
 import { useRuntimeConfig } from '#imports'
+import { reachGoal } from './metrika'
 
 export type LeadPayload = {
   name?: string
@@ -65,6 +66,8 @@ export async function sendLead(payload: LeadPayload): Promise<LeadSendResult> {
       }
       return { ok: false, error: msg }
     }
+
+    reachGoal('lead_success', { source: body.source || 'unknown', page: body.page })
 
     return { ok: true }
   } catch (e) {

@@ -56,15 +56,33 @@ const form = reactive({
   carType: '',
   carYear: '',
   vin: '',
-  mileage: '',
+  secondVin: '',
   power: '',
   engineVolume: '',
   color: '',
   plateNumber: '',
 
+  engineModelNumber: '',
+  chassisNumber: '',
+  bodyNumber: '',
+
+  ptsSeriesNumber: '',
+  ptsIssuedBy: '',
+  ptsIssuedDate: '',
+
+  stsSeriesNumber: '',
+  stsIssuedBy: '',
+  stsIssuedDate: '',
+
   price: '',
-  extras: '',
 })
+
+/**
+ * Тумблер «дополнительный VIN» переключает бланк: `dkp_full.pdf` со строкой под
+ * второй VIN либо `dkp.pdf` без неё. Оба бланка в остальном идентичны — те же
+ * поля и те же пункты договора, включая 3.4 и 3.5.
+ */
+const hasSecondVin = ref(false)
 
 const previewUrl = ref<string | null>(null)
 
@@ -73,6 +91,76 @@ const joinCsv = (parts: Array<string | undefined | null>) =>
     .map(p => (p ?? '').trim())
     .filter(Boolean)
     .join(', ')
+
+const RU_ONES_M = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять']
+const RU_ONES_F = ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять']
+const RU_TEENS = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать']
+const RU_TENS = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто']
+const RU_HUNDREDS = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот']
+
+/** Выбор падежной формы: 1 тысяча, 2 тысячи, 5 тысяч */
+const pluralRu = (n: number, forms: [string, string, string]) => {
+  const n10 = n % 10
+  const n100 = n % 100
+  if (n10 === 1 && n100 !== 11) return forms[0]
+  if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return forms[1]
+  return forms[2]
+}
+
+const tripleToWordsRu = (n: number, feminine: boolean) => {
+  const out: string[] = []
+  const h = Math.floor(n / 100)
+  const t = Math.floor((n % 100) / 10)
+  const o = n % 10
+  if (h) out.push(RU_HUNDREDS[h] ?? '')
+  if (t === 1) {
+    out.push(RU_TEENS[o] ?? '')
+  } else {
+    if (t) out.push(RU_TENS[t] ?? '')
+    if (o) out.push((feminine ? RU_ONES_F : RU_ONES_M)[o] ?? '')
+  }
+  return out.filter(Boolean).join(' ')
+}
+
+/**
+ * Сумма прописью для поля `price_word` — в бланке рядом уже напечатано
+ * «рублей», поэтому возвращаем только числительное.
+ */
+const amountInWordsRu = (raw: string) => {
+  const digits = (raw || '').replace(/[^\d]/g, '')
+  if (!digits) return ''
+  const total = Number(digits)
+  if (!Number.isFinite(total) || total === 0) return 'Ноль'
+
+  const chunks: number[] = []
+  let rest = total
+  while (rest > 0) {
+    chunks.push(rest % 1000)
+    rest = Math.floor(rest / 1000)
+  }
+
+  const scales: Array<{ forms: [string, string, string], feminine: boolean } | null> = [
+    null,
+    { forms: ['тысяча', 'тысячи', 'тысяч'], feminine: true },
+    { forms: ['миллион', 'миллиона', 'миллионов'], feminine: false },
+    { forms: ['миллиард', 'миллиарда', 'миллиардов'], feminine: false },
+  ]
+
+  const parts: string[] = []
+  for (let i = chunks.length - 1; i >= 0; i--) {
+    const chunk = chunks[i] ?? 0
+    if (!chunk) continue
+    const scale = scales[i]
+    parts.push(tripleToWordsRu(chunk, scale?.feminine ?? false))
+    if (scale) parts.push(pluralRu(chunk, scale.forms))
+  }
+
+  const text = parts.filter(Boolean).join(' ')
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+/** Подсказка под полем цены — та же строка, что уходит в поле `price_word` */
+const priceInWords = computed(() => amountInWordsRu(form.price))
 
 const splitToFitField = (text: string, maxWidth: number, font: any, fontSize: number) => {
   const cleaned = text.trim()
@@ -126,13 +214,27 @@ const splitToFitField = (text: string, maxWidth: number, font: any, fontSize: nu
   return { first: left, second: right }
 }
 
+/**
+ * Подбирает кегль так, чтобы текст влез в ширину поля по одной строке.
+ * Ниже 6pt не опускаемся — дальше уже нечитаемо, пусть лучше обрежется.
+ */
+const fitFontSize = (text: string, field: any, font: any, startSize: number) => {
+  const widget = field.acroField.getWidgets()[0]
+  if (!widget || !text) return startSize
+  const maxWidth = widget.getRectangle().width - 4
+  let size = startSize
+  while (size > 6 && font.widthOfTextAtSize(text, size) > maxWidth) size -= 0.5
+  return size
+}
+
 const handleDownloadPdf = async () => {
   if (typeof window === 'undefined') return
 
   const { PDFDocument, rgb } = await import('pdf-lib')
   const fontkit = (await import('@pdf-lib/fontkit')).default
 
-  const existingPdfBytes = await fetch('/dkp.pdf').then(res => res.arrayBuffer())
+  const templateUrl = hasSecondVin.value ? '/dkp_full.pdf' : '/dkp.pdf'
+  const existingPdfBytes = await fetch(templateUrl).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   pdfDoc.registerFontkit(fontkit)
   const [firstPage] = pdfDoc.getPages()
@@ -259,6 +361,44 @@ const handleDownloadPdf = async () => {
 
     buyer4Field.setText(remainingBuyer || '')
 
+    // Раздел «Автомобиль», ПТС/СТС и стоимость.
+    // Заполняем по одному полю: если в шаблоне какого-то не окажется,
+    // потеряем только его, а не весь блок.
+    const simpleFields: Array<[string, string, number?]> = [
+      ['model', form.carMakeModel],
+      ['vin', form.vin],
+      ['type', form.carType],
+      ['create_year', form.carYear],
+      ['value', form.power],
+      ['value_cub', form.engineVolume],
+      ['color', form.color],
+      ['motor_number', form.engineModelNumber],
+      ['nomer_shasi', form.chassisNumber],
+      ['body_number', form.bodyNumber],
+      ['passport_auto', form.ptsSeriesNumber],
+      ['kem_vidan', form.ptsIssuedBy, 8],
+      ['date_vidachi', form.ptsIssuedDate, 8],
+      ['gos_nomer', form.plateNumber, 9],
+      ['Number_sts', form.stsSeriesNumber, 9],
+      ['sts_vidano', form.stsIssuedBy, 8],
+      ['date_sts', form.stsIssuedDate, 9],
+      ['price', form.price, 10],
+      ['price_word', amountInWordsRu(form.price), 8],
+    ]
+
+    // Строка под дополнительный VIN есть только в полном бланке
+    if (hasSecondVin.value) simpleFields.push(['second_vin', form.secondVin])
+
+    for (const [name, value, size] of simpleFields) {
+      try {
+        const field = formApi.getTextField(name)
+        field.setFontSize(fitFontSize(value || '', field, font, size ?? fontSize))
+        field.setText(value || '')
+      } catch {
+        // поля нет в шаблоне — пропускаем
+      }
+    }
+
     // Перестраиваем внешность полей, чтобы использовать наш шрифт с кириллицей
     formApi.updateFieldAppearances(font)
   } catch {
@@ -383,40 +523,85 @@ const handleDownloadPdf = async () => {
             <input v-model="form.vin" type="text" class="pdf-page__input" />
           </div>
         </div>
+        <label class="pdf-page__toggle">
+          <input v-model="hasSecondVin" type="checkbox" class="pdf-page__toggle-input" />
+          <span class="pdf-page__toggle-track" aria-hidden="true"><span class="pdf-page__toggle-thumb" /></span>
+          <span class="pdf-page__toggle-text">Есть дополнительный идентификационный номер (VIN)</span>
+        </label>
+        <div v-if="hasSecondVin" class="pdf-page__form-group">
+          <label class="pdf-page__label">Дополнительный VIN</label>
+          <input v-model="form.secondVin" type="text" class="pdf-page__input" />
+        </div>
         <div class="pdf-page__form-grid">
-          <div class="pdf-page__form-group">
-            <label class="pdf-page__label">Пробег, км</label>
-            <input v-model="form.mileage" type="text" class="pdf-page__input" />
-          </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Мощность, л.с.</label>
             <input v-model="form.power" type="text" class="pdf-page__input" />
           </div>
-        </div>
-        <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Рабочий объём двигателя, куб. см</label>
             <input v-model="form.engineVolume" type="text" class="pdf-page__input" />
           </div>
+        </div>
+        <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Цвет кузова</label>
             <input v-model="form.color" type="text" class="pdf-page__input" />
           </div>
-        </div>
-        <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Гос. номер</label>
             <input v-model="form.plateNumber" type="text" class="pdf-page__input" />
           </div>
+        </div>
+        <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
-            <label class="pdf-page__label">Цена (₽)</label>
-            <input v-model="form.price" type="text" class="pdf-page__input" />
+            <label class="pdf-page__label">Модель и номер двигателя</label>
+            <input v-model="form.engineModelNumber" type="text" class="pdf-page__input" />
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Номер шасси, рамы</label>
+            <input v-model="form.chassisNumber" type="text" class="pdf-page__input" />
           </div>
         </div>
-
         <div class="pdf-page__form-group">
-          <label class="pdf-page__label">Дополнительные условия (опционально)</label>
-          <textarea v-model="form.extras" rows="3" class="pdf-page__input pdf-page__input--textarea" />
+          <label class="pdf-page__label">Номер кузова</label>
+          <input v-model="form.bodyNumber" type="text" class="pdf-page__input" />
+        </div>
+
+        <h2 class="pdf-page__section-title">Документы на автомобиль</h2>
+        <div class="pdf-page__form-grid">
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">ПТС, серия и номер</label>
+            <input v-model="form.ptsSeriesNumber" type="text" class="pdf-page__input" />
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">ПТС, дата выдачи</label>
+            <input v-model="form.ptsIssuedDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+          </div>
+        </div>
+        <div class="pdf-page__form-group">
+          <label class="pdf-page__label">ПТС, кем выдан</label>
+          <input v-model="form.ptsIssuedBy" type="text" class="pdf-page__input" />
+        </div>
+        <div class="pdf-page__form-grid">
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">СТС, серия и номер</label>
+            <input v-model="form.stsSeriesNumber" type="text" class="pdf-page__input" />
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">СТС, дата выдачи</label>
+            <input v-model="form.stsIssuedDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+          </div>
+        </div>
+        <div class="pdf-page__form-group">
+          <label class="pdf-page__label">СТС, кем выдано</label>
+          <input v-model="form.stsIssuedBy" type="text" class="pdf-page__input" />
+        </div>
+
+        <h2 class="pdf-page__section-title">Стоимость</h2>
+        <div class="pdf-page__form-group">
+          <label class="pdf-page__label">Цена (₽)</label>
+          <input v-model="form.price" type="text" class="pdf-page__input" />
+          <p v-if="priceInWords" class="pdf-page__hint">Прописью: {{ priceInWords }} рублей</p>
         </div>
 
         <button type="button" class="pdf-page__btn" @click="handleDownloadPdf">
@@ -467,7 +652,7 @@ const handleDownloadPdf = async () => {
         <li>Тип ТС: {{ form.carType || '________________' }}</li>
         <li>Год изготовления ТС: {{ form.carYear || '____' }}</li>
         <li>Идентификационный номер (VIN): {{ form.vin || '________________' }}</li>
-        <li>Пробег, км: {{ form.mileage || '________________' }}</li>
+        <li v-if="hasSecondVin">Дополнительный идентификационный номер (VIN): {{ form.secondVin || '________________' }}</li>
         <li>Мощность двигателя, л.с.: {{ form.power || '________________' }}</li>
         <li>Рабочий объём двигателя, куб. см: {{ form.engineVolume || '________________' }}</li>
         <li>Цвет кузова: {{ form.color || '________________' }}</li>
@@ -504,10 +689,7 @@ const handleDownloadPdf = async () => {
       </ul>
 
       <h2 class="pdf-doc__subtitle">4. Дополнительные условия</h2>
-      <p class="pdf-doc__paragraph" v-if="form.extras">
-        {{ form.extras }}
-      </p>
-      <p class="pdf-doc__paragraph" v-else>
+      <p class="pdf-doc__paragraph">
         Дополнительные условия отсутствуют либо будут согласованы Сторонами отдельно и оформлены
         дополнительным документом.
       </p>
@@ -606,6 +788,13 @@ const handleDownloadPdf = async () => {
   color: rgba(148, 163, 184, 0.95);
 }
 
+.pdf-page__hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(249, 115, 22, 0.9);
+}
+
 .pdf-page__input {
   border-radius: 10px;
   border: 1px solid rgba(51, 65, 85, 0.9);
@@ -624,8 +813,61 @@ const handleDownloadPdf = async () => {
   }
 }
 
-.pdf-page__input--textarea {
-  resize: vertical;
+.pdf-page__toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pdf-page__toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.pdf-page__toggle-track {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(51, 65, 85, 0.9);
+  border: 1px solid rgba(71, 85, 105, 0.9);
+  padding: 2px;
+  box-sizing: border-box;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.pdf-page__toggle-thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  transition: transform 0.15s ease;
+}
+
+.pdf-page__toggle-input:checked + .pdf-page__toggle-track {
+  background: linear-gradient(135deg, #f97316, #fbbf24);
+  border-color: rgba(249, 115, 22, 0.8);
+}
+
+.pdf-page__toggle-input:checked + .pdf-page__toggle-track .pdf-page__toggle-thumb {
+  transform: translateX(18px);
+  background: #0b1120;
+}
+
+.pdf-page__toggle-input:focus-visible + .pdf-page__toggle-track {
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.6);
+}
+
+.pdf-page__toggle-text {
+  font-size: 13px;
+  color: rgba(226, 232, 240, 0.9);
+  line-height: 1.4;
 }
 
 .pdf-page__btn {

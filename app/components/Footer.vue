@@ -48,7 +48,7 @@
           <p class="footer__nav-title">Разделы</p>
           <ul class="footer__nav-list">
             <li><NuxtLink to="/o-nas" class="footer__nav-link">О нас</NuxtLink></li>
-            <!-- <li><NuxtLink to="/dkp" class="footer__nav-link">ДКП</NuxtLink></li> -->
+            <li><NuxtLink to="/dkp" class="footer__nav-link">Договор купли-продажи</NuxtLink></li>
             <li><a href="/#how" class="footer__nav-link">Как мы работаем</a></li>
             <li><a href="/#team" class="footer__nav-link">Команда</a></li>
             <li><a href="/#reviews" class="footer__nav-link">Отзывы</a></li>
