@@ -419,14 +419,22 @@ const handleDownloadPdf = async () => {
 
 <template>
   <div class="pdf-page">
-    <div class="pdf-page__layout">
-      <div class="pdf-page__form">
-        <h1 class="pdf-page__title">Договор купли-продажи (ДКП)</h1>
-        <p class="pdf-page__subtitle">
-          Заполните данные — справа сформируется макет договора. Нажмите «Скачать в PDF», чтобы открыть
-          диалог печати и сохранить файл.
+    <div class="pdf-page__hero">
+      <div class="pdf-page__hero-inner">
+        <NuxtLink to="/" class="pdf-page__back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          На главную
+        </NuxtLink>
+        <h1 class="pdf-page__title">Договор купли-продажи автомобиля</h1>
+        <p class="pdf-page__lead">
+          Заполните данные продавца, покупателя и автомобиля — договор соберётся на актуальном бланке
+          и откроется готовым к печати PDF. Бесплатно и без регистрации.
         </p>
+      </div>
+    </div>
 
+    <div class="pdf-page__section">
+      <div class="pdf-page__card">
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Город</label>
@@ -605,18 +613,20 @@ const handleDownloadPdf = async () => {
         </div>
 
         <button type="button" class="pdf-page__btn" @click="handleDownloadPdf">
-          Обновить превью PDF
+          Сформировать договор
         </button>
+        <p class="pdf-page__note">
+          Договор откроется ниже — оттуда его можно сохранить или сразу распечатать.
+        </p>
       </div>
 
+      <iframe
+        v-if="previewUrl"
+        :src="previewUrl"
+        class="pdf-preview"
+        title="Готовый договор купли-продажи"
+      />
     </div>
-
-    <!-- Превью PDF для настройки координат -->
-    <iframe
-      v-if="previewUrl"
-      :src="previewUrl"
-      class="pdf-preview"
-    />
 
     <!-- Макет договора оставляем только для печати -->
     <div class="pdf-doc pdf-doc--print">
@@ -723,54 +733,101 @@ const handleDownloadPdf = async () => {
 
 <style scoped lang="scss">
 .pdf-page {
+  padding-top: 96px;
   min-height: 100vh;
-  padding: 32px 16px;
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617 65%);
-  color: #e5e7eb;
+
+  @media (max-width: 768px) {
+    padding-top: 88px;
+  }
 }
 
-.pdf-page__layout {
-  max-width: 1200px;
+.pdf-page__hero {
+  background: var(--color-dark);
+  color: #fff;
+  padding: 64px 24px 56px;
+  text-align: center;
+}
+
+.pdf-page__hero-inner {
+  max-width: 760px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
 }
 
-.pdf-page__form {
-  padding: 24px 22px;
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.95);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+.pdf-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
 }
 
 .pdf-page__title {
-  font-size: 24px;
+  font-size: clamp(28px, 4.5vw, 42px);
   font-weight: 800;
-  margin: 0 0 8px;
   letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 16px;
 }
 
-.pdf-page__subtitle {
-  margin: 0 0 20px;
-  font-size: 14px;
-  color: rgba(226, 232, 240, 0.8);
-  line-height: 1.5;
+.pdf-page__lead {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.pdf-page__section {
+  padding: 56px 24px 80px;
+
+  @media (max-width: 720px) {
+    padding: 40px 20px 56px;
+  }
+}
+
+.pdf-page__card {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 36px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+
+  @media (max-width: 720px) {
+    padding: 24px 20px;
+  }
 }
 
 .pdf-page__section-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin: 20px 0 10px;
-  color: rgba(248, 250, 252, 0.8);
+  margin: 32px 0 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-dark);
+
+  &:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
 }
 
 .pdf-page__form-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 10px 14px;
+  gap: 16px;
+  margin-bottom: 16px;
 
   @media (max-width: 720px) {
     grid-template-columns: minmax(0, 1fr);
@@ -780,46 +837,66 @@ const handleDownloadPdf = async () => {
 .pdf-page__form-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.pdf-page__form-grid .pdf-page__form-group {
+  margin-bottom: 0;
 }
 
 .pdf-page__label {
-  font-size: 12px;
-  color: rgba(148, 163, 184, 0.95);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
 }
 
 .pdf-page__hint {
-  margin: 6px 0 0;
-  font-size: 12px;
-  line-height: 1.4;
-  color: rgba(249, 115, 22, 0.9);
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
 }
 
 .pdf-page__input {
-  border-radius: 10px;
-  border: 1px solid rgba(51, 65, 85, 0.9);
-  background: rgba(15, 23, 42, 0.85);
-  padding: 9px 10px;
-  color: #e5e7eb;
-  font-size: 14px;
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 15px;
   font-family: inherit;
-  outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  color: var(--color-dark);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
 
   &:focus {
-    border-color: rgba(249, 115, 22, 0.8);
-    box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.6);
-    background: rgba(15, 23, 42, 0.95);
+    outline: none;
+    background: var(--color-surface);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
   }
 }
 
 .pdf-page__toggle {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 12px 0 10px;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
   cursor: pointer;
   user-select: none;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-border-strong);
+  }
 }
 
 .pdf-page__toggle-input {
@@ -831,83 +908,91 @@ const handleDownloadPdf = async () => {
 
 .pdf-page__toggle-track {
   flex: 0 0 auto;
-  width: 40px;
-  height: 22px;
+  width: 42px;
+  height: 24px;
   border-radius: 999px;
-  background: rgba(51, 65, 85, 0.9);
-  border: 1px solid rgba(71, 85, 105, 0.9);
-  padding: 2px;
+  background: var(--color-border-strong);
+  padding: 3px;
   box-sizing: border-box;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.2s ease;
 }
 
 .pdf-page__toggle-thumb {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #e5e7eb;
-  transition: transform 0.15s ease;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
 }
 
 .pdf-page__toggle-input:checked + .pdf-page__toggle-track {
-  background: linear-gradient(135deg, #f97316, #fbbf24);
-  border-color: rgba(249, 115, 22, 0.8);
+  background: var(--color-accent);
 }
 
 .pdf-page__toggle-input:checked + .pdf-page__toggle-track .pdf-page__toggle-thumb {
   transform: translateX(18px);
-  background: #0b1120;
 }
 
 .pdf-page__toggle-input:focus-visible + .pdf-page__toggle-track {
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.6);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
 .pdf-page__toggle-text {
-  font-size: 13px;
-  color: rgba(226, 232, 240, 0.9);
-  line-height: 1.4;
+  font-size: 15px;
+  color: var(--color-text);
+  line-height: 1.45;
 }
 
 .pdf-page__btn {
-  margin-top: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 22px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
+  width: 100%;
+  margin-top: 8px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
   font-family: inherit;
-  color: #0b1120;
-  background: linear-gradient(135deg, #f97316, #fbbf24);
-  box-shadow: 0 10px 30px rgba(249, 115, 22, 0.5);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-orange);
 
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 40px rgba(249, 115, 22, 0.65);
+    background: var(--color-accent-hover);
+    box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
+    transform: translateY(-2px);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.5);
   }
 }
 
+.pdf-page__note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
 .pdf-preview {
-  margin-top: 24px;
+  display: block;
   width: 100%;
-  max-width: 900px;
+  max-width: 820px;
   height: 900px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  border-radius: 12px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-  background: #020617;
+  margin: 24px auto 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  background: var(--color-surface);
+
+  @media (max-width: 720px) {
+    height: 620px;
+  }
 }
 
 .pdf-doc {
@@ -1011,14 +1096,9 @@ const handleDownloadPdf = async () => {
     background: #ffffff;
   }
 
-  .pdf-page__layout {
-    display: block;
-  }
-
-  .pdf-page__form,
-  .pdf-page__btn,
-  .pdf-page__subtitle,
-  .pdf-page__title {
+  .pdf-page__hero,
+  .pdf-page__section,
+  .pdf-preview {
     display: none !important;
   }
 
