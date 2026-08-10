@@ -2,7 +2,7 @@
 import { SITE_PHONE_DISPLAY, SITE_PHONE_HREF, SITE_ADDRESS } from '../utils/site'
 import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
 
-const PAGE_URL = `${SITE_URL}/privacy-policy`
+const PAGE_URL = `${SITE_URL}/privacy-policy/`
 const PAGE_TITLE = 'Политика конфиденциальности — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Политика обработки персональных данных Автоподбор 62: какие данные мы собираем при заявках, как храним и используем, ваши права как субъекта персональных данных.'

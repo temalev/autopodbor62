@@ -28,7 +28,7 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-const PAGE_URL = `${SITE_URL}/proverka-kuzova`
+const PAGE_URL = `${SITE_URL}/proverka-kuzova/`
 const PAGE_TITLE = 'Приём авто из кузовного ремонта в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Принимаем автомобиль после кузовного ремонта или покупки у дилера: замер ЛКП, контроль малярных работ, сверка с нормо-часами, фотоотчёт. Рязань.'

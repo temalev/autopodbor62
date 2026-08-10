@@ -1,8 +1,65 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { execSync } from 'node:child_process'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+/**
+ * Файлы, которые выводятся на каждой странице: их правка меняет все страницы,
+ * поэтому учитываем их в дате изменения любой из них. Компоненты, которые стоят
+ * не везде (RelatedServices, YandexReviews), сюда сознательно не включены —
+ * иначе правка виджета отзывов «обновляла» бы страницы, где его нет.
+ */
+const SHARED_UI = [
+  'app/app.vue',
+  'app/components/Header.vue',
+  'app/components/Footer.vue',
+  'assets/styles',
+]
+
+/**
+ * Дата последнего коммита, тронувшего любой из путей, в формате ISO.
+ * Нужна для честного `lastmod` в sitemap: `autoLastmod` ставил всем страницам
+ * время сборки, то есть на каждом деплое сообщал об изменении всего сайта —
+ * такой сигнал поисковик со временем перестаёт учитывать.
+ *
+ * Требует полной истории git: в CI у actions/checkout выставлен fetch-depth: 0.
+ * Если истории нет (сборка из архива), возвращаем undefined — тогда `lastmod`
+ * просто не попадёт в sitemap, что честнее одинаковой даты для всех страниц.
+ */
+function lastCommitISO(paths: string[]): string | undefined {
+  try {
+    const args = paths.map(p => JSON.stringify(p)).join(' ')
+    const out = execSync(`git log -1 --format=%cI -- ${args}`, {
+      cwd: __dirname,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+    return out || undefined
+  } catch {
+    return undefined
+  }
+}
+
+/** Страницы сайта: адрес со слэшем, файл для даты изменения и веса для sitemap. */
+const PAGES = [
+  { loc: '/', file: 'app/pages/index.vue', priority: 1.0, changefreq: 'weekly' },
+  { loc: '/podbor/', file: 'app/pages/podbor.vue', priority: 0.9, changefreq: 'monthly' },
+  { loc: '/proverka/', file: 'app/pages/proverka.vue', priority: 0.9, changefreq: 'monthly' },
+  { loc: '/proverka-kuzova/', file: 'app/pages/proverka-kuzova.vue', priority: 0.8, changefreq: 'monthly' },
+  { loc: '/vykup/', file: 'app/pages/vykup.vue', priority: 0.9, changefreq: 'monthly' },
+  { loc: '/import/', file: 'app/pages/import.vue', priority: 0.9, changefreq: 'monthly' },
+  { loc: '/registraciya-gibdd/', file: 'app/pages/registraciya-gibdd.vue', priority: 0.8, changefreq: 'monthly' },
+  { loc: '/o-nas/', file: 'app/pages/o-nas.vue', priority: 0.6, changefreq: 'yearly' },
+  { loc: '/dkp/', file: 'app/pages/dkp.vue', priority: 0.6, changefreq: 'yearly' },
+  { loc: '/privacy-policy/', file: 'app/pages/privacy-policy.vue', priority: 0.3, changefreq: 'yearly' },
+]
+
+const SITEMAP_URLS = PAGES.map(({ loc, file, priority, changefreq }) => {
+  const lastmod = lastCommitISO([file, ...SHARED_UI])
+  return { loc, priority, changefreq, ...(lastmod ? { lastmod } : {}) }
+})
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -15,10 +72,17 @@ export default defineNuxtConfig({
     // 'automatic-immediate' перезагружает без ограничений и зацикливается,
     // если чанк недоступен насовсем.
     emitRouteChunkError: 'manual',
+    defaults: {
+      // Хостинг редиректит /podbor → /podbor/, поэтому внутренние ссылки сразу
+      // ставим в конечной форме — иначе робот на каждой ссылке получает 301.
+      nuxtLink: { trailingSlash: 'append' },
+    },
   },
   site: {
     url: 'https://xn--62-6kceem3eacgpr.xn--p1ai',
     name: 'Автоподбор 62',
+    // Канонический адрес страницы — со слэшем (так отдаёт хостинг).
+    trailingSlash: true,
   },
   sitemap: {
     // Авто-обнаружение страниц + переопределяем priority/changefreq.
@@ -26,19 +90,9 @@ export default defineNuxtConfig({
     // Отключаем авто-сканирование <img> — иначе в sitemap попадают внешние
     // картинки с Авито (отзывы), которые нам там не нужны.
     discoverImages: false,
-    autoLastmod: true,
-    urls: [
-      { loc: '/', priority: 1.0, changefreq: 'weekly' },
-      { loc: '/podbor', priority: 0.9, changefreq: 'monthly' },
-      { loc: '/proverka', priority: 0.9, changefreq: 'monthly' },
-      { loc: '/proverka-kuzova', priority: 0.8, changefreq: 'monthly' },
-      { loc: '/vykup', priority: 0.9, changefreq: 'monthly' },
-      { loc: '/import', priority: 0.9, changefreq: 'monthly' },
-      { loc: '/registraciya-gibdd', priority: 0.8, changefreq: 'monthly' },
-      { loc: '/o-nas', priority: 0.6, changefreq: 'yearly' },
-      { loc: '/dkp', priority: 0.6, changefreq: 'yearly' },
-      { loc: '/privacy-policy', priority: 0.3, changefreq: 'yearly' },
-    ],
+    // `lastmod` берём из git по каждой странице — см. lastCommitISO() выше.
+    autoLastmod: false,
+    urls: SITEMAP_URLS,
   },
   runtimeConfig: {
     public: {

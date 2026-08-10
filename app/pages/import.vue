@@ -28,7 +28,7 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-const PAGE_URL = `${SITE_URL}/import`
+const PAGE_URL = `${SITE_URL}/import/`
 const PAGE_TITLE = 'Импорт авто из Кореи и Китая под ключ в Рязань — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Покупка автомобиля в Корее и Китае под ключ: подбор, проверка, логистика, таможня, доставка в Рязань, ТО и регистрация. Прозрачная цена, без скрытых платежей.'

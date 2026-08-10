@@ -16,6 +16,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          # Полная история нужна для sitemap: lastmod каждой страницы берётся из
+          # даты последнего коммита по её файлам (см. nuxt.config.ts).
+          # При стандартном shallow-клоне все страницы получили бы одну дату.
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4

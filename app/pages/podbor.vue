@@ -28,7 +28,7 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-const PAGE_URL = `${SITE_URL}/podbor`
+const PAGE_URL = `${SITE_URL}/podbor/`
 const PAGE_TITLE = 'Подбор автомобиля под ключ в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Автоподбор под ключ в Рязани: поиск по рынку, три этапа проверки, сопровождение сделки, регистрация в ГИБДД. Гарантия юридической чистоты и выкупа в течение 90 дней.'

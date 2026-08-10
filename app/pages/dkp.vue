@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
 
-const PAGE_URL = `${SITE_URL}/dkp`
+const PAGE_URL = `${SITE_URL}/dkp/`
 const PAGE_TITLE = 'Договор купли-продажи автомобиля онлайн — бесплатный шаблон ДКП в PDF | Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Бесплатный онлайн-конструктор договора купли-продажи автомобиля (ДКП). Заполните данные продавца, покупателя и авто — скачайте готовый договор в PDF. Актуальный бланк, без регистрации.'

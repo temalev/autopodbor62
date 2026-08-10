@@ -28,7 +28,7 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-const PAGE_URL = `${SITE_URL}/proverka`
+const PAGE_URL = `${SITE_URL}/proverka/`
 const PAGE_TITLE = 'Проверка автомобиля перед покупкой в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Проверка автомобиля перед покупкой: полная диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и видео. Заключение эксперта — стоит ли покупать. Рязань.'

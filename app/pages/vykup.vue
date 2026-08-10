@@ -28,7 +28,7 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-const PAGE_URL = `${SITE_URL}/vykup`
+const PAGE_URL = `${SITE_URL}/vykup/`
 const PAGE_TITLE = 'Выкуп авто в Рязани — срочный выкуп и комиссионная продажа автомобиля | Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Срочный выкуп автомобиля в Рязани — деньги в день обращения. Комиссионная продажа по рыночной цене: фото, размещение на всех площадках, показы и сделка под ключ.'

@@ -28,7 +28,7 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-const PAGE_URL = `${SITE_URL}/registraciya-gibdd`
+const PAGE_URL = `${SITE_URL}/registraciya-gibdd/`
 const PAGE_TITLE = 'Регистрация автомобиля в ГИБДД в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Поставим автомобиль на учёт в ГИБДД без очередей: подготовка документов, запись, осмотр, получение СТС и номерных знаков. Входит в стоимость подбора под ключ и импорта. Рязань.'
