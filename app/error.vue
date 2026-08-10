@@ -26,9 +26,12 @@ useHead({
   title: isNotFound.value
     ? '404 — Страница не найдена | Автоподбор 62'
     : `Ошибка ${statusCode.value} | Автоподбор 62`,
-  meta: [
-    { name: 'robots', content: 'noindex, follow' },
-  ],
+  // `noindex` ставим только на 404. Сайт статический, серверных 5xx не бывает:
+  // всё остальное — сбой в браузере на существующей странице, и запрет
+  // индексирования выкинул бы её из выдачи на недели вместо одного плохого обхода.
+  meta: isNotFound.value
+    ? [{ name: 'robots', content: 'noindex, follow' }]
+    : [],
 })
 
 const services = [

@@ -8,6 +8,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/sitemap'],
+  experimental: {
+    // Сбой загрузки чанка обрабатываем сами — см. app/plugins/chunk-reload.client.ts.
+    // Встроенные режимы не годятся: 'automatic' реагирует только на переход между
+    // страницами (а сбой бывает и на первой загрузке, её и видит робот),
+    // 'automatic-immediate' перезагружает без ограничений и зацикливается,
+    // если чанк недоступен насовсем.
+    emitRouteChunkError: 'manual',
+  },
   site: {
     url: 'https://xn--62-6kceem3eacgpr.xn--p1ai',
     name: 'Автоподбор 62',
