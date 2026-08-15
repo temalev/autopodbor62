@@ -61,6 +61,41 @@ const SITEMAP_URLS = PAGES.map(({ loc, file, priority, changefreq }) => {
   return { loc, priority, changefreq, ...(lastmod ? { lastmod } : {}) }
 })
 
+const SITE_URL = 'https://xn--62-6kceem3eacgpr.xn--p1ai'
+
+/**
+ * Адреса, которые посетители угадывают и попадают на 404 — видно в Метрике по
+ * входам со 100% отказов. Ведём их на живые страницы.
+ */
+const REDIRECTS: Record<string, string> = {
+  '/about': '/o-nas/',
+  '/contacts': '/o-nas/#kontakty',
+}
+
+/**
+ * Страница-переадресация для статики. GitHub Pages не умеет отдавать 301,
+ * поэтому переход делаем в самой странице. `canonical` здесь важнее самого
+ * перехода: он говорит поисковику склеить старый адрес с новым (в canonical
+ * якорь не указывают, поэтому отрезаем его). Видимая ссылка — на случай, если
+ * и мета-обновление, и скрипт заблокированы.
+ */
+function redirectHtml(to: string): string {
+  const canonical = SITE_URL + to.split('#')[0]
+  return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Страница переехала — Автоподбор 62</title>
+<link rel="canonical" href="${canonical}">
+<meta http-equiv="refresh" content="0; url=${to}">
+<script>location.replace(${JSON.stringify(to)})</script>
+</head>
+<body>
+<p>Страница переехала. Если переход не сработал, <a href="${to}">откройте её вручную</a>.</p>
+</body>
+</html>`
+}
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -162,9 +197,28 @@ export default defineNuxtConfig({
     },
   },
   // Настройки для SSG
+  // Правила заданы и для формы со слэшем: на хостинге /about → 301 → /about/,
+  // и до заглушки посетитель доходит уже по второму адресу.
+  // На обычном сервере (после переезда с GitHub Pages) это станет честным 301.
+  routeRules: Object.fromEntries(
+    Object.entries(REDIRECTS).flatMap(([from, to]) => [
+      [from, { redirect: { to, statusCode: 301 } }],
+      [`${from}/`, { redirect: { to, statusCode: 301 } }],
+    ]),
+  ),
   nitro: {
     prerender: {
       crawlLinks: true,
+      // Редиректы не находятся обходом ссылок — перечисляем явно
+      routes: Object.keys(REDIRECTS),
+    },
+    hooks: {
+      // Nitro отдаёт для редиректа голый мета-рефреш. Подменяем на страницу
+      // с canonical и запасной ссылкой — см. redirectHtml() выше.
+      'prerender:generate'(route) {
+        const to = REDIRECTS[route.route] ?? REDIRECTS[route.route.replace(/\/$/, '')]
+        if (to && route.fileName?.endsWith('.html')) route.contents = redirectHtml(to)
+      },
     },
   },
   // Оптимизация для Element Plus

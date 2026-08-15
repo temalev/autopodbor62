@@ -61,7 +61,7 @@ useHead({
       </div>
     </div>
 
-    <div class="about__section about__section--alt">
+    <div id="kontakty" class="about__section about__section--alt">
       <div class="about__container">
         <h2 class="about__h2">Контакты</h2>
         <div class="about__contacts">
