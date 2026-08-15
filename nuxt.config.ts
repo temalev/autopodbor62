@@ -160,7 +160,12 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap' },
+        // .ico оставлен для мелких размеров во вкладке. PNG 192×192 — та самая
+        // «большая иконка», которую Яндекс требует от 120×120 для сниппета
+        // выдачи; 512×512 берут поисковики и системы с плотным экраном.
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/icon-192.png' },
+        { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/icon-512.png' },
       ],
       meta: [
         { property: 'og:type', content: 'website' },
