@@ -137,8 +137,14 @@ export function serviceJsonLd(params: ServiceJsonLdParams) {
 }
 
 /**
- * BreadcrumbList — хлебные крошки.
- * Помогает Google показывать в выдаче иерархию: «autopodbor62.рф › Услуги › Подбор».
+ * BreadcrumbList — хлебные крошки. В выдаче дают иерархию вместо голого URL:
+ * «autopodbor62.рф › Подбор автомобиля».
+ *
+ * Адрес элемента дублируется в двух полях намеренно: Google читает `item`,
+ * а Яндекс — `url` (см. справку «Навигационные цепочки»). С одним `item`
+ * Яндекс цепочку не формирует и в Вебмастере пишет, что разметки нет.
+ * Оба поля допустимы по Schema.org: `url` есть у Thing, от которого наследуется
+ * ListItem, так что дубль ничего не ломает.
  */
 export interface BreadcrumbItem {
   name: string
@@ -154,6 +160,7 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
       position: idx + 1,
       name: item.name,
       item: item.url,
+      url: item.url,
     })),
   }
 }
