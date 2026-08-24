@@ -28,6 +28,9 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+/** Стоимость отдельной услуги. Отсюда же уходит в разметку Offer. */
+const SERVICE_PRICE = 4_000
+
 const PAGE_URL = `${SITE_URL}/registraciya-gibdd/`
 const PAGE_TITLE = 'Регистрация автомобиля в ГИБДД в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
@@ -54,6 +57,11 @@ useHead({
         url: PAGE_URL,
         serviceType: 'Регистрация транспортного средства в ГИБДД',
         image: PAGE_OG_IMAGE,
+        offer: {
+          price: SERVICE_PRICE,
+          description:
+            'Постановка автомобиля на учёт в ГИБДД как отдельная услуга: подготовка и проверка документов, запись в МРЭО, сопровождение на осмотр, получение СТС и номерных знаков. Госпошлины оплачиваются отдельно. При заказе подбора под ключ или импорта регистрация входит в стоимость.',
+        },
       }),
       'ld-gibdd-service',
     ),
@@ -202,6 +210,25 @@ const documents = [
       </div>
     </section>
 
+    <section class="gibdd-page__section gibdd-page__section--price">
+      <div class="gibdd-page__container">
+        <h2 class="gibdd-page__h2">Сколько стоит регистрация в ГИБДД</h2>
+        <p class="gibdd-page__intro">Если автомобиль вы купили сами — оформим постановку на учёт как отдельную услугу.</p>
+
+        <ServicePrice
+          :price="SERVICE_PRICE"
+          caption="Постановка на учёт отдельной услугой"
+          :extra="[
+            'Госпошлины за СТС и номерные знаки',
+            'Госпошлина за внесение изменений в ПТС',
+          ]"
+        >
+          <template #note>В сумму входит вся наша работа: подготовка и проверка документов, запись в МРЭО, сопровождение на осмотр и получение СТС с номерами. Стоимость не зависит от того, сколько раз придётся приехать.</template>
+          <template #hint>Точные суммы госпошлин рассчитываем заранее и говорим до подачи документов — <strong>сверх нашей цены ничего не появится</strong>. При заказе <NuxtLink to="/podbor">подбора автомобиля под ключ</NuxtLink> или <NuxtLink to="/import">импорта из-за рубежа</NuxtLink> регистрация входит в стоимость и отдельно не оплачивается.</template>
+        </ServicePrice>
+      </div>
+    </section>
+
     <section class="gibdd-page__section">
       <div class="gibdd-page__container">
         <h2 class="gibdd-page__h2">Документы, которые потребуются</h2>
@@ -209,10 +236,6 @@ const documents = [
         <ul class="gibdd-page__docs">
           <li v-for="(doc, i) in documents" :key="i">{{ doc }}</li>
         </ul>
-
-        <div class="gibdd-page__note">
-          <p>Регистрация входит в стоимость <NuxtLink to="/podbor" class="gibdd-page__note-link">подбора автомобиля под ключ</NuxtLink> и <NuxtLink to="/import" class="gibdd-page__note-link">импорта из-за рубежа</NuxtLink>. Если приобрели автомобиль самостоятельно — оформим отдельно.</p>
-        </div>
 
         <div class="gibdd-page__cta">
           <p class="gibdd-page__cta-text">Нужно поставить автомобиль на учёт? Свяжитесь с нами — разберём вашу ситуацию</p>
@@ -464,6 +487,10 @@ const documents = [
   margin: 0;
 }
 
+.gibdd-page__section--price {
+  background: var(--color-bg-alt);
+}
+
 .gibdd-page__docs {
   list-style: none;
   margin: 0 0 36px;
@@ -486,31 +513,6 @@ const documents = [
       color: var(--color-accent);
       font-weight: 700;
     }
-  }
-}
-
-.gibdd-page__note {
-  padding: 20px 24px;
-  background: var(--color-bg-alt);
-  border-left: 3px solid var(--color-accent);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  margin-bottom: 48px;
-
-  p {
-    font-size: 15px;
-    color: var(--color-text);
-    line-height: 1.65;
-    margin: 0;
-  }
-}
-
-.gibdd-page__note-link {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 500;
-
-  &:hover {
-    text-decoration: underline;
   }
 }
 
