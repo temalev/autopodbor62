@@ -28,10 +28,15 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+/** Стоимость разовой проверки. Отсюда же уходит в описание страницы и в разметку Offer. */
+const SERVICE_PRICE = 4_000
+const SERVICE_PRICE_LABEL = SERVICE_PRICE.toLocaleString('ru-RU')
+
 const PAGE_URL = `${SITE_URL}/proverka/`
 const PAGE_TITLE = 'Проверка автомобиля перед покупкой в Рязани — Автоподбор 62'
+// Цена подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся с блоком на странице.
 const PAGE_DESCRIPTION =
-  'Проверка автомобиля перед покупкой: полная диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и видео. Заключение эксперта — стоит ли покупать. Рязань.'
+  `Проверка автомобиля перед покупкой в Рязани — ${SERVICE_PRICE_LABEL} ₽: диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и заключение эксперта.`
 const PAGE_OG_IMAGE = `${SITE_URL}/images/services/2.jpeg`
 
 useHead({
@@ -54,6 +59,11 @@ useHead({
         url: PAGE_URL,
         serviceType: 'Проверка автомобиля перед покупкой',
         image: PAGE_OG_IMAGE,
+        offer: {
+          price: SERVICE_PRICE,
+          description:
+            'Разовая проверка автомобиля перед покупкой по полному чек-листу: выездная диагностика, проверка VIN и истории, замер толщины ЛКП, компьютерная диагностика, отчёт от 150 фото и видео с заключением эксперта.',
+        },
       }),
       'ld-proverka-service',
     ),
@@ -188,6 +198,20 @@ const checklist = [
       </div>
     </section>
 
+    <section class="proverka-page__section proverka-page__section--price">
+      <div class="proverka-page__container">
+        <h2 class="proverka-page__h2">Сколько стоит проверка автомобиля</h2>
+        <p class="proverka-page__intro">Одна цена за весь чек-лист выше — без деления на «базовый» и «расширенный» осмотр.</p>
+
+        <ServicePrice
+          :price="SERVICE_PRICE"
+          caption="Разовая проверка перед покупкой"
+        >
+          <template #note>Стоимость не зависит от марки, года и состояния автомобиля: проверку проводим по полному чек-листу и выдаём отчёт от 150 фото и видео с заключением эксперта.</template>
+        </ServicePrice>
+      </div>
+    </section>
+
     <section class="proverka-page__section">
       <div class="proverka-page__container">
         <h2 class="proverka-page__h2">Что вы получаете</h2>
@@ -195,7 +219,7 @@ const checklist = [
           <p>Полный отчёт: не менее 150 фото- и видеофайлов и краткое заключение — комментарий эксперта. Вы знаете правду об автомобиле до покупки и можете торговаться или отказаться от сделки, опираясь на факты.</p>
         </div>
         <div class="proverka-page__cta">
-          <p class="proverka-page__cta-text">Нашли автомобиль? Закажите проверку — назовём стоимость и сроки</p>
+          <p class="proverka-page__cta-text">Нашли автомобиль? Закажите проверку — согласуем время и место осмотра</p>
           <form class="proverka-page__form" @submit.prevent="submitLead">
             <div class="proverka-page__form-fields">
               <input type="text" class="proverka-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
@@ -429,6 +453,10 @@ const checklist = [
 
 .proverka-page__checklist-text {
   padding-top: 2px;
+}
+
+.proverka-page__section--price {
+  background: var(--color-bg-alt);
 }
 
 .proverka-page__result {
