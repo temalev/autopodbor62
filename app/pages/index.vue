@@ -573,6 +573,10 @@ const reviews: Review[] = [
             <span class="page__korea-block-text">Прозрачная стоимость без скрытых платежей</span>
           </div>
         </div>
+        <NuxtLink to="/import/" class="page__korea-btn">
+          Подробнее про импорт
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </NuxtLink>
       </div>
     </section>
 
@@ -2235,6 +2239,45 @@ const reviews: Review[] = [
     font-weight: 600;
     color: #fff;
     line-height: 1.4;
+  }
+
+  // Оформление как у кнопки «Подробнее об услуге» в блоке услуг —
+  // на главной это уже привычный переход на страницу услуги.
+  &__korea-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    padding: 14px 28px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+
+    svg {
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(249, 115, 22, 0.5);
+
+      svg {
+        transform: translateX(4px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      justify-content: center;
+      padding: 15px 20px;
+    }
   }
 
   &__section--afterservice {
