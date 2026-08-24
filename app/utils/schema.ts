@@ -109,6 +109,16 @@ export interface ServiceJsonLdParams {
   url: string
   serviceType: string
   image?: string
+  /**
+   * Цена услуги в рублях. Для Яндекса цена — прямой коммерческий фактор
+   * ранжирования, поэтому дублируем видимый блок цены в разметку.
+   * `description` поясняет, за что именно берётся сумма: у нас это
+   * вознаграждение компании, а авто, пошлины и доставку клиент платит сам.
+   */
+  offer?: {
+    price: number
+    description: string
+  }
 }
 
 export function serviceJsonLd(params: ServiceJsonLdParams) {
@@ -133,6 +143,22 @@ export function serviceJsonLd(params: ServiceJsonLdParams) {
       serviceUrl: params.url,
       servicePhone: `+${SITE_PHONE_RAW}`,
     },
+    ...(params.offer
+      ? {
+          offers: {
+            '@type': 'Offer',
+            price: params.offer.price,
+            priceCurrency: 'RUB',
+            description: params.offer.description,
+            availability: 'https://schema.org/InStock',
+            url: params.url,
+            areaServed: {
+              '@type': 'City',
+              name: 'Рязань',
+            },
+          },
+        }
+      : {}),
   }
 }
 

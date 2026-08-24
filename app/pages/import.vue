@@ -28,10 +28,16 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
+/** Вознаграждение за услугу. Меняется здесь — подхватится и в тексте, и в разметке. */
+const SERVICE_PRICE = 150_000
+const SERVICE_PRICE_LABEL = SERVICE_PRICE.toLocaleString('ru-RU')
+
 const PAGE_URL = `${SITE_URL}/import/`
 const PAGE_TITLE = 'Импорт авто из Кореи и Китая под ключ в Рязань — Автоподбор 62'
+// Цена в описании подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся
+// с блоком на странице. Держим в пределах 160 символов — дальше Google обрезает.
 const PAGE_DESCRIPTION =
-  'Покупка автомобиля в Корее и Китае под ключ: подбор, проверка, логистика, таможня, доставка в Рязань, ТО и регистрация. Прозрачная цена, без скрытых платежей.'
+  `Пригоним авто из Кореи, Китая и любой точки мира под ключ в Рязань: подбор, проверка, логистика, таможня, ТО, номера. Работа под ключ — ${SERVICE_PRICE_LABEL} ₽.`
 const PAGE_OG_IMAGE = `${SITE_URL}/images/korea.webp`
 
 useHead({
@@ -54,6 +60,11 @@ useHead({
         url: PAGE_URL,
         serviceType: 'Импорт автомобилей из-за рубежа',
         image: PAGE_OG_IMAGE,
+        offer: {
+          price: SERVICE_PRICE,
+          description:
+            'Автомобиль из любой точки мира под ключ: анализ рынка, подбор и проверка автомобиля, сопровождение сделки, логистика, таможенное оформление, доставка в Рязань, техобслуживание, детейлинг и регистрация в ГИБДД. Стоимость самого автомобиля, пошлины и фрахт оплачиваются напрямую от имени клиента.',
+        },
       }),
       'ld-import-service',
     ),
@@ -242,6 +253,34 @@ const steps = [
             </div>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="import-page__section import-page__section--price">
+      <div class="import-page__container">
+        <h2 class="import-page__h2">Сколько стоит пригнать авто из Кореи или Китая</h2>
+        <p class="import-page__intro"><strong>Автомобиль из любой точки мира.</strong> Цена нашей работы — за весь цикл, описанный выше: от анализа рынка до номеров и готового к эксплуатации автомобиля.</p>
+
+        <div class="import-page__price">
+          <div class="import-page__price-head">
+            <div>
+              <p class="import-page__price-caption">Импорт под ключ из любой точки мира — от заявки до номеров</p>
+              <p class="import-page__price-value">{{ SERVICE_PRICE_LABEL }}&nbsp;₽</p>
+            </div>
+            <span class="import-page__price-badge">Цена фиксированная</span>
+          </div>
+
+          <p class="import-page__price-fixed">Сумма фиксируется до старта и не меняется по ходу сделки — независимо от того, сколько вариантов пришлось отсмотреть и как долго шла доставка.</p>
+
+          <h3 class="import-page__price-col-title">Сверх услуги оплачиваются</h3>
+          <ul class="import-page__price-list import-page__price-list--muted">
+            <li>Стоимость самого автомобиля у продавца или на аукционе</li>
+            <li>Таможенные пошлины и утилизационный сбор</li>
+            <li>Перевозка и фрахт до России</li>
+            <li>Госпошлины при регистрации в ГИБДД</li>
+          </ul>
+          <p class="import-page__price-hint">Организацию этих этапов мы берём на себя, а сами платежи идут <strong>напрямую от вашего имени</strong> — мы не закладываем их в свою цену и не берём процент сверху. Итоговую сумму со всеми расходами считаем и согласовываем до начала работы, поэтому конечная стоимость известна заранее.</p>
+        </div>
       </div>
     </section>
 
@@ -535,6 +574,126 @@ const steps = [
   color: rgba(255, 255, 255, 0.75);
   line-height: 1.65;
   margin: 0;
+}
+
+.import-page__section--price {
+  background: var(--color-bg-alt);
+}
+
+.import-page__price {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+
+  @media (max-width: 720px) {
+    padding: 24px 20px;
+  }
+}
+
+.import-page__price-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--color-border);
+
+  @media (max-width: 560px) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.import-page__price-caption {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+.import-page__price-value {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--color-dark);
+}
+
+.import-page__price-badge {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--color-accent-bg);
+  color: var(--color-accent-dark);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.import-page__price-fixed {
+  margin: 0 0 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+.import-page__price-col-title {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-dark);
+}
+
+.import-page__price-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text);
+
+    &::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+  }
+}
+
+.import-page__price-list--muted li {
+  color: var(--color-text-muted);
+
+  &::before {
+    content: '—';
+    color: var(--color-border-strong);
+  }
+}
+
+.import-page__price-hint {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+
+  strong {
+    color: var(--color-dark);
+  }
 }
 
 .import-page__result {
