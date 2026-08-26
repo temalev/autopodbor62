@@ -168,19 +168,22 @@ const EFFECTIVE_DATE = '15 мая 2026 г.'
 
 <style scoped lang="scss">
 .legal {
-  padding-top: 96px;
+  // Отступа сверху нет намеренно: тёмный герой уходит под фиксированную шапку,
+  // как на страницах услуг. Иначе над ним оставалась светлая полоса.
+  padding-top: 0;
   min-height: 100vh;
-
-  @media (max-width: 768px) {
-    padding-top: 88px;
-  }
 }
 
 .legal__hero {
   background: var(--color-dark);
   color: #fff;
-  padding: 64px 24px 56px;
+  // Верхний отступ учитывает высоту шапки, поверх которой лежит герой
+  padding: 120px 24px 56px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 100px 20px 48px;
+  }
 }
 
 .legal__hero-inner {

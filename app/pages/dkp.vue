@@ -751,19 +751,22 @@ const handleDownloadPdf = async () => {
 
 <style scoped lang="scss">
 .pdf-page {
-  padding-top: 96px;
+  // Отступа сверху нет намеренно: тёмный герой уходит под фиксированную шапку,
+  // как на страницах услуг. Иначе над ним оставалась светлая полоса.
+  padding-top: 0;
   min-height: 100vh;
-
-  @media (max-width: 768px) {
-    padding-top: 88px;
-  }
 }
 
 .pdf-page__hero {
   background: var(--color-dark);
   color: #fff;
-  padding: 64px 24px 56px;
+  // Верхний отступ учитывает высоту шапки, поверх которой лежит герой
+  padding: 120px 24px 56px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 100px 20px 48px;
+  }
 }
 
 .pdf-page__hero-inner {
