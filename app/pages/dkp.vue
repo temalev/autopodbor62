@@ -43,6 +43,10 @@ const form = reactive({
   sellerPassportIssuedBy: '',
   sellerPassportIssuedDate: '',
 
+  proxyNumber: '',
+  proxyDate: '',
+  proxyIssuedBy: '',
+
   buyerName: '',
   buyerBirthDate: '',
   buyerBirthPlace: '',
@@ -83,6 +87,29 @@ const form = reactive({
  * поля и те же пункты договора, включая 3.4 и 3.5.
  */
 const hasSecondVin = ref(false)
+
+/** Тумблер «продавец действует по доверенности» — скрывает три поля, нужные редко. */
+const hasProxy = ref(false)
+
+/**
+ * Фраза о доверенности. Приписывается последним элементом к данным продавца,
+ * то есть уходит в договор одной строкой через запятую сразу после них.
+ *
+ * Форма «действующего(ей)» — как «именуемый(ая)» в самом бланке: пол продавца
+ * заранее неизвестен, а угадывать его в юридическом документе нельзя.
+ */
+const proxyClause = computed(() => {
+  if (!hasProxy.value) return ''
+  const num = form.proxyNumber.trim()
+  const date = form.proxyDate.trim()
+  const issuer = form.proxyIssuedBy.trim()
+  if (!num && !date && !issuer) return ''
+
+  const head = ['действующего(ей) на основании доверенности']
+  if (num) head.push(`№ ${num}`)
+  if (date) head.push(`от ${date}`)
+  return issuer ? `${head.join(' ')}, выданной ${issuer}` : head.join(' ')
+})
 
 const previewUrl = ref<string | null>(null)
 
@@ -215,6 +242,52 @@ const splitToFitField = (text: string, maxWidth: number, font: any, fontSize: nu
 }
 
 /**
+ * Раскладывает длинный текст по четырём строкам блока стороны договора
+ * (`seller1..4` / `buyer1..4`) и подбирает кегль так, чтобы уместилось всё.
+ *
+ * Кегль уменьшаем не для красоты: при фиксированных 12pt хвост текста молча
+ * пропадал. Для договора это недопустимо — например, при доверенности терялось
+ * окончание ФИО того, кто её выдал.
+ */
+const fillPartyBlock = (
+  formApi: any,
+  prefix: 'seller' | 'buyer',
+  text: string,
+  font: any,
+  startSize: number,
+) => {
+  const fields = [1, 2, 3, 4].map(i => formApi.getTextField(`${prefix}${i}`))
+  const widget = fields[0]?.acroField.getWidgets()[0]
+  if (!widget) return
+  const maxWidth = widget.getRectangle().width - 4
+
+  const layout = (size: number) => {
+    const out: string[] = []
+    let rest = text
+    for (let i = 0; i < fields.length; i++) {
+      if (!rest) { out.push(''); continue }
+      const part = splitToFitField(rest, maxWidth, font, size)
+      out.push(part.first)
+      rest = part.second
+    }
+    return { out, rest }
+  }
+
+  let size = startSize
+  let result = layout(size)
+  // Ниже 7pt не опускаемся — дальше нечитаемо; тогда пусть лучше обрежется.
+  while (result.rest && size > 7) {
+    size -= 0.5
+    result = layout(size)
+  }
+
+  fields.forEach((f, i) => {
+    f.setFontSize(size)
+    f.setText(result.out[i] ?? '')
+  })
+}
+
+/**
  * Подбирает кегль так, чтобы текст влез в ширину поля по одной строке.
  * Ниже 6pt не опускаемся — дальше уже нечитаемо, пусть лучше обрежется.
  */
@@ -267,48 +340,8 @@ const handleDownloadPdf = async () => {
       joinCsv([form.sellerPassportSeries, form.sellerPassportNumber]),
       form.sellerPassportIssuedBy,
       form.sellerPassportIssuedDate,
+      proxyClause.value,
     ])
-
-    const seller1Field = formApi.getTextField('seller1')
-    const seller2Field = formApi.getTextField('seller2')
-    const seller3Field = formApi.getTextField('seller3')
-    const seller4Field = formApi.getTextField('seller4')
-
-    seller1Field.setFontSize(fontSize)
-    seller2Field.setFontSize(fontSize)
-    seller3Field.setFontSize(fontSize)
-    seller4Field.setFontSize(fontSize)
-
-    // Ширину берём по первому полю (предполагаем одинаковую)
-    const seller1Widget = seller1Field.acroField.getWidgets()[0]
-    if (!seller1Widget) return
-    const sellerRect = seller1Widget.getRectangle()
-    const sellerWidth = sellerRect.width - 4
-
-    const sellerPart1 = splitToFitField(sellerText, sellerWidth, font, fontSize)
-    seller1Field.setText(sellerPart1.first)
-
-    let remainingSeller = sellerPart1.second
-    let sellerSecond = { first: '', second: '' }
-    let sellerThird = { first: '', second: '' }
-
-    if (remainingSeller) {
-      sellerSecond = splitToFitField(remainingSeller, sellerWidth, font, fontSize)
-      seller2Field.setText(sellerSecond.first)
-      remainingSeller = sellerSecond.second
-    } else {
-      seller2Field.setText('')
-    }
-
-    if (remainingSeller) {
-      sellerThird = splitToFitField(remainingSeller, sellerWidth, font, fontSize)
-      seller3Field.setText(sellerThird.first)
-      remainingSeller = sellerThird.second
-    } else {
-      seller3Field.setText('')
-    }
-
-    seller4Field.setText(remainingSeller || '')
 
     const buyerText = joinCsv([
       form.buyerName,
@@ -320,46 +353,8 @@ const handleDownloadPdf = async () => {
       form.buyerPassportIssuedDate,
     ])
 
-    const buyer1Field = formApi.getTextField('buyer1')
-    const buyer2Field = formApi.getTextField('buyer2')
-    const buyer3Field = formApi.getTextField('buyer3')
-    const buyer4Field = formApi.getTextField('buyer4')
-
-    buyer1Field.setFontSize(fontSize)
-    buyer2Field.setFontSize(fontSize)
-    buyer3Field.setFontSize(fontSize)
-    buyer4Field.setFontSize(fontSize)
-
-    // Ширину берём по первому полю (предполагаем одинаковую)
-    const buyer1Widget = buyer1Field.acroField.getWidgets()[0]
-    if (!buyer1Widget) return
-    const buyerRect = buyer1Widget.getRectangle()
-    const buyerWidth = buyerRect.width - 4 // небольшой паддинг
-
-    const buyerPart1 = splitToFitField(buyerText, buyerWidth, font, fontSize)
-    buyer1Field.setText(buyerPart1.first)
-
-    let remainingBuyer = buyerPart1.second
-    let buyerSecond = { first: '', second: '' }
-    let buyerThird = { first: '', second: '' }
-
-    if (remainingBuyer) {
-      buyerSecond = splitToFitField(remainingBuyer, buyerWidth, font, fontSize)
-      buyer2Field.setText(buyerSecond.first)
-      remainingBuyer = buyerSecond.second
-    } else {
-      buyer2Field.setText('')
-    }
-
-    if (remainingBuyer) {
-      buyerThird = splitToFitField(remainingBuyer, buyerWidth, font, fontSize)
-      buyer3Field.setText(buyerThird.first)
-      remainingBuyer = buyerThird.second
-    } else {
-      buyer3Field.setText('')
-    }
-
-    buyer4Field.setText(remainingBuyer || '')
+    fillPartyBlock(formApi, 'seller', sellerText, font, fontSize)
+    fillPartyBlock(formApi, 'buyer', buyerText, font, fontSize)
 
     // Раздел «Автомобиль», ПТС/СТС и стоимость.
     // Заполняем по одному полю: если в шаблоне какого-то не окажется,
@@ -477,6 +472,29 @@ const handleDownloadPdf = async () => {
             <input v-model="form.sellerPassportIssuedBy" type="text" class="pdf-page__input" />
           </div>
         </div>
+
+        <label class="pdf-page__toggle">
+          <input v-model="hasProxy" type="checkbox" class="pdf-page__toggle-input" />
+          <span class="pdf-page__toggle-track" aria-hidden="true"><span class="pdf-page__toggle-thumb" /></span>
+          <span class="pdf-page__toggle-text">Продавец действует по доверенности</span>
+        </label>
+        <template v-if="hasProxy">
+          <div class="pdf-page__form-grid">
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Доверенность №</label>
+              <input v-model="form.proxyNumber" type="text" class="pdf-page__input" />
+            </div>
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Дата доверенности</label>
+              <input v-model="form.proxyDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+            </div>
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Кем выдана</label>
+            <input v-model="form.proxyIssuedBy" type="text" class="pdf-page__input" placeholder="должность, орган и ФИО удостоверившего" />
+            <p v-if="proxyClause" class="pdf-page__hint">В договор пойдёт: {{ proxyClause }}</p>
+          </div>
+        </template>
 
         <h2 class="pdf-page__section-title">Покупатель</h2>
         <div class="pdf-page__form-grid">
@@ -641,7 +659,7 @@ const handleDownloadPdf = async () => {
         Гражданин(ка) {{ form.sellerName || '________________' }}, {{ form.sellerBirthDate || 'дата рождения' }},
         место рождения: {{ form.sellerBirthPlace || '________________' }}, адрес места жительства:
         {{ form.sellerAddress || '________________' }}, паспорт: {{ form.sellerPassportSeries || 'серия и номер' }},
-        выдан {{ form.sellerPassportIssuedBy || 'кем и когда выдан' }}, именуемый(ая) в дальнейшем «Продавец», с
+        выдан {{ form.sellerPassportIssuedBy || 'кем и когда выдан' }}<template v-if="proxyClause">, {{ proxyClause }}</template>, именуемый(ая) в дальнейшем «Продавец», с
         одной стороны, и гражданин(ка) {{ form.buyerName || '________________' }},
         {{ form.buyerBirthDate || 'дата рождения' }}, место рождения:
         {{ form.buyerBirthPlace || '________________' }}, адрес места жительства:
