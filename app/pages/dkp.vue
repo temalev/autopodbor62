@@ -30,6 +30,24 @@ useHead({
   ],
 })
 
+/** Данные представителя по доверенности — одинаковый набор для обеих сторон. */
+function emptyRep() {
+  return {
+    name: '',
+    birthDate: '',
+    birthPlace: '',
+    address: '',
+    passport: '',
+    passportIssued: '',
+    deptCode: '',
+    proxyNumber: '',
+    proxyDate: '',
+    proxyIssuedBy: '',
+  }
+}
+
+type Rep = ReturnType<typeof emptyRep>
+
 const form = reactive({
   city: 'Рязань',
   date: new Date().toLocaleDateString('ru-RU'),
@@ -43,9 +61,6 @@ const form = reactive({
   sellerPassportIssuedBy: '',
   sellerPassportIssuedDate: '',
 
-  proxyNumber: '',
-  proxyDate: '',
-  proxyIssuedBy: '',
 
   buyerName: '',
   buyerBirthDate: '',
@@ -79,6 +94,11 @@ const form = reactive({
   stsIssuedDate: '',
 
   price: '',
+
+  // Представители сторон: структура одинаковая, чтобы фраза собиралась
+  // одним и тем же кодом для продавца и для покупателя.
+  sellerRep: emptyRep(),
+  buyerRep: emptyRep(),
 })
 
 /**
@@ -88,30 +108,71 @@ const form = reactive({
  */
 const hasSecondVin = ref(false)
 
-/** Тумблер «продавец действует по доверенности» — скрывает три поля, нужные редко. */
+/** Продавец действует по доверенности — открывает блок данных представителя. */
 const hasProxy = ref(false)
 
+/** Покупатель действует по доверенности — такой же блок для второй стороны. */
+const hasBuyerProxy = ref(false)
+
 /**
- * Фраза о доверенности. Приписывается последним элементом к данным продавца,
- * то есть уходит в договор одной строкой через запятую сразу после них.
+ * Фраза «в лице …, действующего(ей) на основании доверенности № … от …,
+ * выданной …». Приписывается последним элементом к данным стороны, то есть идёт
+ * в договоре сразу после них. Каждый кусок необязателен.
  *
- * Форма «действующего(ей)» — как «именуемый(ая)» в самом бланке: пол продавца
- * заранее неизвестен, а угадывать его в юридическом документе нельзя.
+ * Форма «действующего(ей)» — как «именуемый(ая)» в самом бланке: конструктор
+ * публичный, пол представителя заранее неизвестен, а угадывать его нельзя.
  */
-const proxyClause = computed(() => {
-  if (!hasProxy.value) return ''
-  const num = form.proxyNumber.trim()
-  const date = form.proxyDate.trim()
-  const issuer = form.proxyIssuedBy.trim()
-  if (!num && !date && !issuer) return ''
+function buildProxyClause(rep: Rep): string {
+  const v = (x: string) => x.trim()
+  const parts = [
+    v(rep.name) && `в лице ${v(rep.name)}`,
+    v(rep.birthDate) && `род. ${v(rep.birthDate)}`,
+    v(rep.birthPlace) && `в ${v(rep.birthPlace)}`,
+    v(rep.address) && `адрес: ${v(rep.address)}`,
+    (() => {
+      const passport = [v(rep.passport), v(rep.passportIssued) && `выдан ${v(rep.passportIssued)}`]
+        .filter(Boolean).join(' ')
+      return passport && `Паспорт: ${passport}`
+    })(),
+    v(rep.deptCode) && `код подразделения ${v(rep.deptCode)}`,
+  ].filter(Boolean) as string[]
 
   const head = ['действующего(ей) на основании доверенности']
-  if (num) head.push(`№ ${num}`)
-  if (date) head.push(`от ${date}`)
-  return issuer ? `${head.join(' ')}, выданной ${issuer}` : head.join(' ')
+  if (v(rep.proxyNumber)) head.push(`№ ${v(rep.proxyNumber)}`)
+  if (v(rep.proxyDate)) head.push(`от ${v(rep.proxyDate)}`)
+  const hasProxyData = v(rep.proxyNumber) || v(rep.proxyDate) || v(rep.proxyIssuedBy)
+  const proxy = hasProxyData
+    ? (v(rep.proxyIssuedBy) ? `${head.join(' ')}, выданной ${v(rep.proxyIssuedBy)}` : head.join(' '))
+    : ''
+
+  if (!parts.length && !proxy) return ''
+  return [...parts, proxy].filter(Boolean).join(', ')
+}
+
+const sellerProxyClause = computed(() => hasProxy.value ? buildProxyClause(form.sellerRep) : '')
+const buyerProxyClause = computed(() => hasBuyerProxy.value ? buildProxyClause(form.buyerRep) : '')
+
+/**
+ * Какой бланк брать и сколько строк отведено каждой стороне.
+ * Всего строк девять; сторона по доверенности получает шесть, вторая три.
+ * Случай «обе стороны по доверенности» пока не поддержан — двенадцать строк
+ * в бланк не умещаются, нужен отдельный разбор.
+ */
+const blank = computed(() => {
+  if (hasProxy.value && hasBuyerProxy.value) return null
+  const buyerByProxy = hasBuyerProxy.value
+  const base = buyerByProxy ? 'dkp_buyer_proxy' : 'dkp'
+  return {
+    url: `/${base}${hasSecondVin.value ? '_full' : ''}.pdf`,
+    buyerLines: buyerByProxy ? 6 : 3,
+    sellerLines: buyerByProxy ? 3 : 6,
+  }
 })
 
 const previewUrl = ref<string | null>(null)
+
+/** Готовый текст предупреждения под кнопкой. Пустая строка — предупреждать не о чем. */
+const warning = ref('')
 
 const joinCsv = (parts: Array<string | undefined | null>) =>
   parts
@@ -254,50 +315,26 @@ const fillPartyBlock = (
   prefix: 'seller' | 'buyer',
   text: string,
   font: any,
-  startSize: number,
+  size: number,
+  lineCount: number,
 ) => {
-  const fields = [1, 2, 3, 4].map(i => formApi.getTextField(`${prefix}${i}`))
+  const fields = Array.from({ length: lineCount }, (_, i) =>
+    formApi.getTextField(`${prefix}${i + 1}`))
   const widget = fields[0]?.acroField.getWidgets()[0]
-  if (!widget) return
+  if (!widget) return ''
   const maxWidth = widget.getRectangle().width - 4
 
-  const layout = (size: number) => {
-    const out: string[] = []
-    let rest = text
-    for (let i = 0; i < fields.length; i++) {
-      if (!rest) { out.push(''); continue }
-      const part = splitToFitField(rest, maxWidth, font, size)
-      out.push(part.first)
-      rest = part.second
-    }
-    return { out, rest }
+  let rest = text
+  for (const field of fields) {
+    const part = rest ? splitToFitField(rest, maxWidth, font, size) : { first: '', second: '' }
+    field.setFontSize(size)
+    field.setText(part.first)
+    rest = part.second
   }
 
-  let size = startSize
-  let result = layout(size)
-  // Ниже 7pt не опускаемся — дальше нечитаемо; тогда пусть лучше обрежется.
-  while (result.rest && size > 7) {
-    size -= 0.5
-    result = layout(size)
-  }
-
-  fields.forEach((f, i) => {
-    f.setFontSize(size)
-    f.setText(result.out[i] ?? '')
-  })
-}
-
-/**
- * Подбирает кегль так, чтобы текст влез в ширину поля по одной строке.
- * Ниже 6pt не опускаемся — дальше уже нечитаемо, пусть лучше обрежется.
- */
-const fitFontSize = (text: string, field: any, font: any, startSize: number) => {
-  const widget = field.acroField.getWidgets()[0]
-  if (!widget || !text) return startSize
-  const maxWidth = widget.getRectangle().width - 4
-  let size = startSize
-  while (size > 6 && font.widthOfTextAtSize(text, size) > maxWidth) size -= 0.5
-  return size
+  // Кегль единый и не подгоняется, поэтому вернём хвост, который не уложился, —
+  // вызывающий предупредит пользователя, а не потеряет данные молча.
+  return rest
 }
 
 const handleDownloadPdf = async () => {
@@ -306,8 +343,16 @@ const handleDownloadPdf = async () => {
   const { PDFDocument, rgb } = await import('pdf-lib')
   const fontkit = (await import('@pdf-lib/fontkit')).default
 
-  const templateUrl = hasSecondVin.value ? '/dkp_full.pdf' : '/dkp.pdf'
-  const existingPdfBytes = await fetch(templateUrl).then(res => res.arrayBuffer())
+  const layout = blank.value
+  if (!layout) {
+    warning.value = 'Вариант «обе стороны по доверенности» пока не поддержан: в бланке '
+      + 'для этого не хватает строк. Оставьте доверенность только у одной стороны.'
+    previewUrl.value = null
+    return
+  }
+  warning.value = ''
+
+  const existingPdfBytes = await fetch(layout.url).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   pdfDoc.registerFontkit(fontkit)
   const [firstPage] = pdfDoc.getPages()
@@ -322,7 +367,13 @@ const handleDownloadPdf = async () => {
   // В PDF-редакторе нужно добавить текстовые поля с нужными именами.
   try {
     const formApi = pdfDoc.getForm()
-    const fontSize = 12
+    // Единый кегль для всех заполняемых полей — нигде не подгоняется.
+    // 10pt держится за счёт переразмеченного бланка: у продавца шесть строк,
+    // и в них укладывается самый длинный случай (представитель по доверенности
+    // со всеми паспортными данными). Считать вместимость по «общая ширина /
+    // ширина строки» нельзя: строки режутся по запятым, и в концах остаётся
+    // неиспользованное место — размер подобран фактической укладкой.
+    const fontSize = 10
 
     const cityField = formApi.getTextField('city')
     cityField.setFontSize(fontSize)
@@ -340,7 +391,7 @@ const handleDownloadPdf = async () => {
       joinCsv([form.sellerPassportSeries, form.sellerPassportNumber]),
       form.sellerPassportIssuedBy,
       form.sellerPassportIssuedDate,
-      proxyClause.value,
+      sellerProxyClause.value,
     ])
 
     const buyerText = joinCsv([
@@ -351,15 +402,25 @@ const handleDownloadPdf = async () => {
       joinCsv([form.buyerPassportSeries, form.buyerPassportNumber]),
       form.buyerPassportIssuedBy,
       form.buyerPassportIssuedDate,
+      buyerProxyClause.value,
     ])
 
-    fillPartyBlock(formApi, 'seller', sellerText, font, fontSize)
-    fillPartyBlock(formApi, 'buyer', buyerText, font, fontSize)
+    // Шесть строк достаются стороне по доверенности, три — второй.
+    const sellerLeft = fillPartyBlock(formApi, 'seller', sellerText, font, fontSize, layout.sellerLines)
+    const buyerLeft = fillPartyBlock(formApi, 'buyer', buyerText, font, fontSize, layout.buyerLines)
+    const notFitted = [
+      sellerLeft && 'данные продавца',
+      buyerLeft && 'данные покупателя',
+    ].filter(Boolean).join(' и ')
+    warning.value = notFitted
+      ? `Не уложились в бланк: ${notFitted}. Кегль в договоре единый и не уменьшается, `
+        + 'поэтому часть текста не попала в документ — сократите данные и сформируйте заново.'
+      : ''
 
     // Раздел «Автомобиль», ПТС/СТС и стоимость.
     // Заполняем по одному полю: если в шаблоне какого-то не окажется,
     // потеряем только его, а не весь блок.
-    const simpleFields: Array<[string, string, number?]> = [
+    const simpleFields: Array<[string, string]> = [
       ['model', form.carMakeModel],
       ['vin', form.vin],
       ['type', form.carType],
@@ -371,23 +432,23 @@ const handleDownloadPdf = async () => {
       ['nomer_shasi', form.chassisNumber],
       ['body_number', form.bodyNumber],
       ['passport_auto', form.ptsSeriesNumber],
-      ['kem_vidan', form.ptsIssuedBy, 8],
-      ['date_vidachi', form.ptsIssuedDate, 8],
-      ['gos_nomer', form.plateNumber, 9],
-      ['Number_sts', form.stsSeriesNumber, 9],
-      ['sts_vidano', form.stsIssuedBy, 8],
-      ['date_sts', form.stsIssuedDate, 9],
-      ['price', form.price, 10],
-      ['price_word', amountInWordsRu(form.price), 8],
+      ['kem_vidan', form.ptsIssuedBy],
+      ['date_vidachi', form.ptsIssuedDate],
+      ['gos_nomer', form.plateNumber],
+      ['Number_sts', form.stsSeriesNumber],
+      ['sts_vidano', form.stsIssuedBy],
+      ['date_sts', form.stsIssuedDate],
+      ['price', form.price],
+      ['price_word', amountInWordsRu(form.price)],
     ]
 
     // Строка под дополнительный VIN есть только в полном бланке
     if (hasSecondVin.value) simpleFields.push(['second_vin', form.secondVin])
 
-    for (const [name, value, size] of simpleFields) {
+    for (const [name, value] of simpleFields) {
       try {
         const field = formApi.getTextField(name)
-        field.setFontSize(fitFontSize(value || '', field, font, size ?? fontSize))
+        field.setFontSize(fontSize)
         field.setText(value || '')
       } catch {
         // поля нет в шаблоне — пропускаем
@@ -479,20 +540,53 @@ const handleDownloadPdf = async () => {
           <span class="pdf-page__toggle-text">Продавец действует по доверенности</span>
         </label>
         <template v-if="hasProxy">
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">ФИО представителя, в родительном падеже</label>
+            <input v-model="form.sellerRep.name" type="text" class="pdf-page__input" placeholder="Иванова Ивана Ивановича" />
+          </div>
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
-              <label class="pdf-page__label">Доверенность №</label>
-              <input v-model="form.proxyNumber" type="text" class="pdf-page__input" />
+              <label class="pdf-page__label">Дата рождения представителя</label>
+              <input v-model="form.sellerRep.birthDate" type="text" class="pdf-page__input" placeholder="12.05.1985" />
             </div>
             <div class="pdf-page__form-group">
-              <label class="pdf-page__label">Дата доверенности</label>
-              <input v-model="form.proxyDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+              <label class="pdf-page__label">Место рождения представителя</label>
+              <input v-model="form.sellerRep.birthPlace" type="text" class="pdf-page__input" />
             </div>
           </div>
           <div class="pdf-page__form-group">
-            <label class="pdf-page__label">Кем выдана</label>
-            <input v-model="form.proxyIssuedBy" type="text" class="pdf-page__input" placeholder="должность, орган и ФИО удостоверившего" />
-            <p v-if="proxyClause" class="pdf-page__hint">В договор пойдёт: {{ proxyClause }}</p>
+            <label class="pdf-page__label">Адрес представителя</label>
+            <input v-model="form.sellerRep.address" type="text" class="pdf-page__input" />
+          </div>
+          <div class="pdf-page__form-grid">
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Паспорт представителя: серия и номер</label>
+              <input v-model="form.sellerRep.passport" type="text" class="pdf-page__input" />
+            </div>
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Код подразделения</label>
+              <input v-model="form.sellerRep.deptCode" type="text" class="pdf-page__input" />
+            </div>
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Паспорт представителя: кем и когда выдан</label>
+            <input v-model="form.sellerRep.passportIssued" type="text" class="pdf-page__input" />
+          </div>
+
+          <div class="pdf-page__form-grid">
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Доверенность №</label>
+              <input v-model="form.sellerRep.proxyNumber" type="text" class="pdf-page__input" />
+            </div>
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Дата выдачи доверенности</label>
+              <input v-model="form.sellerRep.proxyDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+            </div>
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Доверенность выдана</label>
+            <input v-model="form.sellerRep.proxyIssuedBy" type="text" class="pdf-page__input" placeholder="должность, орган и ФИО удостоверившего" />
+            <p v-if="sellerProxyClause" class="pdf-page__hint">В договор пойдёт: {{ sellerProxyClause }}</p>
           </div>
         </template>
 
@@ -527,6 +621,62 @@ const handleDownloadPdf = async () => {
             <input v-model="form.buyerPassportIssuedBy" type="text" class="pdf-page__input" />
           </div>
         </div>
+
+        <label class="pdf-page__toggle">
+          <input v-model="hasBuyerProxy" type="checkbox" class="pdf-page__toggle-input" />
+          <span class="pdf-page__toggle-track" aria-hidden="true"><span class="pdf-page__toggle-thumb" /></span>
+          <span class="pdf-page__toggle-text">Покупатель действует по доверенности</span>
+        </label>
+        <template v-if="hasBuyerProxy">
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">ФИО представителя, в родительном падеже</label>
+            <input v-model="form.buyerRep.name" type="text" class="pdf-page__input" placeholder="Иванова Ивана Ивановича" />
+          </div>
+          <div class="pdf-page__form-grid">
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Дата рождения представителя</label>
+              <input v-model="form.buyerRep.birthDate" type="text" class="pdf-page__input" placeholder="12.05.1985" />
+            </div>
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Место рождения представителя</label>
+              <input v-model="form.buyerRep.birthPlace" type="text" class="pdf-page__input" />
+            </div>
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Адрес представителя</label>
+            <input v-model="form.buyerRep.address" type="text" class="pdf-page__input" />
+          </div>
+          <div class="pdf-page__form-grid">
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Паспорт представителя: серия и номер</label>
+              <input v-model="form.buyerRep.passport" type="text" class="pdf-page__input" />
+            </div>
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Код подразделения</label>
+              <input v-model="form.buyerRep.deptCode" type="text" class="pdf-page__input" />
+            </div>
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Паспорт представителя: кем и когда выдан</label>
+            <input v-model="form.buyerRep.passportIssued" type="text" class="pdf-page__input" />
+          </div>
+
+          <div class="pdf-page__form-grid">
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Доверенность №</label>
+              <input v-model="form.buyerRep.proxyNumber" type="text" class="pdf-page__input" />
+            </div>
+            <div class="pdf-page__form-group">
+              <label class="pdf-page__label">Дата выдачи доверенности</label>
+              <input v-model="form.buyerRep.proxyDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+            </div>
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Доверенность выдана</label>
+            <input v-model="form.buyerRep.proxyIssuedBy" type="text" class="pdf-page__input" placeholder="должность, орган и ФИО удостоверившего" />
+            <p v-if="buyerProxyClause" class="pdf-page__hint">В договор пойдёт: {{ buyerProxyClause }}</p>
+          </div>
+        </template>
 
         <h2 class="pdf-page__section-title">Автомобиль</h2>
         <div class="pdf-page__form-grid">
@@ -633,6 +783,7 @@ const handleDownloadPdf = async () => {
         <button type="button" class="pdf-page__btn" @click="handleDownloadPdf">
           Сформировать договор
         </button>
+        <p v-if="warning" class="pdf-page__warning">{{ warning }}</p>
         <p class="pdf-page__note">
           Договор откроется ниже — оттуда его можно сохранить или сразу распечатать.
         </p>
@@ -659,13 +810,13 @@ const handleDownloadPdf = async () => {
         Гражданин(ка) {{ form.sellerName || '________________' }}, {{ form.sellerBirthDate || 'дата рождения' }},
         место рождения: {{ form.sellerBirthPlace || '________________' }}, адрес места жительства:
         {{ form.sellerAddress || '________________' }}, паспорт: {{ form.sellerPassportSeries || 'серия и номер' }},
-        выдан {{ form.sellerPassportIssuedBy || 'кем и когда выдан' }}<template v-if="proxyClause">, {{ proxyClause }}</template>, именуемый(ая) в дальнейшем «Продавец», с
+        выдан {{ form.sellerPassportIssuedBy || 'кем и когда выдан' }}<template v-if="sellerProxyClause">, {{ sellerProxyClause }}</template>, именуемый(ая) в дальнейшем «Продавец», с
         одной стороны, и гражданин(ка) {{ form.buyerName || '________________' }},
         {{ form.buyerBirthDate || 'дата рождения' }}, место рождения:
         {{ form.buyerBirthPlace || '________________' }}, адрес места жительства:
         {{ form.buyerAddress || '________________' }}, паспорт:
         {{ form.buyerPassportSeries || 'серия и номер' }}, выдан
-        {{ form.buyerPassportIssuedBy || 'кем и когда выдан' }}, именуемый(ая) в дальнейшем «Покупатель», с другой
+        {{ form.buyerPassportIssuedBy || 'кем и когда выдан' }}<template v-if="buyerProxyClause">, {{ buyerProxyClause }}</template>, именуемый(ая) в дальнейшем «Покупатель», с другой
         стороны, совместно именуемые «Стороны», заключили настоящий договор купли-продажи транспортного средства
         (далее — «Договор») о нижеследующем:
       </p>
@@ -990,6 +1141,17 @@ const handleDownloadPdf = async () => {
   &:active {
     transform: translateY(0);
   }
+}
+
+.pdf-page__warning {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(180, 35, 24, 0.08);
+  border: 1px solid rgba(180, 35, 24, 0.25);
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b42318;
 }
 
 .pdf-page__note {
