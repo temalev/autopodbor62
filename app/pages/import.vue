@@ -4,6 +4,7 @@ import {
   SITE_URL,
   breadcrumbJsonLd,
   jsonLdScript,
+  productJsonLd,
   serviceJsonLd,
 } from '../utils/schema'
 
@@ -32,6 +33,12 @@ const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 const SERVICE_PRICE = 150_000
 const SERVICE_PRICE_LABEL = SERVICE_PRICE.toLocaleString('ru-RU')
 
+// Название услуги и расшифровка цены уходят сразу в два узла разметки —
+// Service и Product, — поэтому лежат в константах, а не по копии в каждом.
+const SERVICE_NAME = 'Импорт автомобиля из Кореи и Китая под ключ'
+const OFFER_DESCRIPTION =
+  'Импорт автомобиля из Кореи или Китая под ключ: анализ рынка, подбор и проверка автомобиля, сопровождение сделки, логистика, таможенное оформление, доставка в Рязань, техобслуживание, детейлинг и регистрация в ГИБДД. Стоимость самого автомобиля, пошлины и фрахт оплачиваются напрямую от имени клиента.'
+
 const PAGE_URL = `${SITE_URL}/import/`
 const PAGE_TITLE = 'Импорт авто из Кореи и Китая под ключ в Рязань — Автоподбор 62'
 // Цена в описании подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся
@@ -55,18 +62,28 @@ useHead({
   script: [
     jsonLdScript(
       serviceJsonLd({
-        name: 'Импорт автомобиля из Кореи и Китая под ключ',
+        name: SERVICE_NAME,
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Импорт автомобилей из-за рубежа',
         image: PAGE_OG_IMAGE,
         offer: {
           price: SERVICE_PRICE,
-          description:
-            'Импорт автомобиля из Кореи или Китая под ключ: анализ рынка, подбор и проверка автомобиля, сопровождение сделки, логистика, таможенное оформление, доставка в Рязань, техобслуживание, детейлинг и регистрация в ГИБДД. Стоимость самого автомобиля, пошлины и фрахт оплачиваются напрямую от имени клиента.',
+          description: OFFER_DESCRIPTION,
         },
       }),
       'ld-import-service',
+    ),
+    jsonLdScript(
+      productJsonLd({
+        name: SERVICE_NAME,
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        image: PAGE_OG_IMAGE,
+        price: SERVICE_PRICE,
+        offerDescription: OFFER_DESCRIPTION,
+      }),
+      'ld-import-product',
     ),
     jsonLdScript(
       breadcrumbJsonLd([

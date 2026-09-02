@@ -4,6 +4,7 @@ import {
   SITE_URL,
   breadcrumbJsonLd,
   jsonLdScript,
+  productJsonLd,
   serviceJsonLd,
 } from '../utils/schema'
 
@@ -28,13 +29,21 @@ const relatedServices = [
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 
-/** Стоимость отдельной услуги. Отсюда же уходит в разметку Offer. */
+/** Стоимость отдельной услуги. Отсюда же уходит в описание страницы и в разметку. */
 const SERVICE_PRICE = 4_000
+const SERVICE_PRICE_LABEL = SERVICE_PRICE.toLocaleString('ru-RU')
+
+// Название услуги и расшифровка цены уходят сразу в два узла разметки —
+// Service и Product, — поэтому лежат в константах, а не по копии в каждом.
+const SERVICE_NAME = 'Регистрация автомобиля в ГИБДД'
+const OFFER_DESCRIPTION =
+  'Постановка автомобиля на учёт в ГИБДД как отдельная услуга: подготовка и проверка документов, запись в МРЭО, сопровождение на осмотр, получение СТС и номерных знаков. Госпошлины оплачиваются отдельно. При заказе подбора под ключ или импорта регистрация входит в стоимость.'
 
 const PAGE_URL = `${SITE_URL}/registraciya-gibdd/`
 const PAGE_TITLE = 'Регистрация автомобиля в ГИБДД в Рязани — Автоподбор 62'
+// Цена подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся с блоком на странице.
 const PAGE_DESCRIPTION =
-  'Поставим автомобиль на учёт в ГИБДД без очередей: подготовка документов, запись, осмотр, получение СТС и номерных знаков. Входит в стоимость подбора под ключ и импорта. Рязань.'
+  `Регистрация автомобиля в ГИБДД в Рязани — ${SERVICE_PRICE_LABEL} ₽: подготовка документов, запись в МРЭО, осмотр, получение СТС и номеров. Без очередей.`
 const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.jpeg`
 
 useHead({
@@ -52,18 +61,28 @@ useHead({
   script: [
     jsonLdScript(
       serviceJsonLd({
-        name: 'Регистрация автомобиля в ГИБДД',
+        name: SERVICE_NAME,
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Регистрация транспортного средства в ГИБДД',
         image: PAGE_OG_IMAGE,
         offer: {
           price: SERVICE_PRICE,
-          description:
-            'Постановка автомобиля на учёт в ГИБДД как отдельная услуга: подготовка и проверка документов, запись в МРЭО, сопровождение на осмотр, получение СТС и номерных знаков. Госпошлины оплачиваются отдельно. При заказе подбора под ключ или импорта регистрация входит в стоимость.',
+          description: OFFER_DESCRIPTION,
         },
       }),
       'ld-gibdd-service',
+    ),
+    jsonLdScript(
+      productJsonLd({
+        name: SERVICE_NAME,
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        image: PAGE_OG_IMAGE,
+        price: SERVICE_PRICE,
+        offerDescription: OFFER_DESCRIPTION,
+      }),
+      'ld-gibdd-product',
     ),
     jsonLdScript(
       breadcrumbJsonLd([

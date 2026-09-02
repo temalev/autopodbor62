@@ -8,6 +8,9 @@ import { SITE_PHONE_RAW } from './site'
 /** Базовый URL сайта (для абсолютных ссылок в JSON-LD) */
 export const SITE_URL = 'https://xn--62-6kceem3eacgpr.xn--p1ai'
 
+/** Название компании. Используется и в карточке бизнеса, и в `brand` у Product. */
+const ORG_NAME = 'Автоподбор 62'
+
 /** Координаты офиса (Рязань, ул. Грибоедова, 8Б) — взяты с виджета Яндекс.Карт в Footer */
 const GEO_LAT = 54.627751
 const GEO_LON = 39.765055
@@ -21,7 +24,7 @@ export function localBusinessJsonLd() {
     '@context': 'https://schema.org',
     '@type': ['LocalBusiness', 'AutomotiveBusiness'],
     '@id': `${SITE_URL}/#organization`,
-    name: 'Автоподбор 62',
+    name: ORG_NAME,
     alternateName: 'Autopodbor 62',
     description:
       'Профессиональный автоподбор и проверка автомобилей в Рязани. Подбор под ключ, разовая проверка, выкуп и продажа, регистрация в ГИБДД, импорт из Кореи и Китая.',
@@ -159,6 +162,67 @@ export function serviceJsonLd(params: ServiceJsonLdParams) {
           },
         }
       : {}),
+  }
+}
+
+/**
+ * Product — та же услуга, продублированная в товарной разметке.
+ *
+ * Зачем дубль при живом `Service`: Яндекс выводит цену в сниппет только из
+ * `Product`, `OfferCatalog` или `AggregateOffer` (справка «Товары и цены»).
+ * `Service` с `offers` он читает как коммерческий фактор ранжирования, но в
+ * выдаче цену из него не показывает. Поэтому на страницах с ценой отдаём оба
+ * узла: `Service` описывает услугу по смыслу, `Product` существует ради цены
+ * в сниппете. У узлов разные `@id`, так что это не дубликат одной сущности.
+ *
+ * Обязательный набор полей у Яндекса: у `Product` — `name`, `description`,
+ * `brand`, `image`; у вложенного `Offer` — `price`, `priceCurrency`,
+ * `availability`. Без любого из них сниппет не собирается, поэтому все они
+ * обязательны и в параметрах функции — необязательных полей здесь нет намеренно.
+ *
+ * `aggregateRating` сюда намеренно не заводим: 136 отзывов с Авито относятся
+ * к компании (они в `localBusinessJsonLd`), а не к отдельной услуге, и
+ * переносить их на Product значило бы разметить то, чего на странице нет.
+ */
+export interface ProductJsonLdParams {
+  name: string
+  description: string
+  url: string
+  image: string
+  /** Сумма в рублях. Тот же `SERVICE_PRICE`, что уходит в `Service` и в блок на странице. */
+  price: number
+  /** За что берётся сумма — тот же текст, что в `offer.description` у `serviceJsonLd()`. */
+  offerDescription: string
+}
+
+export function productJsonLd(params: ProductJsonLdParams) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${params.url}#product`,
+    name: params.name,
+    description: params.description,
+    url: params.url,
+    image: params.image,
+    brand: {
+      '@type': 'Brand',
+      name: ORG_NAME,
+    },
+    offers: {
+      '@type': 'Offer',
+      price: params.price,
+      priceCurrency: 'RUB',
+      availability: 'https://schema.org/InStock',
+      description: params.offerDescription,
+      url: params.url,
+      seller: {
+        '@id': `${SITE_URL}/#organization`,
+      },
+      areaServed: {
+        '@type': 'City',
+        name: 'Рязань',
+      },
+    },
   }
 }
 

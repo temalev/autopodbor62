@@ -4,6 +4,7 @@ import {
   SITE_URL,
   breadcrumbJsonLd,
   jsonLdScript,
+  productJsonLd,
   serviceJsonLd,
 } from '../utils/schema'
 
@@ -32,6 +33,12 @@ const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
 const SERVICE_PRICE = 4_000
 const SERVICE_PRICE_LABEL = SERVICE_PRICE.toLocaleString('ru-RU')
 
+// Название услуги и расшифровка цены уходят сразу в два узла разметки —
+// Service и Product, — поэтому лежат в константах, а не по копии в каждом.
+const SERVICE_NAME = 'Разовая проверка автомобиля перед покупкой'
+const OFFER_DESCRIPTION =
+  'Разовая проверка автомобиля перед покупкой по полному чек-листу: выездная диагностика, проверка VIN и истории, замер толщины ЛКП, компьютерная диагностика, отчёт от 150 фото и видео с заключением эксперта.'
+
 const PAGE_URL = `${SITE_URL}/proverka/`
 const PAGE_TITLE = 'Проверка автомобиля перед покупкой в Рязани — Автоподбор 62'
 // Цена подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся с блоком на странице.
@@ -54,18 +61,28 @@ useHead({
   script: [
     jsonLdScript(
       serviceJsonLd({
-        name: 'Разовая проверка автомобиля перед покупкой',
+        name: SERVICE_NAME,
         description: PAGE_DESCRIPTION,
         url: PAGE_URL,
         serviceType: 'Проверка автомобиля перед покупкой',
         image: PAGE_OG_IMAGE,
         offer: {
           price: SERVICE_PRICE,
-          description:
-            'Разовая проверка автомобиля перед покупкой по полному чек-листу: выездная диагностика, проверка VIN и истории, замер толщины ЛКП, компьютерная диагностика, отчёт от 150 фото и видео с заключением эксперта.',
+          description: OFFER_DESCRIPTION,
         },
       }),
       'ld-proverka-service',
+    ),
+    jsonLdScript(
+      productJsonLd({
+        name: SERVICE_NAME,
+        description: PAGE_DESCRIPTION,
+        url: PAGE_URL,
+        image: PAGE_OG_IMAGE,
+        price: SERVICE_PRICE,
+        offerDescription: OFFER_DESCRIPTION,
+      }),
+      'ld-proverka-product',
     ),
     jsonLdScript(
       breadcrumbJsonLd([
