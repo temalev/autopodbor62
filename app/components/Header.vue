@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { ElDrawer } from 'element-plus'
 
 const { app: { baseURL } } = useRuntimeConfig()
@@ -9,18 +9,42 @@ const drawerVisible = ref(false)
 const dropdownOpen = ref(false)
 const mobileServicesOpen = ref(false)
 
-let closeTimer: ReturnType<typeof setTimeout> | null = null
+const dropdownRoot = ref<HTMLElement | null>(null)
+const dropdownTrigger = ref<HTMLButtonElement | null>(null)
 
 const openDropdown = () => {
-  if (closeTimer) clearTimeout(closeTimer)
   dropdownOpen.value = true
 }
 
-const scheduleClose = () => {
-  closeTimer = setTimeout(() => {
-    dropdownOpen.value = false
-  }, 120)
+const closeDropdown = () => {
+  dropdownOpen.value = false
 }
+
+const toggleDropdown = () => {
+  dropdownOpen.value = !dropdownOpen.value
+}
+
+const onDocumentClick = (event: MouseEvent) => {
+  if (!dropdownOpen.value) return
+  const root = dropdownRoot.value
+  if (root && !root.contains(event.target as Node)) closeDropdown()
+}
+
+const onKeydown = (event: KeyboardEvent) => {
+  if (event.key !== 'Escape' || !dropdownOpen.value) return
+  closeDropdown()
+  dropdownTrigger.value?.focus()
+}
+
+onMounted(() => {
+  document.addEventListener('click', onDocumentClick)
+  document.addEventListener('keydown', onKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onDocumentClick)
+  document.removeEventListener('keydown', onKeydown)
+})
 
 const toggleDrawer = () => {
   drawerVisible.value = !drawerVisible.value
@@ -32,13 +56,43 @@ const closeDrawer = () => {
 }
 
 const services = [
-  { to: '/podbor', label: 'Подбор автомобиля' },
-  { to: '/proverka', label: 'Разовая проверка' },
-  { to: '/vykup', label: 'Выкуп и комиссионная продажа' },
-  { to: '/registraciya-gibdd', label: 'Регистрация в ГИБДД' },
-  { to: '/import', label: 'Импорт из-за рубежа' },
-  { to: '/proverka-kuzova', label: 'Проверка кузова' },
-]
+  {
+    to: '/podbor',
+    label: 'Подбор автомобиля',
+    description: 'Найдём и проверим авто под ключ',
+    icon: 'podbor',
+  },
+  {
+    to: '/proverka',
+    label: 'Разовая проверка',
+    description: 'Выезд к машине и заключение эксперта',
+    icon: 'proverka',
+  },
+  {
+    to: '/vykup',
+    label: 'Выкуп и комиссия',
+    description: 'Продадим ваше авто выгодно и быстро',
+    icon: 'vykup',
+  },
+  {
+    to: '/registraciya-gibdd',
+    label: 'Регистрация в ГИБДД',
+    description: 'Учёт и номера без очередей',
+    icon: 'gibdd',
+  },
+  {
+    to: '/import',
+    label: 'Импорт из-за рубежа',
+    description: 'Авто из Кореи, Китая и Европы',
+    icon: 'import',
+  },
+  {
+    to: '/proverka-kuzova',
+    label: 'Проверка кузова',
+    description: 'Толщиномер, ЛКП и качество ремонта',
+    icon: 'kuzov',
+  },
+] as const
 </script>
 
 <template>
@@ -56,28 +110,45 @@ const services = [
         <NuxtLink to="/" class="header__link">Главная</NuxtLink>
         <NuxtLink to="/o-nas" class="header__link">О нас</NuxtLink>
         <div
+          ref="dropdownRoot"
           class="header__dropdown"
           @mouseenter="openDropdown"
-          @mouseleave="scheduleClose"
+          @mouseleave="closeDropdown"
         >
-          <button class="header__link header__dropdown-trigger" :class="{ 'is-open': dropdownOpen }" aria-haspopup="true" :aria-expanded="dropdownOpen">
+          <button
+            ref="dropdownTrigger"
+            type="button"
+            class="header__link header__dropdown-trigger"
+            :class="{ 'is-open': dropdownOpen }"
+            aria-haspopup="true"
+            :aria-expanded="dropdownOpen"
+            @click="toggleDropdown"
+          >
             Услуги
-            <svg class="header__dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <svg class="header__dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
 
           <Transition name="dropdown">
-            <div v-show="dropdownOpen" class="header__dropdown-menu" @mouseenter="openDropdown" @mouseleave="scheduleClose">
-              <NuxtLink
-                v-for="service in services"
-                :key="service.to"
-                :to="service.to"
-                class="header__dropdown-item"
-                @click="dropdownOpen = false"
-              >
-                {{ service.label }}
-              </NuxtLink>
+            <div v-show="dropdownOpen" class="header__dropdown-panel">
+              <div class="header__dropdown-menu">
+                <NuxtLink
+                  v-for="service in services"
+                  :key="service.to"
+                  :to="service.to"
+                  class="header__dropdown-item"
+                  @click="closeDropdown"
+                >
+                  <span class="header__dropdown-icon" aria-hidden="true">
+                    <ServiceIcon :name="service.icon" :size="21" />
+                  </span>
+                  <span class="header__dropdown-text">
+                    <span class="header__dropdown-title">{{ service.label }}</span>
+                    <span class="header__dropdown-desc">{{ service.description }}</span>
+                  </span>
+                </NuxtLink>
+              </div>
             </div>
           </Transition>
         </div>
@@ -102,7 +173,7 @@ const services = [
         v-model="drawerVisible"
         title="Меню"
         direction="rtl"
-        size="280px"
+        size="300px"
         :with-header="true"
         :append-to-body="true"
         :modal="true"
@@ -117,12 +188,14 @@ const services = [
           </NuxtLink>
           <div class="header__mobile-services">
             <button
+              type="button"
               class="header__mobile-services-toggle"
               :class="{ 'is-open': mobileServicesOpen }"
+              :aria-expanded="mobileServicesOpen"
               @click="mobileServicesOpen = !mobileServicesOpen"
             >
               Услуги
-              <svg class="header__mobile-services-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <svg class="header__mobile-services-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
@@ -135,6 +208,9 @@ const services = [
                   class="header__link--mobile header__link--sub"
                   @click="closeDrawer"
                 >
+                  <span class="header__mobile-sub-icon" aria-hidden="true">
+                    <ServiceIcon :name="service.icon" :size="18" />
+                  </span>
                   {{ service.label }}
                 </NuxtLink>
               </div>
@@ -284,7 +360,10 @@ const services = [
   }
 
   &--sub {
-    padding: 11px 24px 11px 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 24px 11px 34px;
     font-size: 15px;
     font-weight: 400;
   }
@@ -304,98 +383,179 @@ const services = [
   gap: 5px;
   font-family: inherit;
 
-  &.is-open .header__dropdown-arrow,
-  &:hover .header__dropdown-arrow {
+  &.is-open {
+    color: #fff;
+  }
+
+  &.is-open .header__dropdown-arrow {
     transform: rotate(180deg);
+    opacity: 1;
   }
 }
 
 .header__dropdown-arrow {
-  transition: transform 0.2s ease;
-  opacity: 0.7;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  opacity: 0.6;
   flex-shrink: 0;
 }
 
-.header__dropdown-menu {
+// Обёртка держит «мостик» между триггером и панелью,
+// чтобы курсор не терял ховер по пути вниз.
+.header__dropdown-panel {
+  // Прижимаем панель к правому краю триггера: меню в хедере стоит справа,
+  // поэтому центрирование по кнопке выносило панель за экран.
   position: absolute;
-  top: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 220px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%),
-    rgba(18, 12, 6, 0.55);
-  backdrop-filter: saturate(180%) blur(24px);
-  -webkit-backdrop-filter: saturate(180%) blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 8px;
-  box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  top: 100%;
+  right: -14px;
+  left: auto;
+  padding-top: 14px;
   z-index: 200;
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12px;
-    height: 12px;
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
-      rgba(18, 12, 6, 0.55);
-    backdrop-filter: saturate(180%) blur(24px);
-    -webkit-backdrop-filter: saturate(180%) blur(24px);
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    rotate: 45deg;
-    border-radius: 2px 0 0 0;
+.header__dropdown-menu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  width: min(600px, calc(100vw - 48px));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 60%),
+    rgba(16, 11, 6, 0.86);
+  backdrop-filter: saturate(180%) blur(28px);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 1100px) {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(330px, calc(100vw - 40px));
   }
 }
 
 @supports not (backdrop-filter: blur(1px)) {
   .header__dropdown-menu {
-    background: rgba(18, 12, 6, 0.97);
-
-    &::before {
-      background: rgba(18, 12, 6, 0.97);
-    }
+    background: rgba(16, 11, 6, 0.98);
   }
 }
 
 .header__dropdown-item {
-  display: block;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
   text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.15s ease, color 0.15s ease;
-  white-space: nowrap;
+  transition: background 0.16s ease;
 
-  &:hover {
-    background: rgba(249, 115, 22, 0.15);
+  &:hover,
+  &:focus-visible {
+    background: rgba(255, 255, 255, 0.07);
+    outline: none;
+  }
+
+  &:hover .header__dropdown-icon,
+  &:focus-visible .header__dropdown-icon {
+    background:
+      linear-gradient(160deg, rgba(249, 115, 22, 0.42) 0%, rgba(249, 115, 22, 0.2) 100%),
+      rgba(255, 255, 255, 0.04);
+    border-color: rgba(249, 115, 22, 0.5);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  &:hover .header__dropdown-title,
+  &:focus-visible .header__dropdown-title {
     color: #fff;
   }
 
   &.router-link-active {
-    color: var(--color-accent);
-    background: rgba(249, 115, 22, 0.08);
+    background: rgba(249, 115, 22, 0.12);
+
+    .header__dropdown-title {
+      color: var(--color-accent);
+    }
+
+    .header__dropdown-icon {
+      background:
+        linear-gradient(160deg, rgba(249, 115, 22, 0.34) 0%, rgba(249, 115, 22, 0.14) 100%),
+        rgba(255, 255, 255, 0.04);
+      border-color: rgba(249, 115, 22, 0.45);
+      color: var(--color-accent);
+    }
   }
+}
+
+.header__dropdown-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background:
+    linear-gradient(160deg, rgba(249, 115, 22, 0.16) 0%, rgba(249, 115, 22, 0.05) 100%),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: var(--color-accent);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+
+  svg {
+    display: block;
+  }
+}
+
+.header__dropdown-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.header__dropdown-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  transition: color 0.16s ease;
+}
+
+.header__dropdown-desc {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.35;
 }
 
 // Dropdown transition
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
-  transform: translateX(-50%) translateY(-6px);
+  transform: translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header__dropdown-item:hover .header__dropdown-icon,
+  .header__dropdown-item:focus-visible .header__dropdown-icon {
+    transform: none;
+  }
+
+  .dropdown-enter-active,
+  .dropdown-leave-active {
+    transition: opacity 0.12s ease;
+  }
+  .dropdown-enter-from,
+  .dropdown-leave-to {
+    transform: none;
+  }
 }
 
 // Mobile services accordion
@@ -408,6 +568,7 @@ const services = [
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   background: none;
   border: none;
   cursor: pointer;
@@ -443,6 +604,21 @@ const services = [
   flex-direction: column;
   gap: 0;
   overflow: hidden;
+}
+
+.header__mobile-sub-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  color: #f97316;
+  opacity: 0.85;
+
+  svg {
+    display: block;
+  }
 }
 
 // Accordion transition
