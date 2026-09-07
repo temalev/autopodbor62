@@ -111,6 +111,56 @@ useHead({
             </div>
           </div>
         </div>
+
+        <figure class="about__office">
+          <img
+            src="/images/office.webp"
+            alt="Офис Автоподбор 62 в Рязани на улице Грибоедова, 8Б — фасад с вывеской «Autopodbor_62. Осмотр автомобилей перед покупкой»"
+            width="1050"
+            height="1400"
+            loading="lazy"
+            decoding="async"
+            class="about__office-img"
+          >
+          <figcaption class="about__office-caption">
+            Наш офис — {{ SITE_ADDRESS }}. Ориентир: оранжевая вывеска «Autopodbor_62» на фасаде и адресная табличка «Грибоедова, 8».
+          </figcaption>
+        </figure>
+
+        <div class="about__route">
+          <h3 class="about__h3">Как добраться</h3>
+
+          <div class="about__route-grid">
+            <div class="about__route-item">
+              <p class="about__route-label">Общественным транспортом</p>
+              <p class="about__route-text">
+                Ближайшая остановка — <strong>«Мясокомбинат»</strong>, около 180 метров, пара минут пешком. Через неё идут автобусы 23, 47, 53, 65, 66, 99м2, 113, 114, 115, 121, 123, 134 и 139, троллейбусы 3, 10 и 13, маршрутки 95м2 и 113а.
+              </p>
+            </div>
+
+            <div class="about__route-item">
+              <p class="about__route-label">Ориентиры на месте</p>
+              <p class="about__route-text">
+                Микрорайон Кальное, Советский район Рязани. Рядом магазин «Канцлер» на Грибоедова, 8, торговый центр «Круиз» и бассейн «Классика». Наше здание узнаётся по оранжевой вывеске «Autopodbor_62» и адресной табличке «Грибоедова, 8» на фасаде.
+              </p>
+            </div>
+          </div>
+
+          <div class="about__route-links">
+            <a
+              href="https://yandex.ru/maps/org/autopodbor_62/204442224583/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="about__route-link"
+            >Маршрут в Яндекс.Картах</a>
+            <a
+              href="https://2gis.ru/ryazan/firm/70000001064031748"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="about__route-link"
+            >Маршрут в 2ГИС</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -226,6 +276,104 @@ useHead({
   gap: 20px;
   max-width: 900px;
   margin: 0 auto;
+}
+
+.about__office {
+  max-width: 480px;
+  margin: 32px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about__office-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.about__office-caption {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.about__route {
+  max-width: 900px;
+  margin: 40px auto 0;
+}
+
+.about__h3 {
+  font-size: clamp(18px, 2.6vw, 22px);
+  font-weight: 800;
+  color: var(--color-dark);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0 0 20px;
+}
+
+.about__route-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.about__route-item {
+  padding: 24px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.about__route-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin: 0 0 10px;
+}
+
+.about__route-text {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-text);
+  margin: 0;
+
+  strong {
+    color: var(--color-dark);
+    font-weight: 700;
+  }
+}
+
+.about__route-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.about__route-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: var(--color-accent-bg);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: #fff;
+    background: var(--color-accent);
+  }
 }
 
 .about__contact-card {
