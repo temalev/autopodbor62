@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { sendLead } from '../utils/lead'
+import { sendLead } from '../../utils/lead'
 import {
   SITE_URL,
   breadcrumbJsonLd,
   jsonLdScript,
   productJsonLd,
   serviceJsonLd,
-} from '../utils/schema'
+} from '../../utils/schema'
 
 const relatedServices = [
   {
@@ -291,6 +291,9 @@ const steps = [
           <template #note>Сумма фиксируется до старта и не меняется по ходу сделки — независимо от того, сколько вариантов пришлось отсмотреть и как долго шла доставка.</template>
           <template #hint>Организацию этих этапов мы берём на себя, а сами платежи идут <strong>напрямую от вашего имени</strong> — мы не закладываем их в свою цену и не берём процент сверху. Итоговую сумму со всеми расходами считаем и согласовываем до начала работы, поэтому конечная стоимость известна заранее.</template>
         </ServicePrice>
+        <p class="import-page__calc-link">
+          Платежи на таможне можно прикинуть заранее — <NuxtLink to="/import/kalkulyator">откройте калькулятор растаможки</NuxtLink>: он посчитает пошлину, утилизационный сбор и сбор за оформление по ставкам 2026 года.
+        </p>
       </div>
     </section>
 
@@ -322,6 +325,22 @@ const steps = [
 </template>
 
 <style scoped lang="scss">
+.import-page__calc-link {
+  max-width: 68ch;
+  margin: 24px auto 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text);
+  text-align: center;
+
+  a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
 .import-page {
   padding-top: 0;
   min-height: 100vh;

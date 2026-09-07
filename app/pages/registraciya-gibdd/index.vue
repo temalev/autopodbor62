@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { sendLead } from '../utils/lead'
+import { sendLead } from '../../utils/lead'
 import {
   SITE_URL,
   breadcrumbJsonLd,
   jsonLdScript,
   productJsonLd,
   serviceJsonLd,
-} from '../utils/schema'
+} from '../../utils/schema'
 
 const relatedServices = [
   {
@@ -245,6 +245,9 @@ const documents = [
           <template #note>В сумму входит вся наша работа: подготовка и проверка документов, запись в МРЭО, сопровождение на осмотр и получение СТС с номерами. Стоимость не зависит от того, сколько раз придётся приехать.</template>
           <template #hint>Точные суммы госпошлин рассчитываем заранее и говорим до подачи документов — <strong>сверх нашей цены ничего не появится</strong>. При заказе <NuxtLink to="/podbor">подбора автомобиля под ключ</NuxtLink> или <NuxtLink to="/import">импорта из-за рубежа</NuxtLink> регистрация входит в стоимость и отдельно не оплачивается.</template>
         </ServicePrice>
+        <p class="gibdd-page__calc-link">
+          После постановки на учёт машина попадает под транспортный налог — <NuxtLink to="/registraciya-gibdd/transportnyy-nalog">посчитайте его в калькуляторе</NuxtLink> по ставкам Рязанской области на 2025 и 2026 годы.
+        </p>
       </div>
     </section>
 
@@ -278,6 +281,22 @@ const documents = [
 </template>
 
 <style scoped lang="scss">
+.gibdd-page__calc-link {
+  max-width: 68ch;
+  margin: 24px auto 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text);
+  text-align: center;
+
+  a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
 .gibdd-page {
   padding-top: 0;
   min-height: 100vh;
