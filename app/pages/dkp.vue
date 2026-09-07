@@ -60,6 +60,7 @@ const form = reactive({
   sellerPassportNumber: '',
   sellerPassportIssuedBy: '',
   sellerPassportIssuedDate: '',
+  sellerDeptCode: '',
 
 
   buyerName: '',
@@ -70,6 +71,7 @@ const form = reactive({
   buyerPassportNumber: '',
   buyerPassportIssuedBy: '',
   buyerPassportIssuedDate: '',
+  buyerDeptCode: '',
 
   carMakeModel: '',
   carType: '',
@@ -179,6 +181,102 @@ const joinCsv = (parts: Array<string | undefined | null>) =>
     .map(p => (p ?? '').trim())
     .filter(Boolean)
     .join(', ')
+
+/**
+ * Данные стороны одной строкой, с подписями к паспортным полям —
+ * в том же виде, в каком их печатает Авто.ру:
+ *   Левкин Артём Сергеевич, род. 14.03.1988, в г. Рязань, адрес: г. Рязань,
+ *   ул. Грибоедова, 8Б, паспорт: 6100 123456, выдан: 23.02.2015 ОВД Рязани,
+ *   код подразделения: 620-001
+ *
+ * Подпись ставится только рядом с заполненным значением: пустое поле
+ * не должно оставлять в договоре висящее «паспорт:» без номера.
+ */
+function buildPartyText(party: {
+  name: string
+  birthDate: string
+  birthPlace: string
+  address: string
+  passport: string
+  issuedBy: string
+  issuedDate: string
+  deptCode: string
+  proxyClause: string
+}) {
+  const t = (x: string) => (x ?? '').trim()
+  const issued = [t(party.issuedDate), t(party.issuedBy)].filter(Boolean).join(' ')
+  return joinCsv([
+    party.name,
+    t(party.birthDate) && `род. ${t(party.birthDate)}`,
+    t(party.birthPlace) && `в ${t(party.birthPlace)}`,
+    t(party.address) && `адрес: ${t(party.address)}`,
+    t(party.passport) && `паспорт: ${t(party.passport)}`,
+    issued && `выдан: ${issued}`,
+    t(party.deptCode) && `код подразделения: ${t(party.deptCode)}`,
+    party.proxyClause,
+  ])
+}
+
+const sellerText = computed(() => buildPartyText({
+  name: form.sellerName,
+  birthDate: form.sellerBirthDate,
+  birthPlace: form.sellerBirthPlace,
+  address: form.sellerAddress,
+  passport: joinCsv([form.sellerPassportSeries, form.sellerPassportNumber]),
+  issuedBy: form.sellerPassportIssuedBy,
+  issuedDate: form.sellerPassportIssuedDate,
+  deptCode: form.sellerDeptCode,
+  proxyClause: sellerProxyClause.value,
+}))
+
+const buyerText = computed(() => buildPartyText({
+  name: form.buyerName,
+  birthDate: form.buyerBirthDate,
+  birthPlace: form.buyerBirthPlace,
+  address: form.buyerAddress,
+  passport: joinCsv([form.buyerPassportSeries, form.buyerPassportNumber]),
+  issuedBy: form.buyerPassportIssuedBy,
+  issuedDate: form.buyerPassportIssuedDate,
+  deptCode: form.buyerDeptCode,
+  proxyClause: buyerProxyClause.value,
+}))
+
+/**
+ * Маски ввода. Пользователь набирает только цифры — разделители
+ * расставляются сами. Разделитель никогда не остаётся хвостом,
+ * иначе его невозможно стереть: backspace убирал бы его, а маска
+ * тут же дописывала обратно.
+ */
+function maskDate(value: string) {
+  const d = value.replace(/\D/g, '').slice(0, 8)
+  return [d.slice(0, 2), d.slice(2, 4), d.slice(4, 8)].filter(Boolean).join('.')
+}
+
+/** Паспорт РФ: четыре цифры серии и шесть номера. */
+function maskPassport(value: string) {
+  const d = value.replace(/\D/g, '').slice(0, 10)
+  return d.length > 4 ? `${d.slice(0, 4)} ${d.slice(4)}` : d
+}
+
+/** Код подразделения: 000-000. */
+function maskDeptCode(value: string) {
+  const d = value.replace(/\D/g, '').slice(0, 6)
+  return d.length > 3 ? `${d.slice(0, 3)}-${d.slice(3)}` : d
+}
+
+const MASKS = { date: maskDate, passport: maskPassport, dept: maskDeptCode }
+
+/**
+ * Обработчик для полей с маской. Пишем отформатированное значение и в поле,
+ * и в форму: иначе при вводе лишнего символа в DOM останется одно, а в
+ * состоянии другое.
+ */
+function onMasked(e: Event, mask: keyof typeof MASKS, assign: (v: string) => void) {
+  const input = e.target as HTMLInputElement
+  const formatted = MASKS[mask](input.value)
+  input.value = formatted
+  assign(formatted)
+}
 
 const RU_ONES_M = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять']
 const RU_ONES_F = ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять']
@@ -383,31 +481,9 @@ const handleDownloadPdf = async () => {
     dateField.setFontSize(fontSize)
     dateField.setText(form.date || '')
 
-    const sellerText = joinCsv([
-      form.sellerName,
-      form.sellerBirthDate,
-      form.sellerBirthPlace,
-      form.sellerAddress,
-      joinCsv([form.sellerPassportSeries, form.sellerPassportNumber]),
-      form.sellerPassportIssuedBy,
-      form.sellerPassportIssuedDate,
-      sellerProxyClause.value,
-    ])
-
-    const buyerText = joinCsv([
-      form.buyerName,
-      form.buyerBirthDate,
-      form.buyerBirthPlace,
-      form.buyerAddress,
-      joinCsv([form.buyerPassportSeries, form.buyerPassportNumber]),
-      form.buyerPassportIssuedBy,
-      form.buyerPassportIssuedDate,
-      buyerProxyClause.value,
-    ])
-
     // Шесть строк достаются стороне по доверенности, три — второй.
-    const sellerLeft = fillPartyBlock(formApi, 'seller', sellerText, font, fontSize, layout.sellerLines)
-    const buyerLeft = fillPartyBlock(formApi, 'buyer', buyerText, font, fontSize, layout.buyerLines)
+    const sellerLeft = fillPartyBlock(formApi, 'seller', sellerText.value, font, fontSize, layout.sellerLines)
+    const buyerLeft = fillPartyBlock(formApi, 'buyer', buyerText.value, font, fontSize, layout.buyerLines)
     const notFitted = [
       sellerLeft && 'данные продавца',
       buyerLeft && 'данные покупателя',
@@ -498,7 +574,7 @@ const handleDownloadPdf = async () => {
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата</label>
-            <input v-model="form.date" type="text" class="pdf-page__input" />
+            <input :value="form.date" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.date = v)" class="pdf-page__input" />
           </div>
         </div>
 
@@ -510,7 +586,7 @@ const handleDownloadPdf = async () => {
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата рождения</label>
-            <input v-model="form.sellerBirthDate" type="text" class="pdf-page__input" />
+            <input :value="form.sellerBirthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerBirthDate = v)" class="pdf-page__input" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
@@ -526,11 +602,21 @@ const handleDownloadPdf = async () => {
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт: серия и номер</label>
-            <input v-model="form.sellerPassportSeries" type="text" class="pdf-page__input" />
+            <input :value="form.sellerPassportSeries" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.sellerPassportSeries = v)" class="pdf-page__input" placeholder="6100 123456" />
           </div>
           <div class="pdf-page__form-group">
-            <label class="pdf-page__label">Кем и когда выдан</label>
-            <input v-model="form.sellerPassportIssuedBy" type="text" class="pdf-page__input" />
+            <label class="pdf-page__label">Кем выдан</label>
+            <input v-model="form.sellerPassportIssuedBy" type="text" class="pdf-page__input" placeholder="ОВД Советского района г. Рязани" />
+          </div>
+        </div>
+        <div class="pdf-page__form-grid">
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Дата выдачи</label>
+            <input :value="form.sellerPassportIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerPassportIssuedDate = v)" class="pdf-page__input" placeholder="23.02.2015" />
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Код подразделения</label>
+            <input :value="form.sellerDeptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.sellerDeptCode = v)" class="pdf-page__input" placeholder="620-001" />
           </div>
         </div>
 
@@ -547,7 +633,7 @@ const handleDownloadPdf = async () => {
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата рождения представителя</label>
-              <input v-model="form.sellerRep.birthDate" type="text" class="pdf-page__input" placeholder="12.05.1985" />
+              <input :value="form.sellerRep.birthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.birthDate = v)" class="pdf-page__input" placeholder="12.05.1985" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Место рождения представителя</label>
@@ -561,16 +647,16 @@ const handleDownloadPdf = async () => {
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Паспорт представителя: серия и номер</label>
-              <input v-model="form.sellerRep.passport" type="text" class="pdf-page__input" />
+              <input :value="form.sellerRep.passport" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.sellerRep.passport = v)" class="pdf-page__input" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Код подразделения</label>
-              <input v-model="form.sellerRep.deptCode" type="text" class="pdf-page__input" />
+              <input :value="form.sellerRep.deptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.sellerRep.deptCode = v)" class="pdf-page__input" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт представителя: кем и когда выдан</label>
-            <input v-model="form.sellerRep.passportIssued" type="text" class="pdf-page__input" />
+            <input :value="form.sellerRep.passportIssued" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.passportIssued = v)" class="pdf-page__input" />
           </div>
 
           <div class="pdf-page__form-grid">
@@ -580,7 +666,7 @@ const handleDownloadPdf = async () => {
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата выдачи доверенности</label>
-              <input v-model="form.sellerRep.proxyDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+              <input :value="form.sellerRep.proxyDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.proxyDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
             </div>
           </div>
           <div class="pdf-page__form-group">
@@ -598,7 +684,7 @@ const handleDownloadPdf = async () => {
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата рождения</label>
-            <input v-model="form.buyerBirthDate" type="text" class="pdf-page__input" />
+            <input :value="form.buyerBirthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerBirthDate = v)" class="pdf-page__input" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
@@ -614,11 +700,21 @@ const handleDownloadPdf = async () => {
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт: серия и номер</label>
-            <input v-model="form.buyerPassportSeries" type="text" class="pdf-page__input" />
+            <input :value="form.buyerPassportSeries" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.buyerPassportSeries = v)" class="pdf-page__input" placeholder="6100 654321" />
           </div>
           <div class="pdf-page__form-group">
-            <label class="pdf-page__label">Кем и когда выдан</label>
-            <input v-model="form.buyerPassportIssuedBy" type="text" class="pdf-page__input" />
+            <label class="pdf-page__label">Кем выдан</label>
+            <input v-model="form.buyerPassportIssuedBy" type="text" class="pdf-page__input" placeholder="ОВД Московского района г. Рязани" />
+          </div>
+        </div>
+        <div class="pdf-page__form-grid">
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Дата выдачи</label>
+            <input :value="form.buyerPassportIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerPassportIssuedDate = v)" class="pdf-page__input" placeholder="10.06.2018" />
+          </div>
+          <div class="pdf-page__form-group">
+            <label class="pdf-page__label">Код подразделения</label>
+            <input :value="form.buyerDeptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.buyerDeptCode = v)" class="pdf-page__input" placeholder="620-002" />
           </div>
         </div>
 
@@ -635,7 +731,7 @@ const handleDownloadPdf = async () => {
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата рождения представителя</label>
-              <input v-model="form.buyerRep.birthDate" type="text" class="pdf-page__input" placeholder="12.05.1985" />
+              <input :value="form.buyerRep.birthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.birthDate = v)" class="pdf-page__input" placeholder="12.05.1985" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Место рождения представителя</label>
@@ -649,16 +745,16 @@ const handleDownloadPdf = async () => {
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Паспорт представителя: серия и номер</label>
-              <input v-model="form.buyerRep.passport" type="text" class="pdf-page__input" />
+              <input :value="form.buyerRep.passport" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.buyerRep.passport = v)" class="pdf-page__input" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Код подразделения</label>
-              <input v-model="form.buyerRep.deptCode" type="text" class="pdf-page__input" />
+              <input :value="form.buyerRep.deptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.buyerRep.deptCode = v)" class="pdf-page__input" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт представителя: кем и когда выдан</label>
-            <input v-model="form.buyerRep.passportIssued" type="text" class="pdf-page__input" />
+            <input :value="form.buyerRep.passportIssued" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.passportIssued = v)" class="pdf-page__input" />
           </div>
 
           <div class="pdf-page__form-grid">
@@ -668,7 +764,7 @@ const handleDownloadPdf = async () => {
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата выдачи доверенности</label>
-              <input v-model="form.buyerRep.proxyDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+              <input :value="form.buyerRep.proxyDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.proxyDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
             </div>
           </div>
           <div class="pdf-page__form-group">
@@ -751,7 +847,7 @@ const handleDownloadPdf = async () => {
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ПТС, дата выдачи</label>
-            <input v-model="form.ptsIssuedDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+            <input :value="form.ptsIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.ptsIssuedDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
           </div>
         </div>
         <div class="pdf-page__form-group">
@@ -765,7 +861,7 @@ const handleDownloadPdf = async () => {
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">СТС, дата выдачи</label>
-            <input v-model="form.stsIssuedDate" type="text" class="pdf-page__input" placeholder="12.05.2020" />
+            <input :value="form.stsIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.stsIssuedDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
           </div>
         </div>
         <div class="pdf-page__form-group">
@@ -807,16 +903,9 @@ const handleDownloadPdf = async () => {
       </p>
 
       <p class="pdf-doc__paragraph">
-        Гражданин(ка) {{ form.sellerName || '________________' }}, {{ form.sellerBirthDate || 'дата рождения' }},
-        место рождения: {{ form.sellerBirthPlace || '________________' }}, адрес места жительства:
-        {{ form.sellerAddress || '________________' }}, паспорт: {{ form.sellerPassportSeries || 'серия и номер' }},
-        выдан {{ form.sellerPassportIssuedBy || 'кем и когда выдан' }}<template v-if="sellerProxyClause">, {{ sellerProxyClause }}</template>, именуемый(ая) в дальнейшем «Продавец», с
-        одной стороны, и гражданин(ка) {{ form.buyerName || '________________' }},
-        {{ form.buyerBirthDate || 'дата рождения' }}, место рождения:
-        {{ form.buyerBirthPlace || '________________' }}, адрес места жительства:
-        {{ form.buyerAddress || '________________' }}, паспорт:
-        {{ form.buyerPassportSeries || 'серия и номер' }}, выдан
-        {{ form.buyerPassportIssuedBy || 'кем и когда выдан' }}<template v-if="buyerProxyClause">, {{ buyerProxyClause }}</template>, именуемый(ая) в дальнейшем «Покупатель», с другой
+        Гражданин(ка) {{ sellerText || '________________' }}, именуемый(ая) в дальнейшем «Продавец»,
+        с одной стороны, и гражданин(ка) {{ buyerText || '________________' }}, именуемый(ая)
+        в дальнейшем «Покупатель», с другой
         стороны, совместно именуемые «Стороны», заключили настоящий договор купли-продажи транспортного средства
         (далее — «Договор») о нижеследующем:
       </p>
