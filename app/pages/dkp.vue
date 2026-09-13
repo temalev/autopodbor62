@@ -2,9 +2,9 @@
 import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
 
 const PAGE_URL = `${SITE_URL}/dkp/`
-const PAGE_TITLE = 'Договор купли-продажи автомобиля онлайн — бесплатный шаблон ДКП в PDF | Автоподбор 62'
+const PAGE_TITLE = 'Договор купли-продажи авто — бесплатный бланк ДКП в PDF'
 const PAGE_DESCRIPTION =
-  'Бесплатный онлайн-конструктор договора купли-продажи автомобиля (ДКП). Заполните данные продавца, покупателя и авто — скачайте готовый договор в PDF. Актуальный бланк, без регистрации.'
+  'Бесплатный конструктор договора купли-продажи автомобиля. Заполните данные сторон и авто — скачайте готовый ДКП в PDF. Актуальный бланк, без регистрации.'
 const PAGE_OG_IMAGE = `${SITE_URL}/images/bg.webp`
 
 useHead({
@@ -895,7 +895,7 @@ const handleDownloadPdf = async () => {
 
     <!-- Макет договора оставляем только для печати -->
     <div class="pdf-doc pdf-doc--print">
-      <h1 class="pdf-doc__title">Договор купли-продажи транспортного средства</h1>
+      <h2 class="pdf-doc__title">Договор купли-продажи транспортного средства</h2>
 
       <p class="pdf-doc__row">
         Место составления: {{ form.city || '________________' }}<br>
@@ -910,7 +910,7 @@ const handleDownloadPdf = async () => {
         (далее — «Договор») о нижеследующем:
       </p>
 
-      <h2 class="pdf-doc__subtitle">1. Предмет договора</h2>
+      <h3 class="pdf-doc__subtitle">1. Предмет договора</h3>
       <p class="pdf-doc__paragraph">
         1.1. Продавец обязуется передать в собственность Покупателя, а Покупатель принять и
         оплатить следующее транспортное средство (далее — «ТС»):
@@ -935,7 +935,7 @@ const handleDownloadPdf = async () => {
         Договора Сторонами и фактической передачи ТС.
       </p>
 
-      <h2 class="pdf-doc__subtitle">2. Цена и порядок расчётов</h2>
+      <h3 class="pdf-doc__subtitle">2. Цена и порядок расчётов</h3>
       <p class="pdf-doc__paragraph">
         2.1. Стоимость ТС по настоящему Договору составляет
         {{ form.price ? form.price + ' (рублей).' : '________________ (рублей).' }}
@@ -945,7 +945,7 @@ const handleDownloadPdf = async () => {
         Договора наличными денежными средствами или иным согласованным Сторонами способом.
       </p>
 
-      <h2 class="pdf-doc__subtitle">3. Гарантии Продавца</h2>
+      <h3 class="pdf-doc__subtitle">3. Гарантии Продавца</h3>
       <p class="pdf-doc__paragraph">
         3.1. Продавец гарантирует, что на момент заключения настоящего Договора:
       </p>
@@ -956,13 +956,13 @@ const handleDownloadPdf = async () => {
         <li>ТС не числится в розыске и не имеет иных скрытых обременений.</li>
       </ul>
 
-      <h2 class="pdf-doc__subtitle">4. Дополнительные условия</h2>
+      <h3 class="pdf-doc__subtitle">4. Дополнительные условия</h3>
       <p class="pdf-doc__paragraph">
         Дополнительные условия отсутствуют либо будут согласованы Сторонами отдельно и оформлены
         дополнительным документом.
       </p>
 
-      <h2 class="pdf-doc__subtitle">5. Заключительные положения</h2>
+      <h3 class="pdf-doc__subtitle">5. Заключительные положения</h3>
       <p class="pdf-doc__paragraph">
         5.1. Настоящий Договор вступает в силу с момента его подписания Сторонами и действует до
         полного исполнения Сторонами своих обязательств.
@@ -972,7 +972,7 @@ const handleDownloadPdf = async () => {
         каждой из Сторон.
       </p>
 
-      <h2 class="pdf-doc__subtitle">6. Подписи сторон</h2>
+      <h3 class="pdf-doc__subtitle">6. Подписи сторон</h3>
       <div class="pdf-doc__sign-row">
         <div class="pdf-doc__sign-col">
           <div class="pdf-doc__sign-label">Продавец</div>

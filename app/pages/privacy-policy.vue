@@ -5,7 +5,7 @@ import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
 const PAGE_URL = `${SITE_URL}/privacy-policy/`
 const PAGE_TITLE = 'Политика конфиденциальности — Автоподбор 62'
 const PAGE_DESCRIPTION =
-  'Политика обработки персональных данных Автоподбор 62: какие данные мы собираем при заявках, как храним и используем, ваши права как субъекта персональных данных.'
+  'Политика обработки персональных данных Автоподбор 62: какие данные собираем при заявках, как храним и используем, и ваши права.'
 
 useHead({
   title: PAGE_TITLE,
@@ -14,6 +14,8 @@ useHead({
     { property: 'og:url', content: PAGE_URL },
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
+    { property: 'og:image', content: `${SITE_URL}/images/bg.webp` },
+    { name: 'twitter:image', content: `${SITE_URL}/images/bg.webp` },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
   script: [

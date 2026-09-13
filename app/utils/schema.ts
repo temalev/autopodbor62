@@ -241,6 +241,22 @@ export interface BreadcrumbItem {
   url: string
 }
 
+/**
+ * WebSite — узел для @id-связок: на него ссылаются страницы и хлебные крошки,
+ * и он же объявляет издателя. Отдаётся вместе с LocalBusiness на всех страницах.
+ */
+export function webSiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: `${SITE_URL}/`,
+    name: ORG_NAME,
+    inLanguage: 'ru-RU',
+    publisher: { '@id': `${SITE_URL}/#organization` },
+  }
+}
+
 export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   return {
     '@context': 'https://schema.org',

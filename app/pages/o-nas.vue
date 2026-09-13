@@ -4,7 +4,7 @@ import { SITE_URL, breadcrumbJsonLd, jsonLdScript } from '../utils/schema'
 const PAGE_URL = `${SITE_URL}/o-nas/`
 const PAGE_TITLE = 'О нас — Автоподбор 62 в Рязани'
 const PAGE_DESCRIPTION =
-  'Автоподбор 62 — команда экспертов в Рязани. Автоподбор под ключ, проверка авто, выкуп и комиссионная продажа, регистрация в ГИБДД, импорт из Кореи, Китая и Японии. Контакты и карта.'
+  'Автоподбор 62 — команда экспертов в Рязани с 2014 года. Адрес на Грибоедова 8Б, как добраться, телефон, режим работы и полный перечень услуг.'
 const PAGE_OG_IMAGE = `${SITE_URL}/images/team/ivan.webp`
 
 useHead({
