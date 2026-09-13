@@ -22,7 +22,35 @@ function normalizePhone(phone: string | undefined | null): string {
   return digits
 }
 
+/**
+ * Проверка заявки перед отправкой. Живёт здесь, а не в страницах: форм на
+ * сайте восемь, и правило, продублированное восемь раз, рано или поздно
+ * разъедется. Любая страница, которая зовёт sendLead, получает проверку
+ * автоматически — пустую заявку отправить нельзя в принципе.
+ *
+ * Возвращает текст ошибки для показа пользователю или null, если всё в порядке.
+ */
+export function validateLead(payload: LeadPayload): string | null {
+  const name = (payload.name || '').trim()
+  const phone = normalizePhone(payload.phone)
+
+  if (!name && !phone) return 'Заполните имя и телефон — иначе мы не сможем перезвонить.'
+  if (!name) return 'Напишите, как к вам обращаться.'
+  if (name.length < 2) return 'Имя слишком короткое.'
+  if (!phone) return 'Укажите телефон — без него заявку не принять.'
+
+  // После normalizePhone российский номер — это 11 цифр, начинающихся с 7.
+  // Десять цифр тоже принимаем: человек мог набрать без кода страны.
+  const digits = phone.startsWith('7') && phone.length === 11 ? phone.slice(1) : phone
+  if (digits.length !== 10) return 'Телефон неполный — нужно 10 цифр после +7.'
+
+  return null
+}
+
 export async function sendLead(payload: LeadPayload): Promise<LeadSendResult> {
+  const invalid = validateLead(payload)
+  if (invalid) return { ok: false, error: invalid }
+
   const { public: pub } = useRuntimeConfig()
   const endpoint = String((pub as any).formspreeEndpoint || '').trim()
 

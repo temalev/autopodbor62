@@ -307,8 +307,8 @@ const steps = [
           <p class="import-page__cta-text">Обсудим ваш бюджет и подберём оптимальный вариант</p>
           <form class="import-page__form" @submit.prevent="submitLead">
             <div class="import-page__form-fields">
-              <input type="text" class="import-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="import-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="import-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="import-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <button type="submit" class="import-page__form-btn" :disabled="leadStatus === 'sending'">
               {{ leadStatus === 'sending' ? 'Отправляем…' : 'Оставить заявку на консультацию' }}

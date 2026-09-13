@@ -465,8 +465,8 @@ const reviews: Review[] = [
               Хорошие автомобили разбирают как горячие пирожки — успейте забрать свой
             </div>
             <form class="page__hero-form" @submit.prevent="submitHeroLead">
-              <input type="text" class="page__hero-form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="page__hero-form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="page__hero-form-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="page__hero-form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
               <button type="submit" class="page__hero-form-btn" :disabled="heroLeadStatus === 'sending'">
                 {{ heroLeadStatus === 'sending' ? 'Отправляем…' : 'Оставить заявку' }}
               </button>
@@ -956,8 +956,8 @@ const reviews: Review[] = [
           <form class="page__cta-bottom-form" @submit.prevent="submitCtaLead">
             <p class="page__cta-bottom-form-title">Оставьте заявку — перезвоним в течение 15 минут</p>
             <div class="page__cta-bottom-form-fields">
-              <input type="text" class="page__cta-bottom-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="page__cta-bottom-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="page__cta-bottom-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="page__cta-bottom-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <button type="submit" class="page__cta-bottom-btn" :disabled="ctaLeadStatus === 'sending'">
               {{ ctaLeadStatus === 'sending' ? 'Отправляем…' : 'Хочу бесплатную консультацию' }}

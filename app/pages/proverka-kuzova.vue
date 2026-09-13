@@ -236,8 +236,8 @@ const checklist = [
           <p class="kuzov-page__cta-text">Приняли автомобиль из сервиса? Закажите проверку — разберёмся вместе</p>
           <form class="kuzov-page__form" @submit.prevent="submitLead">
             <div class="kuzov-page__form-fields">
-              <input type="text" class="kuzov-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="kuzov-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="kuzov-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="kuzov-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <button type="submit" class="kuzov-page__form-btn" :disabled="leadStatus === 'sending'">
               {{ leadStatus === 'sending' ? 'Отправляем…' : 'Заказать проверку' }}

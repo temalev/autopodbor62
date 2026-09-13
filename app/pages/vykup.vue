@@ -223,8 +223,8 @@ const steps = [
           <p class="vykup-page__cta-text">Узнайте стоимость вашего автомобиля прямо сейчас</p>
           <form class="vykup-page__form" @submit.prevent="submitLead">
             <div class="vykup-page__form-fields">
-              <input type="text" class="vykup-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="vykup-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="vykup-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="vykup-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <input type="text" class="vykup-page__form-input vykup-page__form-input--wide" name="car" placeholder="Марка, модель, год, пробег (например: Toyota Camry 2019, 85 000 км)" />
             <button type="submit" class="vykup-page__form-btn" :disabled="leadStatus === 'sending'">

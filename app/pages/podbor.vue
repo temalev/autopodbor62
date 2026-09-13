@@ -189,8 +189,8 @@ const steps = [
           <p class="podbor-page__cta-text">Обсудим бюджет и подберём оптимальный вариант</p>
           <form class="podbor-page__form" @submit.prevent="submitLead">
             <div class="podbor-page__form-fields">
-              <input type="text" class="podbor-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="podbor-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="podbor-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="podbor-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <button type="submit" class="podbor-page__form-btn" :disabled="leadStatus === 'sending'">
               {{ leadStatus === 'sending' ? 'Отправляем…' : 'Оставить заявку на подбор' }}

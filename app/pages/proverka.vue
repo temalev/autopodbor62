@@ -239,8 +239,8 @@ const checklist = [
           <p class="proverka-page__cta-text">Нашли автомобиль? Закажите проверку — согласуем время и место осмотра</p>
           <form class="proverka-page__form" @submit.prevent="submitLead">
             <div class="proverka-page__form-fields">
-              <input type="text" class="proverka-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" />
-              <input type="tel" class="proverka-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
+              <input type="text" class="proverka-page__form-input" name="name" placeholder="Ваше имя" autocomplete="name" required minlength="2" />
+              <input type="tel" class="proverka-page__form-input" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" title="Введите телефон полностью: +7 (999) 999-99-99" @input="handlePhoneInput" @keydown="handlePhoneKeydown" />
             </div>
             <button type="submit" class="proverka-page__form-btn" :disabled="leadStatus === 'sending'">
               {{ leadStatus === 'sending' ? 'Отправляем…' : 'Заказать проверку' }}
