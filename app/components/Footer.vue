@@ -39,7 +39,7 @@
             <li><NuxtLink to="/proverka" class="footer__nav-link">Разовая проверка</NuxtLink></li>
             <li><NuxtLink to="/vykup" class="footer__nav-link">Выкуп и комиссионная продажа</NuxtLink></li>
             <li><NuxtLink to="/registraciya-gibdd" class="footer__nav-link">Регистрация в ГИБДД</NuxtLink></li>
-            <li><NuxtLink to="/import" class="footer__nav-link">Импорт из Кореи и Китая</NuxtLink></li>
+            <li><NuxtLink to="/import" class="footer__nav-link">Импорт из Кореи, Китая и Японии</NuxtLink></li>
             <li><NuxtLink to="/proverka-kuzova" class="footer__nav-link">Проверка кузовного ремонта</NuxtLink></li>
           </ul>
         </nav>

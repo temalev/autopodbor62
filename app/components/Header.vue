@@ -83,7 +83,7 @@ const services = [
   {
     to: '/import',
     label: 'Импорт из-за рубежа',
-    description: 'Авто из Кореи, Китая и Европы',
+    description: 'Авто из Кореи, Китая и Японии',
     icon: 'import',
   },
   {

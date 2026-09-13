@@ -35,16 +35,16 @@ const SERVICE_PRICE_LABEL = SERVICE_PRICE.toLocaleString('ru-RU')
 
 // Название услуги и расшифровка цены уходят сразу в два узла разметки —
 // Service и Product, — поэтому лежат в константах, а не по копии в каждом.
-const SERVICE_NAME = 'Импорт автомобиля из Кореи и Китая под ключ'
+const SERVICE_NAME = 'Импорт автомобиля из Кореи, Китая и Японии под ключ'
 const OFFER_DESCRIPTION =
-  'Импорт автомобиля из Кореи или Китая под ключ: анализ рынка, подбор и проверка автомобиля, сопровождение сделки, логистика, таможенное оформление, доставка в Рязань, техобслуживание, детейлинг и регистрация в ГИБДД. Стоимость самого автомобиля, пошлины и фрахт оплачиваются напрямую от имени клиента.'
+  'Импорт автомобиля из Кореи, Китая или Японии под ключ: анализ рынка, подбор и проверка автомобиля, сопровождение сделки, логистика, таможенное оформление, доставка в Рязань, техобслуживание, детейлинг и регистрация в ГИБДД. Стоимость самого автомобиля, пошлины и фрахт оплачиваются напрямую от имени клиента.'
 
 const PAGE_URL = `${SITE_URL}/import/`
-const PAGE_TITLE = 'Импорт авто из Кореи и Китая под ключ в Рязань — Автоподбор 62'
+const PAGE_TITLE = 'Импорт авто из Кореи, Китая и Японии под ключ в Рязань'
 // Цена в описании подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся
 // с блоком на странице. Держим в пределах 160 символов — дальше Google обрезает.
 const PAGE_DESCRIPTION =
-  `Пригоним авто из Кореи и Китая под ключ в Рязань: подбор, проверка, логистика, таможня, доставка, ТО, номера. Работа под ключ — ${SERVICE_PRICE_LABEL} ₽.`
+  `Пригоним авто из Кореи, Китая и Японии под ключ в Рязань: подбор, проверка, логистика, таможня, доставка, ТО, номера. Работа под ключ — ${SERVICE_PRICE_LABEL} ₽.`
 const PAGE_OG_IMAGE = `${SITE_URL}/images/korea.webp`
 
 useHead({
@@ -88,7 +88,7 @@ useHead({
     jsonLdScript(
       breadcrumbJsonLd([
         { name: 'Главная', url: `${SITE_URL}/` },
-        { name: 'Импорт из Кореи и Китая', url: PAGE_URL },
+        { name: 'Импорт из Кореи, Китая и Японии', url: PAGE_URL },
       ]),
       'ld-import-breadcrumbs',
     ),
@@ -163,7 +163,7 @@ const steps = [
   <div class="import-page">
     <div class="import-page__hero">
       <div class="import-page__hero-bg">
-        <img :src="`${base}/images/korea.webp`" alt="Импорт автомобилей из Кореи и Китая под ключ в Рязань — Автоподбор 62" class="import-page__hero-img" />
+        <img :src="`${base}/images/korea.webp`" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" class="import-page__hero-img" />
         <div class="import-page__hero-overlay" />
       </div>
       <div class="import-page__hero-content">
@@ -171,8 +171,8 @@ const steps = [
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           На главную
         </NuxtLink>
-        <p class="import-page__label">Импорт из Кореи и Китая</p>
-        <h1 class="import-page__title">Пригнать авто из Кореи и Китая под ключ в Рязань</h1>
+        <p class="import-page__label">Импорт из Кореи, Китая и Японии</p>
+        <h1 class="import-page__title">Пригнать авто из Кореи, Китая и Японии под ключ в Рязань</h1>
         <p class="import-page__lead">От подбора на аукционе до номеров в Рязани — берём на себя весь цикл. Вы получаете готовый к эксплуатации автомобиль с прозрачной историей и финальной ценой без сюрпризов.</p>
       </div>
     </div>
@@ -180,7 +180,7 @@ const steps = [
     <section class="import-page__section">
       <div class="import-page__container">
         <h2 class="import-page__h2">Почему импортные автомобили — выгодно и надёжно</h2>
-        <p class="import-page__intro">Автомобили с рынков Кореи и Китая часто оказываются выгоднее и честнее российских предложений: климат, качество дорожного покрытия, нормы эксплуатации, "чистая" история в России, все эти плюсы делают предложения с азиатских рынков более привлекательными.</p>
+        <p class="import-page__intro">Автомобили с рынков Кореи, Китая и Японии часто оказываются выгоднее и честнее российских предложений: климат, качество дорожного покрытия, нормы эксплуатации, "чистая" история в России, все эти плюсы делают предложения с азиатских рынков более привлекательными.</p>
         <ul class="import-page__features">
           <li class="import-page__feature">
             <span class="import-page__feature-icon">✓</span>
@@ -212,7 +212,7 @@ const steps = [
 
     <section class="import-page__section import-page__section--gallery">
       <div class="import-page__container import-page__container--wide">
-        <h2 class="import-page__h2">Наши автомобили из Кореи и Китая</h2>
+        <h2 class="import-page__h2">Наши автомобили из Кореи, Китая и Японии</h2>
         <div class="import-page__gallery">
           <div class="import-page__gallery-item import-page__gallery-item--wide">
             <img :src="`${base}/images/import/1.webp`" alt="Авто из Кореи, привезённое под ключ в Рязань — пример сделки Автоподбор 62" loading="lazy" />
@@ -275,12 +275,12 @@ const steps = [
 
     <section class="import-page__section import-page__section--price">
       <div class="import-page__container">
-        <h2 class="import-page__h2">Сколько стоит пригнать авто из Кореи или Китая</h2>
-        <p class="import-page__intro">Цена нашей работы — за весь цикл, описанный выше: от анализа рынка на аукционах Кореи и Китая до номеров и готового к эксплуатации автомобиля.</p>
+        <h2 class="import-page__h2">Сколько стоит пригнать авто из Кореи, Китая или Японии</h2>
+        <p class="import-page__intro">Цена нашей работы — за весь цикл, описанный выше: от анализа рынка на аукционах Кореи, Китая и Японии до номеров и готового к эксплуатации автомобиля.</p>
 
         <ServicePrice
           :price="SERVICE_PRICE"
-          caption="Импорт из Кореи и Китая под ключ — от заявки до номеров"
+          caption="Импорт из Кореи, Китая и Японии под ключ — от заявки до номеров"
           :extra="[
             'Стоимость самого автомобиля у продавца или на аукционе',
             'Таможенные пошлины и утилизационный сбор',

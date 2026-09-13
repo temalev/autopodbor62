@@ -15,18 +15,20 @@ import {
  */
 
 /** Курсы ЦБ РФ. Дата зашита рядом с числами, чтобы на странице не было курса без даты. */
-const CBR_DATE = '5 сентября 2026 года'
+const CBR_DATE = '12 сентября 2026 года'
 const CBR_RATES: Record<string, number> = {
   RUB: 1,
-  EUR: 100.5693,
-  USD: 86.5857,
-  KRW: 63.6894 / 1000, // ЦБ котирует вону за 1000 единиц
-  CNY: 12.8849,
+  EUR: 97.8728,
+  USD: 84.2569,
+  KRW: 62.9629 / 1000, // ЦБ котирует вону за 1000 единиц
+  CNY: 12.5519,
+  JPY: 54.5035 / 100,  // иену — за 100
 }
 
 const CURRENCIES = [
   { code: 'KRW', label: '₩ вона' },
   { code: 'CNY', label: '¥ юань' },
+  { code: 'JPY', label: '¥ иена' },
   { code: 'USD', label: '$ доллар' },
   { code: 'EUR', label: '€ евро' },
   { code: 'RUB', label: '₽ рубль' },
@@ -349,7 +351,7 @@ const relatedServices = [
 const PAGE_URL = `${SITE_URL}/import/kalkulyator/`
 const PAGE_TITLE = 'Калькулятор растаможки авто 2026 — пошлина и утильсбор'
 const PAGE_DESCRIPTION =
-  'Расчёт таможенных платежей за ввоз автомобиля из Кореи и Китая: пошлина по единой ставке, утилизационный сбор и сбор за оформление. Ставки 2026 года.'
+  'Расчёт таможенных платежей за ввоз автомобиля из Кореи, Китая и Японии: пошлина по единой ставке, утилизационный сбор и сбор за оформление. Ставки 2026 года.'
 const PAGE_OG_IMAGE = `${SITE_URL}/images/korea.webp`
 
 useHead({
@@ -368,7 +370,7 @@ useHead({
     jsonLdScript(
       breadcrumbJsonLd([
         { name: 'Главная', url: `${SITE_URL}/` },
-        { name: 'Импорт из Кореи и Китая', url: `${SITE_URL}/import/` },
+        { name: 'Импорт из Кореи, Китая и Японии', url: `${SITE_URL}/import/` },
         { name: 'Калькулятор растаможки', url: PAGE_URL },
       ]),
       'ld-calc-breadcrumbs',
@@ -385,7 +387,7 @@ useHead({
       <div class="calc-page__container">
         <NuxtLink to="/import" class="calc-page__back">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Импорт из Кореи и Китая
+          Импорт из Кореи, Китая и Японии
         </NuxtLink>
         <p class="calc-page__label">Расчёт платежей</p>
         <h1 class="calc-page__title">Калькулятор растаможки автомобиля в 2026 году</h1>
