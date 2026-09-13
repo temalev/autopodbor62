@@ -2,3 +2,6 @@ User-Agent: *
 Disallow:
 
 Sitemap: https://xn--62-6kceem3eacgpr.xn--p1ai/sitemap.xml
+
+# Метки не создают отдельных страниц — иначе Яндекс считает /?utm_source=… дублем.
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&fbclid&_openstat&from
