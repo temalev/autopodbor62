@@ -32,7 +32,7 @@ const PAGE_URL = `${SITE_URL}/podbor/`
 const PAGE_TITLE = 'Подбор автомобиля под ключ в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Автоподбор под ключ в Рязани: поиск по рынку, три этапа проверки, сопровождение сделки и регистрация в ГИБДД. Гарантия чистоты и выкупа 90 дней.'
-const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.jpeg`
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -42,7 +42,7 @@ useHead({
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
     { property: 'og:image', content: PAGE_OG_IMAGE },
-    { property: 'og:image:type', content: 'image/jpeg' },
+    { property: 'og:image:type', content: 'image/webp' },
     { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
@@ -144,7 +144,7 @@ const steps = [
   <div class="podbor-page">
     <div class="podbor-page__hero">
       <div class="podbor-page__hero-bg">
-        <img :src="`${base}/images/services/1.jpeg`" alt="Подбор автомобиля под ключ в Рязани — Автоподбор 62" class="podbor-page__hero-img" />
+        <img :src="`${base}/images/services/1.webp`" alt="Подбор автомобиля под ключ в Рязани — Автоподбор 62" width="1024" height="1024" fetchpriority="high" decoding="async" class="podbor-page__hero-img" />
         <div class="podbor-page__hero-overlay" />
       </div>
       <div class="podbor-page__hero-content">

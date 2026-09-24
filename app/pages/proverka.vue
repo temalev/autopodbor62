@@ -44,7 +44,7 @@ const PAGE_TITLE = 'Проверка автомобиля перед покуп�
 // Цена подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся с блоком на странице.
 const PAGE_DESCRIPTION =
   `Проверка автомобиля перед покупкой в Рязани — ${SERVICE_PRICE_LABEL} ₽: диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и заключение эксперта.`
-const PAGE_OG_IMAGE = `${SITE_URL}/images/services/2.jpeg`
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/2.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -54,7 +54,7 @@ useHead({
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
     { property: 'og:image', content: PAGE_OG_IMAGE },
-    { property: 'og:image:type', content: 'image/jpeg' },
+    { property: 'og:image:type', content: 'image/webp' },
     { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
@@ -172,7 +172,7 @@ const checklist = [
   <div class="proverka-page">
     <div class="proverka-page__hero">
       <div class="proverka-page__hero-bg">
-        <img :src="`${base}/images/services/2.jpeg`" alt="Проверка автомобиля перед покупкой в Рязани — Автоподбор 62" class="proverka-page__hero-img" />
+        <img :src="`${base}/images/services/2.webp`" alt="Проверка автомобиля перед покупкой в Рязани — Автоподбор 62" width="1024" height="1024" fetchpriority="high" decoding="async" class="proverka-page__hero-img" />
         <div class="proverka-page__hero-overlay" />
       </div>
       <div class="proverka-page__hero-content">

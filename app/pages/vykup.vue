@@ -32,7 +32,7 @@ const PAGE_URL = `${SITE_URL}/vykup/`
 const PAGE_TITLE = 'Выкуп авто в Рязани — срочный выкуп и комиссионная продажа'
 const PAGE_DESCRIPTION =
   'Срочный выкуп автомобиля в Рязани — деньги в день обращения. Или комиссионная продажа по рыночной цене: фото, площадки, показы и сделка под ключ.'
-const PAGE_OG_IMAGE = `${SITE_URL}/images/services/3.jpeg`
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/3.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -42,7 +42,7 @@ useHead({
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
     { property: 'og:image', content: PAGE_OG_IMAGE },
-    { property: 'og:image:type', content: 'image/jpeg' },
+    { property: 'og:image:type', content: 'image/webp' },
     { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
@@ -158,7 +158,7 @@ const steps = [
   <div class="vykup-page">
     <div class="vykup-page__hero">
       <div class="vykup-page__hero-bg">
-        <img :src="`${base}/images/services/3.jpeg`" alt="Срочный выкуп и комиссионная продажа автомобиля в Рязани — Автоподбор 62" class="vykup-page__hero-img" />
+        <img :src="`${base}/images/services/3.webp`" alt="Срочный выкуп и комиссионная продажа автомобиля в Рязани — Автоподбор 62" width="1024" height="1024" fetchpriority="high" decoding="async" class="vykup-page__hero-img" />
         <div class="vykup-page__hero-overlay" />
       </div>
       <div class="vykup-page__hero-content">

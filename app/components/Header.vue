@@ -100,7 +100,7 @@ const services = [
     <div class="header__container">
       <div class="header__logo">
         <NuxtLink to="/" @click="closeDrawer">
-          <img :src="`${base}/images/logo.png`" alt="Автоподбор 62" class="header__logo-img" />
+          <img :src="`${base}/images/logo.png`" alt="Автоподбор 62" class="header__logo-img" width="256" height="256" fetchpriority="high" decoding="async" />
           <span class="header__logo-name">Автоподбор <span class="header__logo-name-accent">62</span></span>
         </NuxtLink>
       </div>

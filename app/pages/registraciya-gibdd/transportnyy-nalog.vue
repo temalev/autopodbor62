@@ -132,7 +132,7 @@ const PAGE_URL = `${SITE_URL}/registraciya-gibdd/transportnyy-nalog/`
 const PAGE_TITLE = 'Калькулятор транспортного налога 2026 по регионам'
 const PAGE_DESCRIPTION =
   'Расчёт транспортного налога на автомобиль по ставкам вашего региона за 2025 и 2026 годы: мощность, возраст, месяцы владения и повышающий коэффициент.'
-const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.jpeg`
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.webp`
 
 useHead({
   title: PAGE_TITLE,

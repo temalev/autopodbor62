@@ -163,7 +163,7 @@ const steps = [
   <div class="import-page">
     <div class="import-page__hero">
       <div class="import-page__hero-bg">
-        <img :src="`${base}/images/korea.webp`" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" class="import-page__hero-img" />
+        <img :src="`${base}/images/korea.webp`" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" class="import-page__hero-img" width="1344" height="896" fetchpriority="high" decoding="async" />
         <div class="import-page__hero-overlay" />
       </div>
       <div class="import-page__hero-content">
@@ -215,43 +215,43 @@ const steps = [
         <h2 class="import-page__h2">Наши автомобили из Кореи, Китая и Японии</h2>
         <div class="import-page__gallery">
           <div class="import-page__gallery-item import-page__gallery-item--wide">
-            <img :src="`${base}/images/import/1.webp`" alt="Авто из Кореи, привезённое под ключ в Рязань — пример сделки Автоподбор 62" loading="lazy" />
+            <img :src="`${base}/images/import/1.webp`" alt="Авто из Кореи, привезённое под ключ в Рязань — пример сделки Автоподбор 62" loading="lazy" width="1156" height="868" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/2.webp`" alt="Подержанный автомобиль из Кореи после доставки и проверки" loading="lazy" />
+            <img :src="`${base}/images/import/2.webp`" alt="Подержанный автомобиль из Кореи после доставки и проверки" loading="lazy" width="1599" height="899" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/3.webp`" alt="Автомобиль из Китая после импорта и таможенного оформления" loading="lazy" />
+            <img :src="`${base}/images/import/3.webp`" alt="Автомобиль из Китая после импорта и таможенного оформления" loading="lazy" width="899" height="1599" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/4.webp`" alt="Корейский автомобиль с пробегом, подобранный под бюджет клиента" loading="lazy" />
+            <img :src="`${base}/images/import/4.webp`" alt="Корейский автомобиль с пробегом, подобранный под бюджет клиента" loading="lazy" width="1280" height="960" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/5.webp`" alt="Импорт авто из Китая под ключ — пример выполненного заказа" loading="lazy" />
+            <img :src="`${base}/images/import/5.webp`" alt="Импорт авто из Китая под ключ — пример выполненного заказа" loading="lazy" width="1170" height="878" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/6.webp`" alt="Авто из Кореи: подобран, проверен и доставлен в Рязань" loading="lazy" />
+            <img :src="`${base}/images/import/6.webp`" alt="Авто из Кореи: подобран, проверен и доставлен в Рязань" loading="lazy" width="1344" height="896" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/7.webp`" alt="Корейский автомобиль после регистрации в ГИБДД Рязани" loading="lazy" />
+            <img :src="`${base}/images/import/7.webp`" alt="Корейский автомобиль после регистрации в ГИБДД Рязани" loading="lazy" width="2048" height="1152" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/8.webp`" alt="Китайский автомобиль, привезённый в Рязань под ключ" loading="lazy" />
+            <img :src="`${base}/images/import/8.webp`" alt="Китайский автомобиль, привезённый в Рязань под ключ" loading="lazy" width="2048" height="1152" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/9.webp`" alt="Авто из Кореи — пример прошедшей подбор машины" loading="lazy" />
+            <img :src="`${base}/images/import/9.webp`" alt="Авто из Кореи — пример прошедшей подбор машины" loading="lazy" width="2048" height="1152" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/10.webp`" alt="Покупка авто в Китае: пример сделки под ключ" loading="lazy" />
+            <img :src="`${base}/images/import/10.webp`" alt="Покупка авто в Китае: пример сделки под ключ" loading="lazy" width="2048" height="1152" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/11.webp`" alt="Импортный автомобиль из Кореи после полной проверки" loading="lazy" />
+            <img :src="`${base}/images/import/11.webp`" alt="Импортный автомобиль из Кореи после полной проверки" loading="lazy" width="2048" height="1536" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/12.webp`" alt="Авто из Китая: подбор, логистика и регистрация в Рязани" loading="lazy" />
+            <img :src="`${base}/images/import/12.webp`" alt="Авто из Китая: подбор, логистика и регистрация в Рязани" loading="lazy" width="2048" height="1152" />
           </div>
           <div class="import-page__gallery-item">
-            <img :src="`${base}/images/import/13.webp`" alt="Корейский автомобиль с прозрачной историей под бюджет клиента" loading="lazy" />
+            <img :src="`${base}/images/import/13.webp`" alt="Корейский автомобиль с прозрачной историей под бюджет клиента" loading="lazy" width="2048" height="1152" />
           </div>
         </div>
       </div>

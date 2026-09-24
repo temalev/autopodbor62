@@ -548,7 +548,7 @@ const reviews: Review[] = [
 
     <section id="korea" class="page__section page__section--korea">
       <div class="page__korea-image">
-        <img :src="assetUrl('/images/korea.webp')" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" />
+        <img :src="assetUrl('/images/korea.webp')" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" width="1344" height="896" loading="lazy" decoding="async" />
         <div class="page__korea-image-overlay" />
       </div>
       <div class="page__korea-content">
@@ -693,7 +693,7 @@ const reviews: Review[] = [
       <div class="page__team">
         <div class="page__team-member">
           <div class="page__team-avatar">
-            <img :src="assetUrl('/images/team/vladimir.webp')" alt="Владимир — технический эксперт, команда сервиса Автоподбор 62 в Рязани" />
+            <img :src="assetUrl('/images/team/vladimir.webp')" alt="Владимир — технический эксперт, команда сервиса Автоподбор 62 в Рязани" width="960" height="1280" loading="lazy" decoding="async" />
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Владимир</h3>
@@ -705,7 +705,7 @@ const reviews: Review[] = [
 
         <div class="page__team-member">
           <div class="page__team-avatar">
-            <img :src="assetUrl('/images/team/dmitry.webp')" alt="Дмитрий — руководитель и технический эксперт сервиса Автоподбор 62" />
+            <img :src="assetUrl('/images/team/dmitry.webp')" alt="Дмитрий — руководитель и технический эксперт сервиса Автоподбор 62" width="960" height="1280" loading="lazy" decoding="async" />
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Дмитрий</h3>
@@ -717,7 +717,7 @@ const reviews: Review[] = [
 
         <div class="page__team-member">
           <div class="page__team-avatar">
-            <img :src="assetUrl('/images/team/ivan.webp')" alt="Иван Ермаков — аналитик авторынка, эксперт по импорту и юрист Автоподбор 62" />
+            <img :src="assetUrl('/images/team/ivan.webp')" alt="Иван Ермаков — аналитик авторынка, эксперт по импорту и юрист Автоподбор 62" width="960" height="1280" loading="lazy" decoding="async" />
           </div>
           <div class="page__team-info">
             <h3 class="page__team-name">Иван Ермаков</h3>
@@ -783,9 +783,8 @@ const reviews: Review[] = [
             >
               <img
                 :src="img['180x135'] || img['256x192'] || img['640x480']"
-                :alt="`Фото отзыва ${imgIdx + 1}`"
+                :alt="`Фото отзыва ${imgIdx + 1}`" width="180" height="135" loading="lazy" decoding="async"
                 class="page__review-image"
-                loading="lazy"
               >
             </a>
           </div>
@@ -816,9 +815,8 @@ const reviews: Review[] = [
               >
                 <img
                   :src="img['180x135'] || img['432x324'] || img['256x192'] || img['640x480']"
-                  :alt="`Фото ответа ${imgIdx + 1}`"
+                  :alt="`Фото ответа ${imgIdx + 1}`" width="180" height="135" loading="lazy" decoding="async"
                   class="page__review-image"
-                  loading="lazy"
                 >
               </a>
             </div>

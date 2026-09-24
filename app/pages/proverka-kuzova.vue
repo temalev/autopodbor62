@@ -32,7 +32,7 @@ const PAGE_URL = `${SITE_URL}/proverka-kuzova/`
 const PAGE_TITLE = 'Приём авто из кузовного ремонта в Рязани — Автоподбор 62'
 const PAGE_DESCRIPTION =
   'Принимаем автомобиль после кузовного ремонта или покупки у дилера: замер ЛКП, контроль малярных работ, сверка с нормо-часами, фотоотчёт. Рязань.'
-const PAGE_OG_IMAGE = `${SITE_URL}/images/services/3.jpeg`
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/3.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -42,7 +42,7 @@ useHead({
     { property: 'og:title', content: PAGE_TITLE },
     { property: 'og:description', content: PAGE_DESCRIPTION },
     { property: 'og:image', content: PAGE_OG_IMAGE },
-    { property: 'og:image:type', content: 'image/jpeg' },
+    { property: 'og:image:type', content: 'image/webp' },
     { name: 'twitter:image', content: PAGE_OG_IMAGE },
   ],
   link: [{ rel: 'canonical', href: PAGE_URL }],
@@ -160,7 +160,7 @@ const checklist = [
   <div class="kuzov-page">
     <div class="kuzov-page__hero">
       <div class="kuzov-page__hero-bg">
-        <img :src="`${base}/images/services/2.jpeg`" alt="Приёмка автомобиля после кузовного ремонта в Рязани — Автоподбор 62" class="kuzov-page__hero-img" />
+        <img :src="`${base}/images/services/2.webp`" alt="Приёмка автомобиля после кузовного ремонта в Рязани — Автоподбор 62" width="1024" height="1024" fetchpriority="high" decoding="async" class="kuzov-page__hero-img" />
         <div class="kuzov-page__hero-overlay" />
       </div>
       <div class="kuzov-page__hero-content">
