@@ -548,7 +548,7 @@ const reviews: Review[] = [
 
     <section id="korea" class="page__section page__section--korea">
       <div class="page__korea-image">
-        <img :src="assetUrl('/images/korea.webp')" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" width="1344" height="896" loading="lazy" decoding="async" />
+        <img :src="assetUrl('/images/korea.webp')" :srcset="`${assetUrl('/images/korea-640.webp')} 640w, ${assetUrl('/images/korea-960.webp')} 960w, ${assetUrl('/images/korea.webp')} 1344w`" sizes="(max-width: 860px) 100vw, 50vw" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" width="1344" height="896" loading="lazy" decoding="async" />
         <div class="page__korea-image-overlay" />
       </div>
       <div class="page__korea-content">

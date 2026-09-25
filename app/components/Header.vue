@@ -100,7 +100,8 @@ const services = [
     <div class="header__container">
       <div class="header__logo">
         <NuxtLink to="/" @click="closeDrawer">
-          <img :src="`${base}/images/logo.png`" alt="Автоподбор 62" class="header__logo-img" width="256" height="256" decoding="async" />
+          <!-- В шапке логотип 44px: отдаём WebP под плотность экрана. logo.png 256px остаётся для JSON-LD. -->
+          <img :src="`${base}/images/logo-88.webp`" :srcset="`${base}/images/logo-44.webp 1x, ${base}/images/logo-88.webp 2x, ${base}/images/logo-132.webp 3x`" alt="Автоподбор 62" class="header__logo-img" width="44" height="44" decoding="async" />
           <span class="header__logo-name">Автоподбор <span class="header__logo-name-accent">62</span></span>
         </NuxtLink>
       </div>

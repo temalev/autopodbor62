@@ -163,7 +163,7 @@ const steps = [
   <div class="import-page">
     <div class="import-page__hero">
       <div class="import-page__hero-bg">
-        <img :src="`${base}/images/korea.webp`" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" class="import-page__hero-img" width="1344" height="896" fetchpriority="high" decoding="async" />
+        <img :src="`${base}/images/korea.webp`" :srcset="`${base}/images/korea-640.webp 640w, ${base}/images/korea-960.webp 960w, ${base}/images/korea.webp 1344w`" sizes="100vw" alt="Импорт автомобилей из Кореи, Китая и Японии под ключ в Рязань — Автоподбор 62" class="import-page__hero-img" width="1344" height="896" fetchpriority="high" decoding="async" />
         <div class="import-page__hero-overlay" />
       </div>
       <div class="import-page__hero-content">
