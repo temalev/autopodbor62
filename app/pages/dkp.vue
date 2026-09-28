@@ -550,7 +550,8 @@ const handleDownloadPdf = async () => {
 </script>
 
 <template>
-  <div class="pdf-page">
+  <div class="pdf-page ym-hide-content">
+    <!-- ym-hide-content и ym-disable-keys: паспортные данные не должны попадать в Вебвизор -->
     <div class="pdf-page__hero">
       <div class="pdf-page__hero-inner">
         <NuxtLink to="/" class="pdf-page__back">
@@ -570,11 +571,11 @@ const handleDownloadPdf = async () => {
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Город</label>
-            <input v-model="form.city" type="text" class="pdf-page__input" />
+            <input v-model="form.city" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата</label>
-            <input :value="form.date" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.date = v)" class="pdf-page__input" />
+            <input :value="form.date" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.date = v)" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
 
@@ -582,41 +583,41 @@ const handleDownloadPdf = async () => {
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ФИО</label>
-            <input v-model="form.sellerName" type="text" class="pdf-page__input" />
+            <input v-model="form.sellerName" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата рождения</label>
-            <input :value="form.sellerBirthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerBirthDate = v)" class="pdf-page__input" />
+            <input :value="form.sellerBirthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerBirthDate = v)" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Место рождения</label>
-            <input v-model="form.sellerBirthPlace" type="text" class="pdf-page__input" />
+            <input v-model="form.sellerBirthPlace" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Адрес регистрации</label>
-            <input v-model="form.sellerAddress" type="text" class="pdf-page__input" />
+            <input v-model="form.sellerAddress" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт: серия и номер</label>
-            <input :value="form.sellerPassportSeries" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.sellerPassportSeries = v)" class="pdf-page__input" placeholder="6100 123456" />
+            <input :value="form.sellerPassportSeries" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.sellerPassportSeries = v)" class="pdf-page__input ym-disable-keys" placeholder="6100 123456" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Кем выдан</label>
-            <input v-model="form.sellerPassportIssuedBy" type="text" class="pdf-page__input" placeholder="ОВД Советского района г. Рязани" />
+            <input v-model="form.sellerPassportIssuedBy" type="text" class="pdf-page__input ym-disable-keys" placeholder="ОВД Советского района г. Рязани" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата выдачи</label>
-            <input :value="form.sellerPassportIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerPassportIssuedDate = v)" class="pdf-page__input" placeholder="23.02.2015" />
+            <input :value="form.sellerPassportIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerPassportIssuedDate = v)" class="pdf-page__input ym-disable-keys" placeholder="23.02.2015" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Код подразделения</label>
-            <input :value="form.sellerDeptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.sellerDeptCode = v)" class="pdf-page__input" placeholder="620-001" />
+            <input :value="form.sellerDeptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.sellerDeptCode = v)" class="pdf-page__input ym-disable-keys" placeholder="620-001" />
           </div>
         </div>
 
@@ -628,50 +629,50 @@ const handleDownloadPdf = async () => {
         <template v-if="hasProxy">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ФИО представителя, в родительном падеже</label>
-            <input v-model="form.sellerRep.name" type="text" class="pdf-page__input" placeholder="Иванова Ивана Ивановича" />
+            <input v-model="form.sellerRep.name" type="text" class="pdf-page__input ym-disable-keys" placeholder="Иванова Ивана Ивановича" />
           </div>
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата рождения представителя</label>
-              <input :value="form.sellerRep.birthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.birthDate = v)" class="pdf-page__input" placeholder="12.05.1985" />
+              <input :value="form.sellerRep.birthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.birthDate = v)" class="pdf-page__input ym-disable-keys" placeholder="12.05.1985" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Место рождения представителя</label>
-              <input v-model="form.sellerRep.birthPlace" type="text" class="pdf-page__input" />
+              <input v-model="form.sellerRep.birthPlace" type="text" class="pdf-page__input ym-disable-keys" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Адрес представителя</label>
-            <input v-model="form.sellerRep.address" type="text" class="pdf-page__input" />
+            <input v-model="form.sellerRep.address" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Паспорт представителя: серия и номер</label>
-              <input :value="form.sellerRep.passport" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.sellerRep.passport = v)" class="pdf-page__input" />
+              <input :value="form.sellerRep.passport" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.sellerRep.passport = v)" class="pdf-page__input ym-disable-keys" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Код подразделения</label>
-              <input :value="form.sellerRep.deptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.sellerRep.deptCode = v)" class="pdf-page__input" />
+              <input :value="form.sellerRep.deptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.sellerRep.deptCode = v)" class="pdf-page__input ym-disable-keys" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт представителя: кем и когда выдан</label>
-            <input :value="form.sellerRep.passportIssued" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.passportIssued = v)" class="pdf-page__input" />
+            <input :value="form.sellerRep.passportIssued" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.passportIssued = v)" class="pdf-page__input ym-disable-keys" />
           </div>
 
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Доверенность №</label>
-              <input v-model="form.sellerRep.proxyNumber" type="text" class="pdf-page__input" />
+              <input v-model="form.sellerRep.proxyNumber" type="text" class="pdf-page__input ym-disable-keys" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата выдачи доверенности</label>
-              <input :value="form.sellerRep.proxyDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.proxyDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
+              <input :value="form.sellerRep.proxyDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.sellerRep.proxyDate = v)" class="pdf-page__input ym-disable-keys" placeholder="12.05.2020" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Доверенность выдана</label>
-            <input v-model="form.sellerRep.proxyIssuedBy" type="text" class="pdf-page__input" placeholder="должность, орган и ФИО удостоверившего" />
+            <input v-model="form.sellerRep.proxyIssuedBy" type="text" class="pdf-page__input ym-disable-keys" placeholder="должность, орган и ФИО удостоверившего" />
             <p v-if="sellerProxyClause" class="pdf-page__hint">В договор пойдёт: {{ sellerProxyClause }}</p>
           </div>
         </template>
@@ -680,41 +681,41 @@ const handleDownloadPdf = async () => {
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ФИО</label>
-            <input v-model="form.buyerName" type="text" class="pdf-page__input" />
+            <input v-model="form.buyerName" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата рождения</label>
-            <input :value="form.buyerBirthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerBirthDate = v)" class="pdf-page__input" />
+            <input :value="form.buyerBirthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerBirthDate = v)" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Место рождения</label>
-            <input v-model="form.buyerBirthPlace" type="text" class="pdf-page__input" />
+            <input v-model="form.buyerBirthPlace" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Адрес регистрации</label>
-            <input v-model="form.buyerAddress" type="text" class="pdf-page__input" />
+            <input v-model="form.buyerAddress" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт: серия и номер</label>
-            <input :value="form.buyerPassportSeries" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.buyerPassportSeries = v)" class="pdf-page__input" placeholder="6100 654321" />
+            <input :value="form.buyerPassportSeries" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.buyerPassportSeries = v)" class="pdf-page__input ym-disable-keys" placeholder="6100 654321" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Кем выдан</label>
-            <input v-model="form.buyerPassportIssuedBy" type="text" class="pdf-page__input" placeholder="ОВД Московского района г. Рязани" />
+            <input v-model="form.buyerPassportIssuedBy" type="text" class="pdf-page__input ym-disable-keys" placeholder="ОВД Московского района г. Рязани" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Дата выдачи</label>
-            <input :value="form.buyerPassportIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerPassportIssuedDate = v)" class="pdf-page__input" placeholder="10.06.2018" />
+            <input :value="form.buyerPassportIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerPassportIssuedDate = v)" class="pdf-page__input ym-disable-keys" placeholder="10.06.2018" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Код подразделения</label>
-            <input :value="form.buyerDeptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.buyerDeptCode = v)" class="pdf-page__input" placeholder="620-002" />
+            <input :value="form.buyerDeptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.buyerDeptCode = v)" class="pdf-page__input ym-disable-keys" placeholder="620-002" />
           </div>
         </div>
 
@@ -726,50 +727,50 @@ const handleDownloadPdf = async () => {
         <template v-if="hasBuyerProxy">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ФИО представителя, в родительном падеже</label>
-            <input v-model="form.buyerRep.name" type="text" class="pdf-page__input" placeholder="Иванова Ивана Ивановича" />
+            <input v-model="form.buyerRep.name" type="text" class="pdf-page__input ym-disable-keys" placeholder="Иванова Ивана Ивановича" />
           </div>
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата рождения представителя</label>
-              <input :value="form.buyerRep.birthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.birthDate = v)" class="pdf-page__input" placeholder="12.05.1985" />
+              <input :value="form.buyerRep.birthDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.birthDate = v)" class="pdf-page__input ym-disable-keys" placeholder="12.05.1985" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Место рождения представителя</label>
-              <input v-model="form.buyerRep.birthPlace" type="text" class="pdf-page__input" />
+              <input v-model="form.buyerRep.birthPlace" type="text" class="pdf-page__input ym-disable-keys" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Адрес представителя</label>
-            <input v-model="form.buyerRep.address" type="text" class="pdf-page__input" />
+            <input v-model="form.buyerRep.address" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Паспорт представителя: серия и номер</label>
-              <input :value="form.buyerRep.passport" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.buyerRep.passport = v)" class="pdf-page__input" />
+              <input :value="form.buyerRep.passport" type="text" inputmode="numeric" @input="e => onMasked(e, 'passport', v => form.buyerRep.passport = v)" class="pdf-page__input ym-disable-keys" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Код подразделения</label>
-              <input :value="form.buyerRep.deptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.buyerRep.deptCode = v)" class="pdf-page__input" />
+              <input :value="form.buyerRep.deptCode" type="text" inputmode="numeric" @input="e => onMasked(e, 'dept', v => form.buyerRep.deptCode = v)" class="pdf-page__input ym-disable-keys" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Паспорт представителя: кем и когда выдан</label>
-            <input :value="form.buyerRep.passportIssued" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.passportIssued = v)" class="pdf-page__input" />
+            <input :value="form.buyerRep.passportIssued" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.passportIssued = v)" class="pdf-page__input ym-disable-keys" />
           </div>
 
           <div class="pdf-page__form-grid">
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Доверенность №</label>
-              <input v-model="form.buyerRep.proxyNumber" type="text" class="pdf-page__input" />
+              <input v-model="form.buyerRep.proxyNumber" type="text" class="pdf-page__input ym-disable-keys" />
             </div>
             <div class="pdf-page__form-group">
               <label class="pdf-page__label">Дата выдачи доверенности</label>
-              <input :value="form.buyerRep.proxyDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.proxyDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
+              <input :value="form.buyerRep.proxyDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.buyerRep.proxyDate = v)" class="pdf-page__input ym-disable-keys" placeholder="12.05.2020" />
             </div>
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Доверенность выдана</label>
-            <input v-model="form.buyerRep.proxyIssuedBy" type="text" class="pdf-page__input" placeholder="должность, орган и ФИО удостоверившего" />
+            <input v-model="form.buyerRep.proxyIssuedBy" type="text" class="pdf-page__input ym-disable-keys" placeholder="должность, орган и ФИО удостоверившего" />
             <p v-if="buyerProxyClause" class="pdf-page__hint">В договор пойдёт: {{ buyerProxyClause }}</p>
           </div>
         </template>
@@ -778,21 +779,21 @@ const handleDownloadPdf = async () => {
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Марка, модель</label>
-            <input v-model="form.carMakeModel" type="text" class="pdf-page__input" />
+            <input v-model="form.carMakeModel" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Тип ТС (легковой, грузовой и т.п.)</label>
-            <input v-model="form.carType" type="text" class="pdf-page__input" />
+            <input v-model="form.carType" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Год выпуска</label>
-            <input v-model="form.carYear" type="text" class="pdf-page__input" />
+            <input v-model="form.carYear" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">VIN</label>
-            <input v-model="form.vin" type="text" class="pdf-page__input" />
+            <input v-model="form.vin" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <label class="pdf-page__toggle">
@@ -802,77 +803,77 @@ const handleDownloadPdf = async () => {
         </label>
         <div v-if="hasSecondVin" class="pdf-page__form-group">
           <label class="pdf-page__label">Дополнительный VIN</label>
-          <input v-model="form.secondVin" type="text" class="pdf-page__input" />
+          <input v-model="form.secondVin" type="text" class="pdf-page__input ym-disable-keys" />
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Мощность, л.с.</label>
-            <input v-model="form.power" type="text" class="pdf-page__input" />
+            <input v-model="form.power" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Рабочий объём двигателя, куб. см</label>
-            <input v-model="form.engineVolume" type="text" class="pdf-page__input" />
+            <input v-model="form.engineVolume" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Цвет кузова</label>
-            <input v-model="form.color" type="text" class="pdf-page__input" />
+            <input v-model="form.color" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Гос. номер</label>
-            <input v-model="form.plateNumber" type="text" class="pdf-page__input" />
+            <input v-model="form.plateNumber" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Модель и номер двигателя</label>
-            <input v-model="form.engineModelNumber" type="text" class="pdf-page__input" />
+            <input v-model="form.engineModelNumber" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">Номер шасси, рамы</label>
-            <input v-model="form.chassisNumber" type="text" class="pdf-page__input" />
+            <input v-model="form.chassisNumber" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
         </div>
         <div class="pdf-page__form-group">
           <label class="pdf-page__label">Номер кузова</label>
-          <input v-model="form.bodyNumber" type="text" class="pdf-page__input" />
+          <input v-model="form.bodyNumber" type="text" class="pdf-page__input ym-disable-keys" />
         </div>
 
         <h2 class="pdf-page__section-title">Документы на автомобиль</h2>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ПТС, серия и номер</label>
-            <input v-model="form.ptsSeriesNumber" type="text" class="pdf-page__input" />
+            <input v-model="form.ptsSeriesNumber" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">ПТС, дата выдачи</label>
-            <input :value="form.ptsIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.ptsIssuedDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
+            <input :value="form.ptsIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.ptsIssuedDate = v)" class="pdf-page__input ym-disable-keys" placeholder="12.05.2020" />
           </div>
         </div>
         <div class="pdf-page__form-group">
           <label class="pdf-page__label">ПТС, кем выдан</label>
-          <input v-model="form.ptsIssuedBy" type="text" class="pdf-page__input" />
+          <input v-model="form.ptsIssuedBy" type="text" class="pdf-page__input ym-disable-keys" />
         </div>
         <div class="pdf-page__form-grid">
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">СТС, серия и номер</label>
-            <input v-model="form.stsSeriesNumber" type="text" class="pdf-page__input" />
+            <input v-model="form.stsSeriesNumber" type="text" class="pdf-page__input ym-disable-keys" />
           </div>
           <div class="pdf-page__form-group">
             <label class="pdf-page__label">СТС, дата выдачи</label>
-            <input :value="form.stsIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.stsIssuedDate = v)" class="pdf-page__input" placeholder="12.05.2020" />
+            <input :value="form.stsIssuedDate" type="text" inputmode="numeric" @input="e => onMasked(e, 'date', v => form.stsIssuedDate = v)" class="pdf-page__input ym-disable-keys" placeholder="12.05.2020" />
           </div>
         </div>
         <div class="pdf-page__form-group">
           <label class="pdf-page__label">СТС, кем выдано</label>
-          <input v-model="form.stsIssuedBy" type="text" class="pdf-page__input" />
+          <input v-model="form.stsIssuedBy" type="text" class="pdf-page__input ym-disable-keys" />
         </div>
 
         <h2 class="pdf-page__section-title">Стоимость</h2>
         <div class="pdf-page__form-group">
           <label class="pdf-page__label">Цена (₽)</label>
-          <input v-model="form.price" type="text" class="pdf-page__input" />
+          <input v-model="form.price" type="text" class="pdf-page__input ym-disable-keys" />
           <p v-if="priceInWords" class="pdf-page__hint">Прописью: {{ priceInWords }} рублей</p>
         </div>
 
