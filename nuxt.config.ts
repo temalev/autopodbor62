@@ -141,6 +141,7 @@ export default defineNuxtConfig({
     },
   },
   css: [
+    resolve(__dirname, 'assets/styles/fonts.scss'),
     resolve(__dirname, 'assets/styles/main.scss'),
     // Element Plus: вместо полного index.css (~344 КБ) подключаем только нужные компоненты.
     'element-plus/theme-chalk/base.css',
@@ -158,10 +159,10 @@ export default defineNuxtConfig({
       },
       title: 'Автоподбор 62 — проверка и подбор автомобиля в Рязани',
       link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap' },
+        // Шрифты свои, см. assets/styles/fonts.scss. Кириллица и латиница Inter
+        // нужны на первом экране любой страницы — грузим их сразу, не дожидаясь CSS.
+        { rel: 'preload', href: '/fonts/inter-cyrillic-wght-normal.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
+        { rel: 'preload', href: '/fonts/inter-latin-wght-normal.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
         // .ico оставлен для мелких размеров во вкладке. PNG 192×192 — та самая
         // «большая иконка», которую Яндекс требует от 120×120 для сниппета
         // выдачи; 512×512 берут поисковики и системы с плотным экраном.

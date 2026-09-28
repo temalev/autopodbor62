@@ -214,13 +214,14 @@ const steps = [
 
 .podbor-page__hero {
   position: relative;
-  min-height: 70vh;
+  // Потолок в px — см. комментарий у hero на главной (Googlebot и vh).
+  min-height: min(70vh, 760px);
   display: flex;
   align-items: flex-end;
   padding: 120px 24px 64px;
 
   @media (max-width: 768px) {
-    min-height: 60vh;
+    min-height: min(60vh, 560px);
     padding: 100px 20px 48px;
   }
 }

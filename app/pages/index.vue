@@ -31,7 +31,12 @@ useHead({
     { property: 'og:image:type', content: 'image/webp' },
     { name: 'twitter:image', content: HOME_OG_IMAGE },
   ],
-  link: [{ rel: 'canonical', href: `${SITE_URL}/` }],
+  link: [
+    { rel: 'canonical', href: `${SITE_URL}/` },
+    // Фон первого экрана — элемент LCP, но задан через inline background-image,
+    // и без подсказки браузер находит его только после разбора стилей.
+    { rel: 'preload', as: 'image', type: 'image/webp', href: `${base}/images/bg.webp`, fetchpriority: 'high' },
+  ],
   script: [
     jsonLdScript(
       serviceJsonLd({
@@ -1010,7 +1015,10 @@ const reviews: Review[] = [
   background: var(--color-bg);
 
   &__hero {
-    min-height: 90vh;
+    // Потолок в пикселях: Googlebot рендерит страницу в окне высотой во всю
+    // страницу, и голые vh раздувают первый экран в разы (так было в скриншоте
+    // проверки URL). На обычных экранах до ~1200 px по высоте ничего не меняется.
+    min-height: min(90vh, 1080px);
     display: flex;
     align-items: stretch;
     justify-content: center;
