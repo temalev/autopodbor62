@@ -3,6 +3,7 @@ import { sendLead } from '../utils/lead'
 import {
   SITE_URL,
   breadcrumbJsonLd,
+  faqPageJsonLd,
   jsonLdScript,
   productJsonLd,
   serviceJsonLd,
@@ -40,10 +41,34 @@ const OFFER_DESCRIPTION =
   'Разовая проверка автомобиля перед покупкой по полному чек-листу: выездная диагностика, проверка VIN и истории, замер толщины ЛКП, компьютерная диагностика, отчёт от 150 фото и видео с заключением эксперта.'
 
 const PAGE_URL = `${SITE_URL}/proverka/`
-const PAGE_TITLE = 'Проверка автомобиля перед покупкой в Рязани — Автоподбор 62'
+const PAGE_TITLE = 'Диагностика и проверка авто перед покупкой в Рязани — Автоподбор 62'
 // Цена подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся с блоком на странице.
 const PAGE_DESCRIPTION =
-  `Проверка автомобиля перед покупкой в Рязани — ${SERVICE_PRICE_LABEL} ₽: диагностика, VIN и история, замер ЛКП, отчёт 150+ фото и заключение эксперта.`
+  `Выездная диагностика авто перед покупкой в Рязани — ${SERVICE_PRICE_LABEL} ₽: автоэксперт проверит VIN, кузов, электрику и двигатель эндоскопом. Отчёт 150+ фото.`
+
+// Объявлен до useHead: из этого же массива строится разметка FAQPage.
+const faqItems = [
+  {
+    question: 'Сколько стоит выездная диагностика автомобиля?',
+    answer: `${SERVICE_PRICE_LABEL} ₽ за весь чек-лист, включая компьютерную диагностику и эндоскопию двигателя. Цена не зависит от марки, года выпуска и состояния машины.`,
+  },
+  {
+    question: 'Выезжаете ли вы за пределы Рязани?',
+    answer: 'Да, проверяем автомобили и в Рязанской области. Выезд за город оплачивается отдельно, сумму назовём заранее, до осмотра.',
+  },
+  {
+    question: 'Нужно ли мне присутствовать на осмотре?',
+    answer: 'Не обязательно. Можно поехать вместе с экспертом, а можно доверить осмотр нам: пришлём отчёт с фото, видео и заключением. Так проверку заказывают и покупатели из других городов.',
+  },
+  {
+    question: 'Когда будет готов отчёт?',
+    answer: 'В течение нескольких часов после осмотра. В нём не меньше 150 фото и видео и заключение эксперта: рекомендуем покупать или нет и почему.',
+  },
+  {
+    question: 'Чем выездная диагностика отличается от проверки в автосервисе?',
+    answer: 'Сервис смотрит технику. Мы проверяем ещё документы, VIN, историю и кузов по толщине ЛКП и работаем только на покупателя: если машину брать не стоит, так и скажем.',
+  },
+]
 const PAGE_OG_IMAGE = `${SITE_URL}/images/services/2.webp`
 
 useHead({
@@ -91,6 +116,7 @@ useHead({
       ]),
       'ld-proverka-breadcrumbs',
     ),
+    jsonLdScript(faqPageJsonLd(faqItems), 'ld-proverka-faq'),
   ],
 })
 
@@ -165,6 +191,14 @@ const checklist = [
   'Проверка шин, дисков, элементов тормозной системы',
   'Техническая часть: следы ремонта, жидкости, течи, ходовая часть, пробная поездка',
   'Компьютерная диагностика: пробег, ошибки, рабочие параметры систем',
+  'Эндоскопия двигателя: стенки цилиндров, нагар и задиры — без разборки мотора',
+]
+
+const steps = [
+  { title: 'Присылаете объявление', text: 'Ссылку на машину или контакты продавца — согласуем время и место осмотра.' },
+  { title: 'Эксперт выезжает к автомобилю', text: 'Приезжаем туда, где стоит машина: к продавцу или на стоянку. С собой — толщиномер, диагностический сканер и эндоскоп.' },
+  { title: 'Проверяем по чек-листу', text: 'Документы и история, кузов и ЛКП, электрика, ходовая и тормоза, пробная поездка, компьютерная диагностика и эндоскопия двигателя.' },
+  { title: 'Отчёт и заключение', text: 'В течение нескольких часов присылаем отчёт: не меньше 150 фото и видео и заключение эксперта — покупать или нет и на чём можно сторговаться.' },
 ]
 </script>
 
@@ -181,8 +215,8 @@ const checklist = [
           На главную
         </NuxtLink>
         <p class="proverka-page__label">Разовая проверка</p>
-        <h1 class="proverka-page__title">Проверка автомобиля перед покупкой в Рязани — глубже, чем в сервисе</h1>
-        <p class="proverka-page__lead">Уже нашли вариант? Полная диагностика перед покупкой: юридическая чистота, техсостояние, кузов, электрика. Отчёт с 150+ фото и видео плюс заключение эксперта — стоит ли покупать этот автомобиль.</p>
+        <h1 class="proverka-page__title">Проверка автомобиля перед покупкой в Рязани — выездная диагностика с автоэкспертом</h1>
+        <p class="proverka-page__lead">Уже нашли вариант? Автоэксперт приедет к продавцу и проверит машину по полному чек-листу: юридическая чистота, кузов и ЛКП, электрика, компьютерная диагностика и эндоскопия двигателя. Отчёт с 150+ фото и видео плюс заключение — стоит ли покупать этот автомобиль.</p>
       </div>
     </div>
 
@@ -202,6 +236,21 @@ const checklist = [
       </div>
     </section>
 
+    <section class="proverka-page__section proverka-page__section--alt">
+      <div class="proverka-page__container">
+        <h2 class="proverka-page__h2">Как проходит выездная диагностика</h2>
+        <ol class="proverka-page__highlights">
+          <li v-for="(item, i) in steps" :key="item.title" class="proverka-page__highlight">
+            <span class="proverka-page__highlight-num" aria-hidden="true">{{ String(i + 1).padStart(2, '0') }}</span>
+            <div class="proverka-page__highlight-body">
+              <h3 class="proverka-page__highlight-title">{{ item.title }}</h3>
+              <p class="proverka-page__highlight-text">{{ item.text }}</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
     <section class="proverka-page__section proverka-page__section--dark">
       <div class="proverka-page__container">
         <h2 class="proverka-page__h2 proverka-page__h2--light">Полный чек-лист проверки</h2>
@@ -215,6 +264,13 @@ const checklist = [
       </div>
     </section>
 
+    <section class="proverka-page__section">
+      <div class="proverka-page__container">
+        <h2 class="proverka-page__h2">Эндоскопия двигателя — без доплаты</h2>
+        <p class="proverka-page__prose">Эндоскоп заводим через отверстие свечи или форсунки и смотрим цилиндры и поршни изнутри. Так видно задиры, следы перегрева и масляный нагар — то, чего не покажет ни внешний осмотр, ни сканер. Мотор не разбираем. Эндоскопия входит в проверку за {{ SERVICE_PRICE_LABEL }} ₽, отдельно платить за неё не нужно.</p>
+      </div>
+    </section>
+
     <section class="proverka-page__section proverka-page__section--price">
       <div class="proverka-page__container">
         <h2 class="proverka-page__h2">Сколько стоит проверка автомобиля</h2>
@@ -224,8 +280,15 @@ const checklist = [
           :price="SERVICE_PRICE"
           caption="Разовая проверка перед покупкой"
         >
-          <template #note>Стоимость не зависит от марки, года и состояния автомобиля: проверку проводим по полному чек-листу и выдаём отчёт от 150 фото и видео с заключением эксперта.</template>
+          <template #note>Стоимость не зависит от марки, года и состояния автомобиля: проверку проводим по полному чек-листу, включая эндоскопию двигателя, и выдаём отчёт от 150 фото и видео с заключением эксперта.</template>
         </ServicePrice>
+      </div>
+    </section>
+
+    <section class="proverka-page__section">
+      <div class="proverka-page__container">
+        <h2 class="proverka-page__h2">Независимый автоэксперт или сервис продавца</h2>
+        <p class="proverka-page__prose">Продавец нередко предлагает «проверить машину в знакомом сервисе». Сервис посмотрит технику, но не скажет, что машина в залоге, с перебитым VIN или после серьёзного ДТП, — и не заинтересован отговаривать вас от покупки. Независимый автоэксперт работает только на покупателя: проверяем документы и историю вместе с техникой и прямо говорим, если машину брать не стоит.</p>
       </div>
     </section>
 
@@ -248,6 +311,18 @@ const checklist = [
             <p v-if="leadStatus === 'sent'" class="proverka-page__form-hint">Заявка отправлена. Перезвоним в ближайшее время.</p>
             <p v-else-if="leadStatus === 'error'" class="proverka-page__form-hint proverka-page__form-hint--error">Не удалось отправить заявку. {{ leadError }}</p>
           </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="proverka-page__section proverka-page__section--alt">
+      <div class="proverka-page__container">
+        <h2 class="proverka-page__h2">Частые вопросы</h2>
+        <div class="proverka-page__faq">
+          <details v-for="item in faqItems" :key="item.question" class="proverka-page__faq-item">
+            <summary class="proverka-page__faq-q">{{ item.question }}</summary>
+            <p class="proverka-page__faq-a">{{ item.answer }}</p>
+          </details>
         </div>
       </div>
     </section>
@@ -354,6 +429,10 @@ const checklist = [
   &--dark {
     background: var(--color-dark);
     color: #fff;
+  }
+
+  &--alt {
+    background: var(--color-bg-alt);
   }
 }
 
@@ -475,6 +554,57 @@ const checklist = [
 
 .proverka-page__section--price {
   background: var(--color-bg-alt);
+}
+
+.proverka-page__prose {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.proverka-page__faq {
+  display: grid;
+  gap: 10px;
+}
+
+.proverka-page__faq-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+}
+
+.proverka-page__faq-q {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-dark);
+  line-height: 1.4;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: '+';
+    float: right;
+    margin-left: 14px;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+}
+
+.proverka-page__faq-item[open] .proverka-page__faq-q::after {
+  content: '−';
+}
+
+.proverka-page__faq-a {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin: 12px 0 0;
 }
 
 .proverka-page__result {
