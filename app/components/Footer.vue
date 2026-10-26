@@ -48,6 +48,7 @@
           <p class="footer__nav-title">Разделы</p>
           <ul class="footer__nav-list">
             <li><NuxtLink to="/o-nas" class="footer__nav-link">О нас</NuxtLink></li>
+            <li><NuxtLink to="/kejsy" class="footer__nav-link">Кейсы</NuxtLink></li>
             <li><NuxtLink to="/dkp" class="footer__nav-link">Договор купли-продажи</NuxtLink></li>
             <li><NuxtLink to="/import/kalkulyator" class="footer__nav-link">Калькулятор растаможки</NuxtLink></li>
             <li><NuxtLink to="/registraciya-gibdd/transportnyy-nalog" class="footer__nav-link">Калькулятор транспортного налога</NuxtLink></li>

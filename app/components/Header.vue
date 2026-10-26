@@ -153,6 +153,7 @@ const services = [
             </div>
           </Transition>
         </div>
+        <NuxtLink to="/kejsy" class="header__link">Кейсы</NuxtLink>
         <NuxtLink to="/dkp" class="header__link">ДКП онлайн</NuxtLink>
       </nav>
 
@@ -217,6 +218,9 @@ const services = [
               </div>
             </Transition>
           </div>
+          <NuxtLink to="/kejsy" class="header__link--mobile" @click="closeDrawer">
+            Кейсы
+          </NuxtLink>
           <NuxtLink to="/dkp" class="header__link--mobile" @click="closeDrawer">
             ДКП онлайн
           </NuxtLink>

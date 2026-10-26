@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { casesBySlug } from '../../utils/cases'
 import { sendLead } from '../../utils/lead'
 import {
   SITE_URL,
@@ -25,6 +26,8 @@ const relatedServices = [
     description: 'Поставим импортированный автомобиль на учёт — входит в стоимость импорта под ключ.',
   },
 ]
+
+const importCases = casesBySlug(['audi-a3-sportback-2022', 'bmw-x4-g02-2021'])
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
@@ -319,6 +322,13 @@ const steps = [
         </div>
       </div>
     </section>
+
+    <CaseCards
+      :items="importCases"
+      heading="Привезли для клиентов"
+      subheading="Что искали, что привезли и во сколько обошлось под ключ"
+      all-link
+    />
 
     <RelatedServices :items="relatedServices" subheading="Часто берут вместе с импортом" />
   </div>

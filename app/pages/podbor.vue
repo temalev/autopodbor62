@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { casesBySlug } from '../utils/cases'
 import { sendLead } from '../utils/lead'
 import {
   SITE_URL,
@@ -24,6 +25,8 @@ const relatedServices = [
     description: 'Поставим машину на учёт без очередей — входит в стоимость подбора под ключ.',
   },
 ]
+
+const podborCases = casesBySlug(['hyundai-tucson-2020', 'volkswagen-jetta-2021', 'nissan-x-trail-2019'])
 
 const { app: { baseURL } } = useRuntimeConfig()
 const base = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
@@ -201,6 +204,13 @@ const steps = [
         </div>
       </div>
     </section>
+
+    <CaseCards
+      :items="podborCases"
+      heading="Последние подборы"
+      subheading="Задача клиента, найденная машина, срок поиска и цена покупки"
+      all-link
+    />
 
     <RelatedServices :items="relatedServices" subheading="Часто берут вместе с подбором" />
   </div>

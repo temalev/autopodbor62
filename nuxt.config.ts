@@ -53,6 +53,7 @@ const PAGES = [
   { loc: '/import/kalkulyator/', file: 'app/pages/import/kalkulyator.vue', priority: 0.7, changefreq: 'monthly' },
   { loc: '/registraciya-gibdd/', file: 'app/pages/registraciya-gibdd/index.vue', priority: 0.8, changefreq: 'monthly' },
   { loc: '/registraciya-gibdd/transportnyy-nalog/', file: 'app/pages/registraciya-gibdd/transportnyy-nalog.vue', priority: 0.7, changefreq: 'monthly' },
+  { loc: '/kejsy/', file: 'app/pages/kejsy.vue', priority: 0.7, changefreq: 'monthly' },
   { loc: '/o-nas/', file: 'app/pages/o-nas.vue', priority: 0.6, changefreq: 'yearly' },
   { loc: '/dkp/', file: 'app/pages/dkp.vue', priority: 0.6, changefreq: 'yearly' },
   { loc: '/privacy-policy/', file: 'app/pages/privacy-policy.vue', priority: 0.3, changefreq: 'yearly' },
