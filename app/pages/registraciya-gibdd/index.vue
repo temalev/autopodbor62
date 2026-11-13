@@ -44,7 +44,7 @@ const PAGE_TITLE = 'Регистрация автомобиля в ГИБДД в
 // Цена подставляется из SERVICE_PRICE, чтобы сниппет не разошёлся с блоком на странице.
 const PAGE_DESCRIPTION =
   `Регистрация автомобиля в ГИБДД в Рязани — ${SERVICE_PRICE_LABEL} ₽: подготовка документов, запись в МРЭО, осмотр, получение СТС и номеров. Без очередей.`
-const PAGE_OG_IMAGE = `${SITE_URL}/images/services/1.webp`
+const PAGE_OG_IMAGE = `${SITE_URL}/images/services/registration-hero.webp`
 
 useHead({
   title: PAGE_TITLE,
@@ -183,7 +183,7 @@ const documents = [
   <div class="gibdd-page">
     <div class="gibdd-page__hero">
       <div class="gibdd-page__hero-bg">
-        <img :src="`${base}/images/services/1.webp`" alt="Регистрация автомобиля в ГИБДД в Рязани — Автоподбор 62" width="1024" height="1024" fetchpriority="high" decoding="async" class="gibdd-page__hero-img" />
+        <img :src="`${base}/images/services/registration-hero.webp`" alt="Документы и номера с регионом 62 для регистрации автомобиля в ГИБДД" width="1983" height="793" fetchpriority="high" decoding="async" class="gibdd-page__hero-img" />
         <div class="gibdd-page__hero-overlay" />
       </div>
       <div class="gibdd-page__hero-content">
@@ -327,6 +327,10 @@ const documents = [
   height: 100%;
   object-fit: cover;
   object-position: center;
+
+  @media (max-width: 768px) {
+    object-position: 75% center;
+  }
 }
 
 .gibdd-page__hero-overlay {
